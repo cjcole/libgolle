@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ ! -d aclocal ]; then
+	mkdir aclocal
+fi
+
+libtoolize --copy --force
+aclocal -I aclocal
+autoconf
+automake --add-missing --copy
+
