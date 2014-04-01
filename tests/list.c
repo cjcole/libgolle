@@ -96,6 +96,10 @@ int main (int argc, char *argv[]) {
 
   golle_list_iterator_free(it);
 
+  /* Add 0 items. */
+  error = golle_list_push_many( list, &e, sizeof(e), 0);
+  assert (error == GOLLE_OK);
+  assert(golle_list_size(list) == 0);
 
   /* Add lots of items. */
   error = golle_list_push_many (list, &e, sizeof(e), ITEMS);
@@ -134,12 +138,56 @@ int main (int argc, char *argv[]) {
   assert(error == GOLLE_OK);
   assert(golle_list_size(list) == 0);
 
-  /* Check that popping an empty list gives error code. */
-  error = golle_list_pop (list);
-  assert(error == GOLLE_EEMPTY);
   
   /* Delete a full list */
   assert(golle_list_push_many (list, &e, sizeof(e), ITEMS) == GOLLE_OK);
+  golle_list_delete(list);
+
+  /*************************/
+  /* Testing Failure cases */
+
+  /* NULL to allocator gives error. */
+  assert (golle_list_new (NULL) == GOLLE_ERROR);
+
+
+  /* Querying the size of NULL gives 0 */
+  assert (golle_list_size(NULL) == 0);
+
+  /* Pushing to NULL gives error */
+  assert (golle_list_push(NULL, NULL, 0) == GOLLE_ERROR);
+
+  /* Popping from NULL gives error */
+  assert ( golle_list_pop(NULL) == GOLLE_ERROR);
+
+  /* NULL list to iterator gives error */
+  assert (golle_list_iterator(NULL, &it) == GOLLE_ERROR);
+
+  /* NULL iter gives error */
+  assert (golle_list_iterator(list, NULL) == GOLLE_ERROR);
+
+  /* Freeing NULL iter doesn't segfault */
+  golle_list_iterator_free(NULL);
+
+  /* Next with NULL iter fails */
+  assert( golle_list_iterator_next(NULL, &e2) == GOLLE_ERROR);
+
+  /* Next with NULL item fails */
+  assert( golle_list_iterator_next(it, NULL) == GOLLE_ERROR);
+
+  /* Resetting a NULL iterator fails */
+  assert( golle_list_iterator_reset(NULL) == GOLLE_ERROR);
+
+  /* Inserting with a NULL iterator fails */
+  assert( golle_list_insert_at(NULL, NULL, 0) == GOLLE_ERROR);
+
+  /* Removing with a NULL iterator fails */
+  assert( golle_list_erase_at(NULL) == GOLLE_ERROR );
+
+
+  /* Popping an empty list gives error code. */
+  golle_list_new(&list);
+  error = golle_list_pop (list);
+  assert(error == GOLLE_EEMPTY);
   golle_list_delete(list);
 
   return 0;
