@@ -26,4 +26,10 @@ typedef enum {
 
 } golle_error;
 
+/*!
+ * A shorthand way of stating assertions.
+ * Only use inside a function which returns a golle_error.
+ */
+#define GOLLE_ASSERT(x,r) do { if ((x) == 0) { return (r); } } while(0)
+
 #endif

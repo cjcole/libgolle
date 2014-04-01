@@ -1,4 +1,9 @@
 *~
+*.la
+*.o
+*.lo
+*.so
+*.a
 aclocal.m4
 config.guess
 config.log
@@ -17,3 +22,6 @@ libtool
 m4
 src/.deps
 tests/.deps
+src/.libs
+tests/.libs
+tests/list

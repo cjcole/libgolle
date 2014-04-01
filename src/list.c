@@ -109,14 +109,10 @@ static golle_list_node_t *make_linked_list (const void *item,
 
 
 golle_error golle_list_new (golle_list_t **list) {
-  if (!list) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT (list, GOLLE_ERROR);
 
   golle_list_t *l = malloc (sizeof(golle_list_t));
-  if (!l) {
-    return GOLLE_EMEM;
-  }
+  GOLLE_ASSERT (l, GOLLE_EMEM);
   memset (l, 0, sizeof(*l));
 
   *list = l;
@@ -134,17 +130,15 @@ void golle_list_delete (golle_list_t *list) {
 
 
 size_t golle_list_size (const golle_list_t *list) {
-  if (list) {
-    return list->count;
-  }
-  return 0;
+  GOLLE_ASSERT (list, 0);
+  return list->count;
 }
 
 
 golle_error golle_list_push (golle_list_t *list,
 			     const void *item,
-			     size_t size) {
-  
+			     size_t size) 
+{  
   return golle_list_push_many (list, item, size, 1);
 }
 
@@ -153,22 +147,15 @@ golle_error golle_list_push_many (golle_list_t *list,
 				  size_t size,
 				  size_t count) 
 {
-
-  if (!list) {
-    return GOLLE_ERROR;
-  }
-
-  if (count == 0) {
-    return GOLLE_OK;
-  }
+  GOLLE_ASSERT (list, GOLLE_ERROR);
+  GOLLE_ASSERT (count, GOLLE_OK);
 
   golle_list_node_t
     *head, *tail;
 
   head = make_linked_list (item, size, count, &tail);
-  if (!head) {
-    return GOLLE_EMEM;
-  }
+  GOLLE_ASSERT (head, GOLLE_EMEM);
+
 
   /* Append sublist to end of list */
   if (list->tail) {
@@ -190,17 +177,10 @@ golle_error golle_list_pop (golle_list_t *list) {
 
 
 golle_error golle_list_pop_many (golle_list_t *list, size_t count) {
-  if (!list) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT(list, GOLLE_ERROR);
+  GOLLE_ASSERT(count, GOLLE_OK);
+  GOLLE_ASSERT(list->count >= count, GOLLE_EEMPTY);
 
-  if (!count) {
-    return GOLLE_OK;
-  }
-
-  if (list->count < count) {
-    return GOLLE_EEMPTY;
-  }
 
   /* Step forward through the list until the head of the sublist is found. */
   size_t forward = list->count - count;
@@ -232,9 +212,7 @@ golle_error golle_list_pop_many (golle_list_t *list, size_t count) {
 
 
 golle_error golle_list_pop_all (golle_list_t *list) {
-  if (!list) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT(list, GOLLE_ERROR);
 
   free_linked_nodes (list->head);
   list->head = NULL;
@@ -248,15 +226,11 @@ golle_error golle_list_pop_all (golle_list_t *list) {
 golle_error golle_list_iterator (golle_list_t *list,
 				 golle_list_iterator_t **iter)
 {
-  if (!list || !iter) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT (list, GOLLE_ERROR);
+  GOLLE_ASSERT (iter, GOLLE_ERROR);
 
   golle_list_iterator_t *it = malloc(sizeof(*it));
-
-  if (!it) {
-    return GOLLE_EMEM;
-  }
+  GOLLE_ASSERT (it, GOLLE_EMEM);
 
 
   it->list = list;
@@ -275,9 +249,8 @@ void golle_list_iterator_free (golle_list_iterator_t *iter) {
 golle_error golle_list_iterator_next (golle_list_iterator_t *iter,
 				      void **item)
 {
-  if (!iter || !item) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT (iter, GOLLE_ERROR);
+  GOLLE_ASSERT (item, GOLLE_ERROR);
 
   /* Invalid pointer means START */
   if (iter->current == INVALID_ITERATOR(iter->list)) {
@@ -289,7 +262,6 @@ golle_error golle_list_iterator_next (golle_list_iterator_t *iter,
     iter->current = iter->current->next;
   }
   
-  
   if (iter->current == NULL) {
     return GOLLE_END;
   }
@@ -300,9 +272,7 @@ golle_error golle_list_iterator_next (golle_list_iterator_t *iter,
 }
 
 golle_error golle_list_iterator_reset (golle_list_iterator_t *iter) {
-  if (!iter) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT (iter, GOLLE_ERROR);
 
   iter->current = INVALID_ITERATOR(iter->list);
   return GOLLE_OK;
@@ -313,17 +283,13 @@ golle_error golle_list_insert_at (golle_list_iterator_t *iter,
 				  const void *item,
 				  size_t size) 
 {
-  if (!iter) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT (iter, GOLLE_ERROR);
 
   golle_list_t *list = iter->list;
 
   /* Create the new list node */
   golle_list_node_t *head = make_linked_list (item, size, 1, NULL);
-  if (!head) {
-    return GOLLE_EMEM;
-  }
+  GOLLE_ASSERT (head, GOLLE_EMEM);
 
   
   if (iter->current == INVALID_ITERATOR(list)) {
@@ -361,15 +327,13 @@ golle_error golle_list_insert_at (golle_list_iterator_t *iter,
 
 
 golle_error golle_list_erase_at (golle_list_iterator_t *iter) {
-  if (!iter) {
-    return GOLLE_ERROR;
-  }
+  GOLLE_ASSERT (iter, GOLLE_ERROR);
+  GOLLE_ASSERT (iter->current, GOLLE_ENOTFOUND);
 
   golle_list_t *list = iter->list;
 
-  if (iter->current == NULL || iter->current == INVALID_ITERATOR(list)) {
-    return GOLLE_ENOTFOUND;
-  }
+  GOLLE_ASSERT (iter->current != INVALID_ITERATOR (list), GOLLE_ENOTFOUND);
+
 
   if (list->head == iter->current) {
     /* Easily remove the head node. */
