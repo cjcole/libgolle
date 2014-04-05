@@ -1,5 +1,5 @@
 AC_INIT(libgolle, 0.0.0, [anthony.arnold@uqconnect.edu.au])
-AM_INIT_AUTOMAKE(libgolle, 0.0.0)
+AM_INIT_AUTOMAKE([foreign])
 
 AC_CONFIG_MACRO_DIR([m4])
 LT_INIT([dlopen])
