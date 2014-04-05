@@ -31,7 +31,7 @@ typedef struct golle_list_iterator_t golle_list_iterator_t;
 
 /*!
  * \brief Allocate a new list.
- * \param list Pointer to the pointer which will hold the address of the list.
+ * \param[out] list Pointer which will hold the address of the list.
  * \return GOLLE_OK if successful. GOLLE_EMEM if memory couldn't be allocated.
  * GOLLE_ERROR if list is NULL.
  */
@@ -54,7 +54,7 @@ GOLLE_EXTERN size_t golle_list_size (const golle_list_t *list);
 /*!
  * \brief Get the element at the head of the list.
  * \param list The list to query.
- * \param item Recieves the item value.
+ * \param[out] item Recieves the item value.
  * \return GOLLE_OK if the operation was successful. GOLLE_ERROR if any
  * parameter is NULL. GOLLE_EEMPTY if the list is empty.
  */
@@ -128,7 +128,7 @@ GOLLE_EXTERN golle_error golle_list_pop_all (golle_list_t *list);
  * by pointing to before the first element in the list.
  *
  * \param list The list to iterate over.
- * \param iter Receives the address of the new iterator.
+ * \param[out] iter Receives the address of the new iterator.
  * \return GOLLE_OK if the iterator was created. GOLLE_EMEM if the iterator
  * could't be allocated. GOLLE_ERROR if list or iter is NULL.
  */
@@ -145,7 +145,7 @@ GOLLE_EXTERN void golle_list_iterator_free (golle_list_iterator_t *iter);
 /*!
  * \brief Get the next value of the iterator.
  * \param iter The iterator.
- * \param value Is populated with the next item pointed to by the iterator.
+ * \param[out] item Is populated with the next item pointed to by the iterator.
  * \return GOLLE_OK if the operation was successful. GOLLE_ERROR if iter or
  * value is NULL. GOLLE_END if the iterator is at the end of the list.
  *

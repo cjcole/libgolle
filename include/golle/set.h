@@ -38,7 +38,7 @@ typedef struct golle_set_iterator_t golle_set_iterator_t;
  * \brief Allocate a new set.
  * \param num_items Estimated number of items the set will hold.
  * \param item_size Number of bytes required to hold one item (guess if needed).
- * \param set Pointer to the pointer which will hold the address of the new set.
+ * \param[out] set Pointer to the pointer which will hold the address of the new set.
  * \param comp The function used to compare items.
  * \return GOLLE_OK if successful, or GOLLE_EMEM if memory couldn't be allocated.
  * GOLLE_ERROR if set or comp is NULL.
@@ -103,7 +103,7 @@ GOLLE_EXTERN golle_error golle_set_erase (golle_set_t *set,
  *
  * \param set The set to search in.
  * \param item The item to search for.
- * \param found Receives a pointer to the found item, or NULL if not found.
+ * \param[out] found Receives a pointer to the found item, or NULL if not found.
  * \return GOLLE_OK if the item was found. GOLLE_ENOTFOUND if the set
  * didn't contain the item. GOLLE_ERROR if set is NULL.
  *
@@ -122,7 +122,7 @@ GOLLE_EXTERN golle_error golle_set_find (const golle_set_t *set,
  * by pointing to before the first element in the set.
  *
  * \param set The set to iterate over.
- * \param iter Receives the address of the new iterator.
+ * \param[out] iter Receives the address of the new iterator.
  * \return GOLLE_OK if the iterator was created. GOLLE_EMEM if the iterator
  * couldn't be allocated. GOLLE_ERROR if set or iter is NULL.
  *
@@ -134,7 +134,7 @@ GOLLE_EXTERN golle_error golle_set_iterator (const golle_set_t *set,
 /*! 
 * \brief Get the next value of the iterator.
  * \param iter The iterator.
- * \param value Is populated with the next item pointed to by the iterator.
+ * \param[out] item Is populated with the next item pointed to by the iterator.
  * \return GOLLE_OK if the operation was successful. GOLLE_ERROR if iter or
  * value is NULL. GOLLE_END if the iterator is at the end of the set.
  *
