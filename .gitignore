@@ -25,3 +25,4 @@ tests/.deps
 src/.libs
 tests/.libs
 tests/list
+tests/set

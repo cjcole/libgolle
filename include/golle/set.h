@@ -5,7 +5,9 @@
 #ifndef LIBGOLLE_SET_H
 #define LIBGOLLE_SET_H
 
-#include <golle/errors.h>
+#include "platform.h"
+#include "errors.h"
+#include <stddef.h>
 #include <stdlib.h>
 
 /*!
@@ -25,7 +27,7 @@ typedef struct golle_set_t golle_set_t;
  * parameter comes second in a strict weak ordering.
  * Return 0 if the two parameters are considered equal.
  */
-typedef int (*golle_compare_t) (void *, void *);
+typedef int (*golle_set_comp_t) (const void *, const void *);
 
 /*!
  * A type used for iterating through all of the items in a set.
@@ -41,23 +43,23 @@ typedef struct golle_set_iterator_t golle_set_iterator_t;
  * \return GOLLE_OK if successful, or GOLLE_EMEM if memory couldn't be allocated.
  * GOLLE_ERROR if set or comp is NULL.
  */
-golle_error golle_set_new (golle_set_t **set, 
-			   size_t num_items, 
-			   size_t item_size,
-			   golle_compare_t comp);
+GOLLE_EXTERN golle_error golle_set_new (golle_set_t **set, 
+					size_t num_items, 
+					size_t item_size,
+					golle_set_comp_t comp);
 
 /*!
  * \brief Deallocate a set.
  * \param set The set to be destroyed.
  */
-void golle_set_delete (golle_set_t *set);
+GOLLE_EXTERN void golle_set_delete (golle_set_t *set);
 
 /*!
  * \brief Get the number of items in a set.
  * \param set The set to query.
  * \return The number of items in the set, or 0 if set it NULL.
  */
-size_t golle_set_size (const golle_set_t *set);
+GOLLE_EXTERN size_t golle_set_size (const golle_set_t *set);
 
 
 /*!
@@ -74,9 +76,9 @@ size_t golle_set_size (const golle_set_t *set);
  *
  * \warning Insertion invalidates iterators.
  */
-golle_error golle_set_insert (golle_set_t *set, 
-			      const void *item, 
-			      size_t size);
+GOLLE_EXTERN golle_error golle_set_insert (golle_set_t *set, 
+					   const void *item, 
+					   size_t size);
 
 
 
@@ -92,8 +94,8 @@ golle_error golle_set_insert (golle_set_t *set,
  * 
  * \warning Erasure invalidates iterators.
  */
-golle_error golle_set_erase (golle_set_t *set,
-			     const void *item);
+GOLLE_EXTERN golle_error golle_set_erase (golle_set_t *set,
+					  const void *item);
 
 
 /*!
@@ -110,9 +112,9 @@ golle_error golle_set_erase (golle_set_t *set,
  * you can guarantee that it will not effect the strict weak ordering. It's
  * safer to do it the former way.
  */
-golle_error golle_set_find (const golle_set_t *set, 
-			    const void *item,
-			    void * const *found);
+GOLLE_EXTERN golle_error golle_set_find (const golle_set_t *set, 
+					 const void *item,
+					 const void **found);
 
 
 /*!
@@ -125,8 +127,8 @@ golle_error golle_set_find (const golle_set_t *set,
  * couldn't be allocated. GOLLE_ERROR if set or iter is NULL.
  *
  */
-golle_error golle_set_iterator (const golle_set_t *set, 
-				golle_set_iterator_t **iter);
+GOLLE_EXTERN golle_error golle_set_iterator (const golle_set_t *set, 
+					     golle_set_iterator_t **iter);
 
 
 /*! 
@@ -141,8 +143,8 @@ golle_error golle_set_iterator (const golle_set_t *set,
  * you can guarantee that it will not effect the strict weak ordering. It's
  * safer to do it the former way.
  */
-golle_error golle_set_iterator_next (golle_set_iterator_t * iter,
-				     void * const *item);
+GOLLE_EXTERN golle_error golle_set_iterator_next (golle_set_iterator_t * iter,
+						  const void **item);
 
 
 /*!
@@ -153,6 +155,20 @@ golle_error golle_set_iterator_next (golle_set_iterator_t * iter,
  *
  * \return GOLLE_OK if successful. GOLLE_ERROR if iter is NULL.
  */
-golle_error golle_set_iterator_reset (golle_set_iterator_t *iter);
+GOLLE_EXTERN golle_error golle_set_iterator_reset (golle_set_iterator_t *iter);
+
+/*!
+ * \brief Free resources for a set iterator.
+ * \param iter The iterator.
+ */
+GOLLE_EXTERN void golle_set_iterator_free (golle_set_iterator_t *iter);
+
+
+#if defined (DEBUG)
+/*!
+ * \brief Test the validity of the set.
+ */
+GOLLE_EXTERN golle_error golle_set_check (golle_set_t *set);
+#endif
 
 #endif

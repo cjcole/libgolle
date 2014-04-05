@@ -7,7 +7,7 @@
 
 #include "platform.h"
 #include "errors.h"
-#include <stdlib.h>
+#include <stddef.h>
 
 GOLLE_BEGIN_C
 
@@ -51,6 +51,14 @@ GOLLE_EXTERN void golle_list_delete (golle_list_t *list);
  */
 GOLLE_EXTERN size_t golle_list_size (const golle_list_t *list);
 
+/*!
+ * \brief Get the element at the head of the list.
+ * \param list The list to query.
+ * \param item Recieves the item value.
+ * \return GOLLE_OK if the operation was successful. GOLLE_ERROR if any
+ * parameter is NULL. GOLLE_EEMPTY if the list is empty.
+ */
+GOLLE_EXTERN golle_error golle_list_top (const golle_list_t *list, void **item);
 
 
 /*!

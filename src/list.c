@@ -4,6 +4,7 @@
 
 #include "golle/list.h"
 #include <string.h>
+#include <stdlib.h>
 
 #define INVALID_ITERATOR(l) ((void*)(l))
 
@@ -134,6 +135,17 @@ size_t golle_list_size (const golle_list_t *list) {
   return list->count;
 }
 
+golle_error golle_list_top (const golle_list_t *list,
+			    void **item)
+{
+  GOLLE_ASSERT (list, GOLLE_ERROR);
+  GOLLE_ASSERT (item, GOLLE_ERROR);
+
+  GOLLE_ASSERT (list->count, GOLLE_EEMPTY);
+
+  *item = list->head->data;
+  return GOLLE_OK;
+}
 
 golle_error golle_list_push (golle_list_t *list,
 			     const void *item,
@@ -181,31 +193,29 @@ golle_error golle_list_pop_many (golle_list_t *list, size_t count) {
   GOLLE_ASSERT(count, GOLLE_OK);
   GOLLE_ASSERT(list->count >= count, GOLLE_EEMPTY);
 
-
-  /* Step forward through the list until the head of the sublist is found. */
-  size_t forward = list->count - count;
-  golle_list_node_t 
-    *sublist, *newtail;
-
-  newtail = NULL;
-  sublist = list->head;
-  while (forward--) {
-    newtail = sublist;
-    sublist = sublist->next;
-  }
-
-  /* Assign new terminal nodes */
-  list->tail = newtail;
-  if (sublist == list->head) {
+  if (count == list->count) {
+    free_linked_nodes (list->head);
     list->head = NULL;
-  }
-  if (list->tail) {
-    list->tail->next = NULL;
+    list->tail = NULL;
+    list->count = 0;
+    return GOLLE_OK;
   }
 
-  free_linked_nodes (sublist);
+  golle_list_node_t *sub = list->head, *prev = NULL;
+  size_t c = count;
+  while (c--) {
+    prev = sub;
+    sub = sub->next;
+  }
+  golle_list_node_t *t = list->head;
+  list->head = sub;
+  prev->next = NULL;
 
+  free_linked_nodes (t);
+  list->head = sub;
+  
   list->count -= count;
+
 
   return GOLLE_OK;
 }

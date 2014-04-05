@@ -19,6 +19,12 @@
 #define GOLLE_EXTERN extern
 #endif
 
+#ifdef _MSC_VER
+#define GOLLE_INLINE static __inline
+#else
+#define GOLLE_INLINE static inline
+#endif
+
 #ifdef __cplusplus
 #define GOLLE_BEGIN_C extern "C" {
 #define GOLLE_END_C extern }
@@ -26,7 +32,6 @@
 #define GOLLE_BEGIN_C
 #define GOLLE_END_C
 #endif
-
 
 
 #endif

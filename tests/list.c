@@ -169,7 +169,7 @@ int main (int argc, char *argv[]) {
   golle_list_iterator_free(NULL);
 
   /* Next with NULL iter fails */
-  assert( golle_list_iterator_next(NULL, &e2) == GOLLE_ERROR);
+  assert( golle_list_iterator_next(NULL, (void**)&e2) == GOLLE_ERROR);
 
   /* Next with NULL item fails */
   assert( golle_list_iterator_next(it, NULL) == GOLLE_ERROR);

@@ -22,20 +22,10 @@ AS_IF([test "x$ac_cv_prog_cc_stdc" == xno],
 
 AC_TYPE_SIZE_T
 AC_C_CONST
+AC_C_INLINE
 AC_HEADER_ASSERT
+AC_FUNC_MALLOC
 
-# Enable a debug build
-AC_ARG_ENABLE([debug],
-	[AC_HELP_STRING([--enable-debug],
-			[enable debugging, default: no])],
-[case "${enableval}" in
-      yes) debug=true ;;
-      no) debug=false ;;
-      *)  AC_MSG_ERROR(--enable_debug must be yes or no, found ${enableval}) ;;
-esac],
-[debug=false])
-
-AM_CONDITIONAL(DEBUG, test x"$debug" = x"true")
 
 # Test for libgmp
 # Depending on the --with-gmp argument, will warn or error if not available.

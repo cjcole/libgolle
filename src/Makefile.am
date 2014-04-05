@@ -5,5 +5,5 @@ libtool: $(LIBTOOL_DEPS)
 
 lib_LTLIBRARIES = libgolle.la
 libgolle_la_CPPFLAGS = $(GOLLE_INC)
-libgolle_la_SOURCES = list.c
+libgolle_la_SOURCES = list.c set.c
 libgolle_la_LDFLAGS = -no-undefined -version-info 0:0:0
