@@ -8,12 +8,12 @@
 #include <string.h>
 
 enum {
-  HIGH_ITEMS = 10,
+  HIGH_ITEMS = 100,
   ITEM_SIZE = sizeof (int)
 };
 
 static int comp (const void *l, const void *r) {
-  return memcmp (l, r, ITEM_SIZE);
+  return *(int*)l - *(int*)r;
 }
 
 int main () {
@@ -67,10 +67,26 @@ int main () {
     assert (item);
     assert (*item == i);
   }
+
   /* Check that the next call is the end. */
   assert (golle_set_iterator_next (it, (const void**)&item) == GOLLE_END);
 
   golle_set_iterator_free (it);
+
+
+  /* Add heaps more items and check that it works. */
+  for (int i = HIGH_ITEMS; i < HIGH_ITEMS * 100; i++) {
+    err = golle_set_insert (set, &i, sizeof (i));
+    assert (err == GOLLE_OK);
+    assert (golle_set_check (set) == GOLLE_OK);
+
+    int *search;
+    err = golle_set_find (set, &i, (const void**)&search);
+    assert (err == GOLLE_OK);
+    assert (search);
+    assert (*search == i);
+  }
+
   golle_set_delete (set);
 
   /* Errors */

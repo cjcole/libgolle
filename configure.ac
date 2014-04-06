@@ -1,10 +1,15 @@
-AC_INIT(libgolle, 0.0.0, [anthony.arnold@uqconnect.edu.au])
+AC_INIT([libgolle],[0.0.0],[anthony.arnold@uqconnect.edu.au])
 AM_INIT_AUTOMAKE([foreign])
+AC_CANONICAL_HOST
+
+
 
 AC_CONFIG_MACRO_DIR([m4])
 LT_INIT([dlopen])
 
 AC_SUBST([LIBTOOL_DEPS])
+
+
 
 # Set up C compiler
 AC_PROG_CC
@@ -27,11 +32,11 @@ AC_HEADER_ASSERT
 AC_FUNC_MALLOC
 
 
+
 # Test for libgmp
 # Depending on the --with-gmp argument, will warn or error if not available.
 AC_ARG_WITH([gmp],
-	[AC_HELP_STRING([--with-gmp],
-	  [support arbitrarily large numbers @<:@default=check@:>@])],
+	[AS_HELP_STRING([--with-gmp],[support arbitrarily large numbers @<:@default=check@:>@])],
 	[],
 	[with_gmp=check])
 
@@ -53,7 +58,11 @@ AS_IF([test "x$with_gmp" != xno],
 )
 
 
+# Set up documentation
+DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
+
 
 
 # Output
-AC_OUTPUT([Makefile] [src/Makefile] [tests/Makefile])
+AC_CONFIG_FILES([Doxyfile Makefile src/Makefile tests/Makefile])
+AC_OUTPUT

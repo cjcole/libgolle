@@ -4,6 +4,8 @@
 *.lo
 *.so
 *.a
+Doxyfile
+doc
 aclocal.m4
 config.guess
 config.log

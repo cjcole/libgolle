@@ -15,6 +15,7 @@
  * \brief Describes operations for working on generic sets.
  */
 
+GOLLE_BEGIN_C
 
 /*!
  * An opaque pointer to a set of objects.
@@ -170,5 +171,8 @@ GOLLE_EXTERN void golle_set_iterator_free (golle_set_iterator_t *iter);
  */
 GOLLE_EXTERN golle_error golle_set_check (golle_set_t *set);
 #endif
+
+
+GOLLE_END_C
 
 #endif

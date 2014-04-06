@@ -1,6 +1,6 @@
 rm -f aclocal.m4 config.guess config.log config.sub configure\
  install-sh missing ltmain.sh depcomp Makefile \
- Makefile.in compile config.status
+ Makefile.in compile config.status Doxyfile *~
 rm -f src/Makefile.in src/Makefile
 rm -f tests/Makefile.in tests/Makefile
-rm -rf autom4te.cache libltdl libtool aclocal m4 src/.deps tests/.deps
+rm -rf autom4te.cache libltdl libtool m4 src/.deps tests/.deps doc

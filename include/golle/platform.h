@@ -10,6 +10,9 @@
  * \brief Macros for platform-dependant behaviour.
  */
 
+/*!
+ * \cond NODOXYGEN
+ */
 
 #ifdef _MSC_VER
 #define GOLLE_EXTERN __declspec(dllexport)
@@ -27,11 +30,15 @@
 
 #ifdef __cplusplus
 #define GOLLE_BEGIN_C extern "C" {
-#define GOLLE_END_C extern }
+#define GOLLE_END_C  }
 #else
 #define GOLLE_BEGIN_C
 #define GOLLE_END_C
 #endif
+
+/*!
+ * \endcond NODOXYGEN
+ */
 
 
 #endif
