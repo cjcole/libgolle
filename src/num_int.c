@@ -41,10 +41,14 @@ void golle_int_delete (golle_int_t i) {
 void golle_int_import (golle_int_t dest, size_t len, char *bytes) {
   if (dest) {
     dest[0] = 0;
-    if (GOLLE_INT_BYTES < len) {
-      len = GOLLE_INT_BYTES;
+    /* MSB first */
+    char *end = bytes + len;
+    for (size_t i = 0; i < len; i++) {
+      dest[0] |= *bytes++;
+      if (i + 1 < len) {
+	dest[0] <<= 1;
+      }
     }
-    memcpy (dest, bytes, len);
   }
 }
 
