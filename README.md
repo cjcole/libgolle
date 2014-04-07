@@ -23,3 +23,10 @@ long integer keys, which are insubstantial for cryptography.
 Another option is to provide a big number library which is licensed in a way that suits you,
 and to link it into the library using your own implementation of the libgolle number interface
 (see `src/num.h`). You might need to hack the `configure.ac` file to get this to work.
+
+
+###Autoconf Archive
+
+The Autoconf macros used in this project are licensed under the 
+[GNU Free Documentation License](http://www.gnu.org/software/autoconf-archive/GNU-Free-Documentation-License.html).
+These include the macros under the `aclocal` directory.

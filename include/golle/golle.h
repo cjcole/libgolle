@@ -10,6 +10,14 @@
 #include "list.h"
 #include "set.h"
 
+
+
+/*!
+ * \file golle/golle.h
+ * \brief The main interface to the golle library.
+ */
+
+
 /*!
  * Predefined bit counts for keys.
  */
@@ -17,12 +25,6 @@ enum {
   GOLLE_KEY_BITS_MAX = ((size_t)-1) /*!< Depends on the number library used. */
 };
 
-
-
-/*!
- * \file golle/golle.h
- * \brief The main interface to the golle library.
- */
 
 /*!
  * An opaque pointer, represents a Golle state.

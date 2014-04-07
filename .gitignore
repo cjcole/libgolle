@@ -4,6 +4,7 @@
 *.lo
 *.so
 *.a
+stamp-h1
 Doxyfile
 doc
 aclocal.m4
@@ -28,3 +29,6 @@ src/.libs
 tests/.libs
 tests/list
 tests/set
+src/num.h
+src/num.c
+src/config.h
