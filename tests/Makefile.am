@@ -1,5 +1,5 @@
 TEST_INC =  -I$(top_srcdir)/include
-TEST_LIB =../src/libgolle.la
+TEST_LIB =../src/libgolle.la $(LIBGMP) $(LIBM)
 
 
 check_PROGRAMS = list set
