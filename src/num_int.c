@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "golle/errors.h"
+#include <golle/errors.h>
 
 enum {
   GOLLE_INT_BYTES = sizeof (golle_int_t)

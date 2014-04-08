@@ -31,4 +31,4 @@ tests/list
 tests/set
 src/num.h
 src/num.c
-src/config.h
+include/golle/config.h

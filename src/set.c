@@ -2,8 +2,8 @@
  * Copyright (C) Anthony Arnold 2014
  */
 
-#include "golle/set.h"
-#include "golle/list.h"
+#include <golle/set.h>
+#include <golle/list.h>
 #include "align.h"
 #include <stdlib.h>
 #include <string.h>

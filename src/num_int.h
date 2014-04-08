@@ -5,7 +5,7 @@
 #ifndef LIBGOLLE_SRC_NUM_DEF_H
 #define LIBGOLLE_SRC_NUM_DEF_H
 
-#include "config.h"
+#include <golle/config.h>
 
 #if !defined(uintmax_t) 
 #if HAVE_STDINT_H

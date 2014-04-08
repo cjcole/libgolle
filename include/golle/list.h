@@ -15,18 +15,28 @@ GOLLE_BEGIN_C
 
 /*!
  * \file golle/list.h
+ * \author Anthony Arnold
+ * \copyright MIT License
+ * \date 2014
  * \brief Describes the structures and operations for working with singly-linked
  * lists.
  */
 
 
 /*!
- * An opaque pointer to a slist.
+ * \defgroup list Singly-linked list functions
+ * @{
+ */
+
+/*!
+ * \struct golle_list_t
+ * An opaque pointer to a singly-linked list.
  */
 typedef struct golle_list_t golle_list_t;
 
 
 /*!
+ * \struct golle_list_iterator_t
  * A type used for iterating through all the items in a list.
  */
 typedef struct golle_list_iterator_t golle_list_iterator_t;
@@ -206,6 +216,9 @@ GOLLE_EXTERN golle_error golle_list_insert_at (golle_list_iterator_t *iter,
  */
 GOLLE_EXTERN golle_error golle_list_erase_at (golle_list_iterator_t *iter);
 
+/*!
+ *@}
+ */
 
 GOLLE_END_C
 

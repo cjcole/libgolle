@@ -1,7 +1,7 @@
-Golle
+Golle		{#mainpage}
 =====
 
-***libgolle*** is a library that allows individual nodes on a network to 
+**libgolle** is a library that allows individual nodes on a network to 
 deal cards in a fully distributed way.
 
 The algorithm was described by Phillipe Golle in his paper 

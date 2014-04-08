@@ -14,7 +14,15 @@
 
 /*!
  * \file golle/golle.h
+ * \author Anthony Arnold
+ * \copyright MIT License
+ * \date 2014
  * \brief The main interface to the golle library.
+ */
+
+/*!
+ * \defgroup golle Golle state functions
+ * @{
  */
 
 
@@ -27,12 +35,14 @@ enum {
 
 
 /*!
+ * \struct golle_t
  * An opaque pointer, represents a Golle state.
  */
 typedef struct golle_t golle_t;
 
 
 /*!
+ * \typedef golle_comp_t
  * A comparison function which compares elements.
  * Return < 0 if the first argument is "less than" the second.
  * Return > 0 if the first argument is "greater than" the second.
@@ -282,5 +292,9 @@ GOLLE_EXTERN golle_error golle_selection_get (golle_t *state,
 GOLLE_EXTERN golle_error golle_selection_decrypt (golle_t *state,
 						  golle_bin_t *selection);
 
+
+/*!
+ * @}
+ */
 
 #endif

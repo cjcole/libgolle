@@ -2,7 +2,7 @@
  * Copyright (C) Anthony Arnold 2014
  */
 
-#include "golle/list.h"
+#include <golle/list.h>
 #include <string.h>
 #include <stdlib.h>
 
