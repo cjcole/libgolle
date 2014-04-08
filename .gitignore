@@ -29,6 +29,7 @@ src/.libs
 tests/.libs
 tests/list
 tests/set
+tests/randomness
 src/num.h
 src/num.c
 include/golle/config.h

@@ -1,16 +1,19 @@
 TEST_INC =  -I$(top_srcdir)/include
-TEST_LIB =../src/libgolle.la $(LIBGMP) $(LIBM)
+TEST_LIB =$(top_srcdir)/src/libgolle.la $(LIBGMP) $(LIBM)
 
 
-check_PROGRAMS = list set
+check_PROGRAMS = list set randomness
 
-list_SOURCES = list.c
+list_SOURCES = $(srcdir)/list.c
 list_LDADD = $(TEST_LIB)
 list_CPPFLAGS = $(TEST_INC)
 
 
-set_SOURCES = set.c
+set_SOURCES = $(srcdir)/set.c
 set_LDADD = $(TEST_LIB)
 set_CPPFLAGS = $(TEST_INC) -DDEBUG
 
-TESTS = list set
+randomness_SOURCES = $(srcdir)/randomness.c $(top_srcdir)/src/random.c
+randomness_CPPFLAGS = $(TEST_INC)
+
+TESTS = list set randomness

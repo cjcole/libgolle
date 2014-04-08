@@ -5,6 +5,7 @@
 #ifndef LIBGOLLE_GOLLE_H
 #define LIBGOLLE_GOLLE_H
 
+#include "bin.h"
 #include "platform.h"
 #include "errors.h"
 #include "list.h"
@@ -52,19 +53,14 @@ typedef int (*golle_comp_t) (const void *, const void *);
 
 
 /*!
+ * \typedef golle_peer_t
  * Represents a peer within the state.
  */
 typedef int golle_peer_t;
 
-/*!
- * Represents a binary buffer.
- */
-typedef struct golle_bin_t {
-  void *bin; /*!< Binary bytes. */
-  size_t size; /*!< Size, in bytes, of bin. */
-} golle_bin_t;
 
 /*!
+ * \struct golle_rand_t
  * Represents a randomly-selected element.
  * Always send the commitment first, then the selection.
  * Each peer should verify the commitment.

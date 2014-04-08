@@ -13,9 +13,31 @@
  * \brief Macros for platform-dependant behaviour.
  */
 
+#undef GOLLE_MSC
 #ifdef _MSC_VER
+#define GOLLE_MSC _MSC_VER
+#endif
+
+#undef GOLLE_GNUC
+#ifdef __GNUC__
+#define GOLLE_GNUC __GNUC__
+#endif
+
+#undef GOLLE_WINDOWS
+#if \
+  defined(_WIN32) ||				\
+  defined(_WIN64) ||\
+  defined(__WIN32__) ||\
+  defined(__TOS_WIN__) ||\
+  defined(__WINDOWS__)
+
+#define GOLLE_WINDOWS 1
+
+#endif
+
+#if GOLLE_MSC
 #define GOLLE_EXTERN __declspec(dllexport)
-#elif __GNUC__ >= 4
+#elif GOLLE_GNUC >= 4
 #define GOLLE_EXTERN extern __attribute__((visibility("default")))
 #else
 /*!
@@ -24,7 +46,7 @@
 #define GOLLE_EXTERN extern
 #endif
 
-#ifdef _MSC_VER
+#if GOLLE_MSC
 #define GOLLE_INLINE static __inline
 #else
 /*!

@@ -31,6 +31,7 @@ typedef enum golle_error {
   GOLLE_ENOTPRIME = -9, /*!< The given number failed the test for primality. */
   GOLLE_ENOCOMMIT = -10, /*!< The given commitment failed. */
   GOLLE_ECRYPTO = -11, /*!< An error occurred during cryptography. */
+  GOLLE_EFILE = -12, /*!< Failed to open a file. */
 
   GOLLE_END = 1 /*!< Indicates an iterator has reached the end of a sequence. */
 

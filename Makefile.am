@@ -2,7 +2,6 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src tests
 
 
-#include $(top_srcdir)/aminclude.am
 ## --------------------------------- ##
 ## Format-independent Doxygen rules. ##
 ## --------------------------------- ##
@@ -102,7 +101,7 @@ doxygen-doc: doxygen-run $(DX_PS_GOAL) $(DX_PDF_GOAL)
 
 
 # EXTRA MARKDOWN PAGES
-DX_MD_SOURCES=\
+DXMDSOURCES=\
 	$(top_srcdir)/ChangeLog.md \
 	$(top_srcdir)/COPYING.md \
 	$(top_srcdir)/NEWS.md \
@@ -111,10 +110,9 @@ DX_MD_SOURCES=\
 %.md : %
 	$(LN_S) $^ $@
 
-DX_CLEAN_MD = $(DX_MD_SOURCES)
 
 doc: $(DX_MD_SOURCES) doxygen-doc
-	rm -f $(DX_CLEAN_MD)
+	rm -f $(DXMDSOURCES)
 
 DX_CLEANFILES = \
       @DX_DOCDIR@/@PACKAGE@.tag \
@@ -128,7 +126,7 @@ DX_CLEANFILES = \
       $(DX_CLEAN_PS) \
       $(DX_CLEAN_PDF) \
       $(DX_CLEAN_LATEX) \
-      $(DX_CLEAN_MD)
+      $(DXMDSOURCES)
 endif DX_COND_doc
 
 

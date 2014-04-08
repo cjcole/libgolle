@@ -7,7 +7,7 @@
 
 #include "platform.h"
 #include "errors.h"
-#include <stddef.h>
+#include "types.h"
 
 
 GOLLE_BEGIN_C
