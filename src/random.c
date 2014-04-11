@@ -5,72 +5,89 @@
 #include <golle/bin.h>
 #include <golle/errors.h>
 #include <golle/platform.h>
+#include <openssl/rand.h>
+#include <golle/config.h>
 
-#if GOLLE_WINDOWS
-#include <Ntsecapi.h>
+#if HAVE_SSL
+#include <openssl/engine.h>
+#include <openssl/err.h>
+#include <openssl/crypto.h>
 
-#if GOLLE_MSC
-#pragma comment(lib, "Advapi32.lib")
+
+static ENGINE *reng = NULL;
+static int rand_loaded = 0;
+
+static void unload_hardware_engine () {
+  if (!reng)
+    return;
+
+  ENGINE_finish (reng);
+  ENGINE_free (reng);
+  ENGINE_cleanup ();
+  reng = NULL;
+  rand_loaded = 0;
+}
+
+static void load_hardware_engine () {
+  if (rand_loaded)
+    return;
+
+  OPENSSL_cpuid_setup ();
+  ENGINE_load_rdrand ();
+
+  reng = ENGINE_by_id ("rdrand");
+  ERR_get_error ();
+
+  if (!reng)
+    return;
+
+  int rc = ENGINE_set_default (reng, ENGINE_METHOD_RAND);
+  ERR_get_error ();
+
+  if (!rc) {
+    unload_hardware_engine ();
+  }
+
+  rand_loaded = 1;
+}
+
+#define LOAD_HARDWARE_ENGINE load_hardware_engine ();
+#define UNLOAD_HARDWARE_ENGINE unload_hardware_engine ();
+
+#else
+#define LOAD_HARDWARE_ENGINE
+#define UNLOAD_HARDWARE_ENGINE
 #endif
 
-#else /* Everyone else read from /dev/[u]random */
 
-#include <stdio.h>
-
-enum {
-  /* Read in smaller blocks. */
-  RAND_BLOCK_SIZE = 128
-};
-
-#endif
-
-
-/* Forward declaration. Platform-specific is down below. */
-static golle_error rand_gen_impl (size_t len, void *buf);
-
+golle_error golle_random_seed () {
+  RAND_poll ();
+  return GOLLE_OK;
+}
 
 golle_error golle_random_generate (golle_bin_t *buffer) {
   GOLLE_ASSERT (buffer, GOLLE_ERROR);
-  return rand_gen_impl (buffer->size, buffer->bin);
-}
 
+  LOAD_HARDWARE_ENGINE
 
-
-#if GOLLE_WINDOWS
-static golle_error rand_gen_impl (size_t len, void *buf) {
-    GOLLE_ASSERT (RtlGenRandom (buf, len), GOLLE_ECRYPTO);
-    return GOLLE_OK;
-}
-#else
-static golle_error rand_gen_impl (size_t len, void *buf) {
-  /* Prefer urandom */
-  FILE *fp = fopen ("/dev/urandom", "r");
-
-  if (!fp) {
-    /* OK, use /dev/random */
-    fp = fopen ("/dev/random", "r");
+  if (!RAND_status ()) {
+    golle_error err = golle_random_seed ();
+    GOLLE_ASSERT (err == GOLLE_OK, err);
   }
 
-  GOLLE_ASSERT (fp, GOLLE_EFILE);
+  
+  int rc = RAND_bytes (buffer->bin, buffer->size);
+  ERR_get_error ();
 
-  size_t data_read = 0;
-  while (data_read < len) {
-    size_t toread = len - data_read;
-    if (toread > RAND_BLOCK_SIZE) {
-      toread = RAND_BLOCK_SIZE;
-    }
-
-    size_t result = fread ((char *)buf + data_read, 1, toread, fp);
-    if (result == 0) {
-      break;
-    }
-
-    data_read += result;
+  if (rc != 1) {
+    return GOLLE_ERROR;
   }
-
-  fclose (fp);
-  GOLLE_ASSERT (data_read >= len, GOLLE_EFILE);
-
   return GOLLE_OK;
 }
-#endif
+
+golle_error golle_random_clear () {
+  UNLOAD_HARDWARE_ENGINE
+  RAND_cleanup ();
+  return GOLLE_OK;
+}
+

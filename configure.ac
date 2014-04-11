@@ -31,56 +31,12 @@ AC_C_CONST
 AC_C_INLINE
 AC_HEADER_ASSERT
 AC_FUNC_MALLOC
-LT_LIB_M
 
+# Test for libcrypto
+AC_CHECK_LIB([crypto], [RAND_seed], [], [AC_MSG_ERROR("Libcrypto is not found")])
 
-# Test for libgmp
-# Depending on the --with-gmp argument, will warn or error if not available.
-AC_ARG_WITH([gmp],
-	[AS_HELP_STRING([--with-gmp],[support arbitrarily large numbers @<:@default=check@:>@])],
-	[],
-	[with_gmp=check])
-
-LIBGMP=
-AS_IF([test "x$with_gmp" != xno],
-	    [AC_CHECK_LIB([gmp], [__gmpz_init], 
-	    			 [AC_SUBST([LIBGMP], ["-lgmp"])
-	    			  AC_DEFINE([HAVE_LIBGMP], [1],
-				 	   [Defined if you have libgmp])
-		                 ],
-	    			 [if test "x$with_gmp" != xcheck; then
-				   AC_MSG_FAILURE(
-				     [--with-gmp was given, but test for GMP failed.])
-				  else
-					AC_MSG_WARN([GMP was not found. Crypto will not be secure!])
-				  fi])
-             ],
-             [AC_MSG_WARN([--without-gmp was given. Crypto will not be secure!])]
-)
-
-
-# Set up the num_def header file.
-echo "LIBGMP=$LIBGMP"
-if test x$NUM_DEF = x; then
-    if test x$LIBGMP != x; then
-      NUM_DEF="num_gmp.h"
-    else
-      NUM_DEF="num_int.h"
-    fi
-fi
-
-if test "${NUM_IMPL}+set}" != set; then
-    if test x$LIBGMP != x; then
-      NUM_IMPL=num_gmp.c
-    else
-      NUM_IMPL=num_int.c
-    fi
-fi
-
-echo "Using $NUM_DEF for number definitions."
-echo "Using $NUM_IMPL for number implimentation."
-AC_SUBST([NUM_DEF], $NUM_DEF)
-AC_SUBST([NUM_IMPL], $NUM_IMPL)
+# test for libssl
+AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
 
 # Set up documentation
 DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
@@ -88,5 +44,5 @@ DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
 
 
 # Output
-AC_CONFIG_FILES([Doxyfile Makefile src/Makefile tests/Makefile src/num.h])
+AC_CONFIG_FILES([Doxyfile Makefile src/Makefile tests/Makefile])
 AC_OUTPUT

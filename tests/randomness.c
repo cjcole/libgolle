@@ -33,7 +33,7 @@ int main () {
   err = memcmp (buff.bin, (char*)buff.bin + DATA_SIZE, DATA_SIZE);
   err = err == 0;
   free (buff.bin);
-
+  golle_random_clear ();
  out:
   return err;
 }

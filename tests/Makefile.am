@@ -1,5 +1,5 @@
 TEST_INC =  -I$(top_srcdir)/include
-TEST_LIB =$(top_srcdir)/src/libgolle.la $(LIBGMP) $(LIBM)
+TEST_LIB =$(top_srcdir)/src/libgolle.la
 
 
 check_PROGRAMS = list set randomness
