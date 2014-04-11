@@ -14,16 +14,10 @@ distinct elements from a set.
 
 ###A note about copying
 
-This library is released under the MIT software license (see `COPYING`). However, there is an *optional*
-dependency on the GMP library, which is licensed under the GNU LGPL. The use of libgmp is not mandatory
-(although we really recommend you use it), and you can turn it off by using `./configure --without-gmp`
-if you want to avoid the burden of an LGPL-licensed library. However, this will leave you with only
-long integer keys, which are insubstantial for cryptography.
+This project uses OpenSSL for large numbers and some cryptography protocols. As such:
 
-Another option is to provide a big number library which is licensed in a way that suits you,
-and to link it into the library using your own implementation of the libgolle number interface
-(see `src/num.h`). You might need to hack the `configure.ac` file to get this to work.
-
+    This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)
+    This product includes software written by Tim Hudson (tjs@cryptsoft.com)
 
 ###Autoconf Archive
 
