@@ -35,7 +35,8 @@ AC_FUNC_MALLOC
 # Test for libcrypto
 AC_CHECK_LIB([crypto], [RAND_seed], [], [AC_MSG_ERROR("Libcrypto is not found")])
 
-# test for libssl
+# Test for libssl's cpuid setup call
+# If not available, then we can't use hardware random number generator
 AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
 
 # Set up documentation

@@ -1,4 +1,4 @@
-Golle		{#mainpage}
+Golle
 =====
 
 **libgolle** is a library that allows individual nodes on a network to 
@@ -14,12 +14,14 @@ distinct elements from a set.
 
 ###A note about copying
 
-This project uses OpenSSL for large numbers and some cryptography protocols. As such:
+This project uses OpenSSL for large numbers and some cryptography algorithms (SHA. As such:
 
-    This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)
-    This product includes software written by Tim Hudson (tjs@cryptsoft.com)
+> This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)
 
-###Autoconf Archive
+And when compiling for Windows:
+
+> This product includes software written by Tim Hudson (tjs@cryptsoft.com)
+
 
 The Autoconf macros used in this project are licensed under the 
 [GNU Free Documentation License](http://www.gnu.org/software/autoconf-archive/GNU-Free-Documentation-License.html).

@@ -31,3 +31,5 @@ tests/list
 tests/set
 tests/randomness
 include/golle/config.h
+mainpage.md
+

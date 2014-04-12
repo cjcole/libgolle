@@ -101,18 +101,23 @@ doxygen-doc: doxygen-run $(DX_PS_GOAL) $(DX_PDF_GOAL)
 
 
 # EXTRA MARKDOWN PAGES
+INDEX_PAGE=$(top_srcdir)/mainpage.md
 DXMDSOURCES=\
+	$(INDEX_PAGE) \
 	$(top_srcdir)/ChangeLog.md \
 	$(top_srcdir)/COPYING.md \
 	$(top_srcdir)/NEWS.md \
 	$(top_srcdir)/AUTHORS.md
 
+
+$(INDEX_PAGE): $(top_srcdir)/README.md
+	sed '1 s/^Golle/Golle   {#mainpage}/' < $^ > $@
+
 %.md : %
 	$(LN_S) $^ $@
 
 
-doc: $(DX_MD_SOURCES) doxygen-doc
-	rm -f $(DXMDSOURCES)
+doc: $(DXMDSOURCES) doxygen-doc
 
 DX_CLEANFILES = \
       @DX_DOCDIR@/@PACKAGE@.tag \
@@ -126,7 +131,8 @@ DX_CLEANFILES = \
       $(DX_CLEAN_PS) \
       $(DX_CLEAN_PDF) \
       $(DX_CLEAN_LATEX) \
-      $(DXMDSOURCES)
+      $(DXMDSOURCES) \
+      $(INDEX_PAGE)
 endif DX_COND_doc
 
 
