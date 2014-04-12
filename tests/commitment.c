@@ -65,4 +65,8 @@ int main () {
 
 
   golle_commit_delete (commitment);
+  golle_bin_delete (alice_store.rkeep);
+  golle_bin_delete (alice_store.rsend);
+  golle_bin_delete (alice_store.hash);
+  golle_bin_delete (alice_store.secret);
 }

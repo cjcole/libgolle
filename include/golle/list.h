@@ -30,14 +30,14 @@ GOLLE_BEGIN_C
 
 /*!
  * \struct golle_list_t
- * An opaque pointer to a singly-linked list.
+ * \brief An opaque pointer to a singly-linked list.
  */
 typedef struct golle_list_t golle_list_t;
 
 
 /*!
  * \struct golle_list_iterator_t
- * A type used for iterating through all the items in a list.
+ * \brief A type used for iterating through all the items in a list.
  */
 typedef struct golle_list_iterator_t golle_list_iterator_t;
 

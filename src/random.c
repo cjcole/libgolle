@@ -6,11 +6,11 @@
 #include <golle/errors.h>
 #include <golle/platform.h>
 #include <openssl/rand.h>
+#include <openssl/err.h>
 #include <golle/config.h>
 
 #if HAVE_SSL
 #include <openssl/engine.h>
-#include <openssl/err.h>
 #include <openssl/crypto.h>
 
 

@@ -32,10 +32,10 @@
 
 /*!
  * \struct golle_bin_t
- * Represents a binary buffer.
+ * \brief Represents a binary buffer.
  *
  * \warning You can fill in the values of this structure if
- * necessary, but use the ::golle_bin_create function
+ * necessary, but use the ::golle_bin_new function
  * whenever possible to avoid disparity between the `size`
  * member and the allocated size of `bin`.
  */

@@ -27,27 +27,20 @@
  */
 
 
-/*!
- * Predefined bit counts for keys.
- */
-enum {
-  GOLLE_KEY_BITS_MAX = ((size_t)-1) /*!< Depends on the number library used. */
-};
-
 
 /*!
  * \struct golle_t
- * An opaque pointer, represents a Golle state.
+ * \brief An opaque pointer, represents a Golle state.
  */
 typedef struct golle_t golle_t;
 
 
 /*!
  * \typedef golle_comp_t
- * A comparison function which compares elements.
- * Return < 0 if the first argument is "less than" the second.
- * Return > 0 if the first argument is "greater than" the second.
- * Return 0 if both arguments are equal.
+ * \brief A comparison function which compares elements.
+ * - Return < 0 if the first argument is "less than" the second.
+ * - Return > 0 if the first argument is "greater than" the second.
+ * - Return 0 if both arguments are equal.
  */
 typedef int (*golle_comp_t) (const void *, const void *);
 
@@ -61,7 +54,7 @@ typedef int golle_peer_t;
 
 /*!
  * \struct golle_rand_t
- * Represents a randomly-selected element.
+ * \brief Represents a randomly-selected element.
  * Always send the commitment first, then the selection.
  * Each peer should verify the commitment.
  */
@@ -163,15 +156,13 @@ GOLLE_EXTERN golle_error golle_peer_remove (golle_t *state,
 /*!
  * \brief Allocate a random prime number for the state.
  * \param state The state to set the prime for.
- * \param bits The number of bits to
  * \return ::GOLLE_ERROR if state is NULL. ::GOLLE_EINVALID if a round
  * is in progress. ::GOLLE_OK if successful. ::GOLLE_ENOTPRIME if
- * the number library cannot generate a prime of the requested number of bits.
+ * the number library cannot generate a prime.
  *
  * \warning Every peer must share the same prime.
  */
-GOLLE_EXTERN golle_error golle_prime_allocate (golle_t *state, 
-					       size_t bits = GOLLE_KEY_MAX_BITS);
+GOLLE_EXTERN golle_error golle_prime_allocate (golle_t *state);
 
 /*!
  * \brief Get the current prime number for the state.

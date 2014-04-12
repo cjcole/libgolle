@@ -35,7 +35,14 @@ typedef enum golle_error {
   GOLLE_END = 1, /*!< An iterator has reached the end of a sequence. */
  
   GOLLE_COMMIT_PASSED = 1, /*!< Bit commitment verification passed. */
-  GOLLE_COMMIT_FAILED = 0  /*!< Bit commitment verification failed. */
+  GOLLE_COMMIT_FAILED = 0, /*!< Bit commitment verification failed. */
+
+  GOLLE_PROBABLY_PRIME = 1, /*!< The number has passed the primality test. */
+  GOLLE_NOT_PRIME = 0, /*!< The number is definitely not prime. */
+  GOLLE_PROBABLY_GENERATOR = 1, /*<! The number is probably a generator of
+				  \f$\mathbb{G}_{q}\f$. */
+  GOLLE_PROBABLY_NOT_GENERATOR = 0, /*<! The number is probably not a 
+				      generator. */
 
 } golle_error;
 

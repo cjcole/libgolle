@@ -27,13 +27,13 @@ GOLLE_BEGIN_C
 
 /*!
  * \struct golle_set_t
- * An opaque pointer to a set of objects.
+ * \brief An opaque pointer to a set of objects.
  */
 typedef struct golle_set_t golle_set_t;
 
 /*!
  * \typedef golle_set_comp_t
- * A comparison function. Must return < 0 if the left parameter
+ * \brief A comparison function. Must return < 0 if the left parameter
  * comes first in a strict weak ordering. Return > 0 if the left
  * parameter comes second in a strict weak ordering.
  * Return 0 if the two parameters are considered equal.
@@ -42,7 +42,7 @@ typedef int (*golle_set_comp_t) (const void *, const void *);
 
 /*!
  * \struct golle_set_iterator_t
- * A type used for iterating through all of the items in a set.
+ * \brief A type used for iterating through all of the items in a set.
  */
 typedef struct golle_set_iterator_t golle_set_iterator_t;
 

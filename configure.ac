@@ -31,6 +31,8 @@ AC_C_CONST
 AC_C_INLINE
 AC_HEADER_ASSERT
 AC_FUNC_MALLOC
+AX_CFLAGS_WARN_ALL
+
 
 # Determine bit commitment random sizes
 if test "x$COMMIT_RANDOM_BITS" == "x"; then
@@ -58,6 +60,8 @@ AC_CHECK_LIB([crypto], [EVP_sha512], [], [AC_MSG_ERROR(Libcrypto does not contai
 AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
 
 # Set up documentation
+DX_PDF_FEATURE 
+DX_PS_FEATURE 
 DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
 
 

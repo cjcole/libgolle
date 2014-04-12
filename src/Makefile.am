@@ -13,4 +13,6 @@ libgolle_la_SOURCES =\
 	$(srcdir)/set.c \
 	$(srcdir)/random.c \
 	$(srcdir)/bin.c \
-	$(srcdir)/commit.c
+	$(srcdir)/commit.c \
+	$(srcdir)/numbers.c \
+	$(srcdir)/distribute.c
