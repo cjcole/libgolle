@@ -131,8 +131,8 @@ DX_CLEANFILES = \
       $(DX_CLEAN_PS) \
       $(DX_CLEAN_PDF) \
       $(DX_CLEAN_LATEX) \
-      $(DXMDSOURCES) \
-      $(INDEX_PAGE)
+      $(DXMDSOURCES)
+
 endif DX_COND_doc
 
 

@@ -4,7 +4,7 @@
 
 #include <golle/list.h>
 #include <string.h>
-#include <stdlib.h>
+#include "types.h"
 
 #define INVALID_ITERATOR(l) ((void*)(l))
 

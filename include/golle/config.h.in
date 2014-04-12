@@ -1,5 +1,9 @@
 /* include/golle/config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* The size of a commitment random block. In practice, the size will be
+   rounded up to the nearest multiple of CHAR_BIT */
+#undef COMMIT_RANDOM_BITS
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 

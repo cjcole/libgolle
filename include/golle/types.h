@@ -11,7 +11,7 @@
  * \author Anthony Arnold
  * \copyright MIT License
  * \date 2014
- * \brief Include for commonly-used types.
+ * \brief Include for commonly-used types and functions.
  */
 
 #include "config.h"
@@ -29,6 +29,12 @@
 #include <stdint.h>
 #elif HAVE_INTTYPES_H
 #include <inttypes.h>
+#endif
+#endif
+
+#if !defined (malloc)
+#if HAVE_STDLIB_H
+#include <stdlib.h>
 #endif
 #endif
 

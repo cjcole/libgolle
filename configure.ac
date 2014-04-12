@@ -22,7 +22,7 @@ AM_PROG_CC_C_O
 AC_PROG_CC_STDC
 
 AS_IF([test "x$ac_cv_prog_cc_stdc" == xno],
-	    [AC_MSG_ERROR("STD C is required.")], [])
+	    [AC_MSG_ERROR(STD C is required.)], [])
 
 
 AC_TYPE_UINTMAX_T
@@ -32,8 +32,26 @@ AC_C_INLINE
 AC_HEADER_ASSERT
 AC_FUNC_MALLOC
 
+# Determine bit commitment random sizes
+if test "x$COMMIT_RANDOM_BITS" == "x"; then
+   COMMIT_RANDOM_BITS=256
+fi
+AC_MSG_NOTICE([Using $COMMIT_RANDOM_BITS bits for commitment protocol.])
+#AC_ARG_VAR([COMMIT_RANDOM_BITS], [The size of a commitment random block. 
+#				 In practice, the size will be rounded up to 
+#				 the nearest multiple of CHAR_BIT.])
+
+AC_DEFINE_UNQUOTED([COMMIT_RANDOM_BITS], 
+		   [$COMMIT_RANDOM_BITS], 
+		   [The size of a commitment random block. 
+       		    In practice, the size will be rounded up to 
+		    the nearest multiple of CHAR_BIT])
+
+
+
 # Test for libcrypto
-AC_CHECK_LIB([crypto], [RAND_seed], [], [AC_MSG_ERROR("Libcrypto is not found")])
+AC_CHECK_LIB([crypto], [RAND_seed], [], [AC_MSG_ERROR(Libcrypto is not found)])
+AC_CHECK_LIB([crypto], [EVP_sha512], [], [AC_MSG_ERROR(Libcrypto does not contain EVP_sha512)])
 
 # Test for libssl's cpuid setup call
 # If not available, then we can't use hardware random number generator
@@ -41,7 +59,6 @@ AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
 
 # Set up documentation
 DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
-
 
 
 # Output

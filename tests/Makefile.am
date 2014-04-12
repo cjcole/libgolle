@@ -2,7 +2,7 @@ TEST_INC =  -I$(top_srcdir)/include
 TEST_LIB =$(top_srcdir)/src/libgolle.la
 
 
-check_PROGRAMS = list set randomness
+check_PROGRAMS = list set buffer randomness commitment
 
 list_SOURCES = $(srcdir)/list.c
 list_LDADD = $(TEST_LIB)
@@ -13,7 +13,19 @@ set_SOURCES = $(srcdir)/set.c
 set_LDADD = $(TEST_LIB)
 set_CPPFLAGS = $(TEST_INC) -DDEBUG
 
-randomness_SOURCES = $(srcdir)/randomness.c $(top_srcdir)/src/random.c
-randomness_CPPFLAGS = $(TEST_INC)
+buffer_SOURCES = $(srcdir)/buffer.c
+buffer_LDADD = $(TEST_LIB)
+buffer_CPPFLAGS = $(TEST_INC)
 
-TESTS = list set randomness
+randomness_SOURCES = $(srcdir)/randomness.c
+randomness_CPPFLAGS = $(TEST_INC)
+randomness_LDADD = $(TEST_LIB)
+
+
+commitment_SOURCES = $(srcdir)/commitment.c
+commitment_CPPFLAGS = $(TEST_INC)
+commitment_LDADD = $(TEST_LIB)
+
+
+
+TESTS = list set buffer randomness commitment

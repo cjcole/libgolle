@@ -2,7 +2,7 @@
  * Copyright (C) Anthony Arnold 2014
  */
 
-#include "../src/random.h"
+#include <golle/random.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>

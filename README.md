@@ -14,7 +14,7 @@ distinct elements from a set.
 
 ###A note about copying
 
-This project uses OpenSSL for large numbers and some cryptography algorithms (SHA. As such:
+This project uses OpenSSL for large numbers and some cryptography algorithms. As such:
 
 > This product includes cryptographic software written by Eric Young (eay@cryptsoft.com)
 

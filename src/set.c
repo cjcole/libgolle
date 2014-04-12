@@ -5,7 +5,7 @@
 #include <golle/set.h>
 #include <golle/list.h>
 #include "align.h"
-#include <stdlib.h>
+#include "types.h"
 #include <string.h>
 #include <assert.h>
 
