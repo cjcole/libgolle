@@ -7,6 +7,8 @@
 #include <string.h>
 #endif
 
+#define CLEAR_BUFF(b) memset ((b)->bin, 0, (b)->size)
+
 #define BIN_LOCAL(b) (((char *)b) + sizeof (golle_bin_t))
 
 golle_bin_t *golle_bin_new (size_t size) {
@@ -18,7 +20,8 @@ golle_bin_t *golle_bin_new (size_t size) {
 
   bin->size = size;
   bin->bin = BIN_LOCAL(bin);
-
+  CLEAR_BUFF (bin);
+  
   return bin;
 }
 
@@ -27,10 +30,13 @@ void golle_bin_delete (golle_bin_t *buff) {
   if (!buff)
     return;
 
+  CLEAR_BUFF (buff);
+
   if (buff->bin != NULL &&
-      buff->bin != BIN_LOCAL (buff)) {
-    free (buff->bin);
-  }
+      buff->bin != BIN_LOCAL (buff)) 
+    {
+      free (buff->bin);
+    }
   free (buff);
 }
 

@@ -10,16 +10,13 @@ void produce_h (golle_key_t *target,
 		golle_num_t h1,
 		golle_num_t h2)
 {
-  assert (golle_key_accum_h (target, h1));
-  assert (golle_key_accum_h (target, h2));
+  assert (golle_key_accum_h (target, h1) == GOLLE_OK);
+  assert (golle_key_accum_h (target, h2) == GOLLE_OK);
 }
 
 int main () {
   /* Three peers, A,B,C */
-  golle_key_t
-    a = { 0 },
-    b = { 0 },
-      c = { 0 };
+  golle_key_t  a = { 0 }, b = { 0 }, c = { 0 };
 
 
   /* Excluding bit commitment steps. */
@@ -29,13 +26,9 @@ int main () {
 
   /* A sends to B and B */
   assert (golle_key_set_public (&c,
-				a.p,
-				a.q,
-				a.g) == GOLLE_OK);
+				a.p) == GOLLE_OK);
   assert (golle_key_set_public (&b,
-				a.p,
-				a.q,
-				a.g) == GOLLE_OK);
+				a.p) == GOLLE_OK);
 
 
   /* All peers generate private keys */

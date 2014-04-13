@@ -23,6 +23,11 @@ GOLLE_BEGIN_C
 /*!
  * \defgroup set Set functions
  * @{
+ * Functions and structs for working with
+ * a set structure. The set is implemented as
+ * an RB Tree. No duplicates are allowed. as such
+ * each element of the set is disctinct and makes
+ * it easier to find collisions.
  */
 
 /*!

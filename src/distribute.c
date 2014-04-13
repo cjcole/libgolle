@@ -8,8 +8,6 @@
 #include <golle/random.h>
 
 enum {
-  /* Number of bits in q */
-  QBITS = 160,
   /* Number of bits in p */
   PBITS = 1024
 };
@@ -26,26 +24,54 @@ enum {
   } } while (0)
 
 
-/* Get h = g^x */
-static golle_num_t get_h (const golle_num_t g,
-			  const golle_num_t x)
+/* Get h = 2^x */
+static golle_num_t get_h (const golle_num_t x,
+			  const golle_num_t p)
 {
-
+  BIGNUM *h = NULL, *g;
   BN_CTX *ctx = BN_CTX_new ();
   if (!ctx) {
     return NULL;
   }
+  if (!(g = BN_CTX_get (ctx))) {
+    goto out;
+  }
+  if (!BN_set_word (g, 2)) {
+    goto out;
+  }
    
-  BIGNUM *h = BN_new ();
-  if (h) {
-    if (!BN_exp (h, g, x, ctx)) {
-      BN_free (h);
-      h = NULL;
-    }
+  if (!(h = BN_new ())) {
+    goto out;
   }
   
+
+  if (!BN_mod_exp (h, g, x, p, ctx)) {
+    BN_free (h);
+    h = NULL;
+  }
+
+  
+ out:
   BN_CTX_free (ctx);
   return h;
+}
+
+/* Get q = (p - 1) / 2 */
+static golle_num_t get_q (const golle_num_t p) 
+{
+  BIGNUM *q = BN_new ();
+  if (q) {
+    if (!BN_sub (q, p, BN_value_one ())) {
+      BN_free (q);
+      q = NULL;
+    }
+    else if (!BN_rshift1 (q, q)) {
+      BN_free (q);
+      q = NULL;
+    }
+  }
+
+  return q;
 }
 
 
@@ -55,22 +81,16 @@ golle_error golle_key_gen_public (golle_key_t *key) {
 
   golle_error err = GOLLE_OK;
 
-  key->q = golle_generate_prime (QBITS, 0, NULL);
-  if (!key->q) {
-    err = GOLLE_ECRYPTO;
-    goto error;
-  }
-
-  key->p = golle_generate_prime (PBITS, 0, key->q);
+  /* Get a safe prime ((p - 1) / 2) = q */
+  key->p = golle_generate_prime (PBITS, 1, 0);
   if (!key->p) {
     err = GOLLE_ECRYPTO;
     goto error;
   }
 
-  /* Find generator */
-  key->g = golle_find_generator (key->q, key->p);
-  if (!key->g) {
-    err = GOLLE_ECRYPTO;
+  key->q = get_q (key->p);
+  if (!key->q) {
+    err = GOLLE_EMEM;
     goto error;
   }
 
@@ -82,66 +102,35 @@ golle_error golle_key_gen_public (golle_key_t *key) {
 }
 
 golle_error golle_key_set_public (golle_key_t *key,
-				  const golle_num_t p,
-				  const golle_num_t q,
-				  const golle_num_t g)
+				  const golle_num_t p)
 {
   GOLLE_ASSERT (key, GOLLE_ERROR);
   GOLLE_ASSERT (p, GOLLE_ERROR);
-  GOLLE_ASSERT (q, GOLLE_ERROR);
-  GOLLE_ASSERT (g, GOLLE_ERROR);
   golle_key_cleanup (key);
 
   /* Check p is prime. */
   golle_error err = golle_test_prime (p);
   CHECK_PRIME (err);
 
-  /* Check q is prime. */
-  err = golle_test_prime (q);
-  CHECK_PRIME (err);
 
+  /* Check q = (p-1)/2 is prime*/
+  key->q = get_q (p);
 
-
-  BN_CTX *ctx = BN_CTX_new ();
-  if (!ctx) {
-    return GOLLE_EMEM;
-  }
-
-  /* Check g is a generator */
-  err = golle_test_generator (g, p, q, ctx);
-  if (err != GOLLE_PROBABLY_GENERATOR) {
-    BN_CTX_free (ctx);
-    return GOLLE_ECRYPTO;
-  }
-
-
-  /* Check q divides p - 1 */
-  BN_CTX_start (ctx);
-
-  err = GOLLE_OK;
-  BIGNUM *num = BN_CTX_get (ctx);
-  if (!num) {
+  if (!key->q) {
     err = GOLLE_EMEM;
   }
-  else if (!BN_mod (num, p, q, ctx)) {
-    err = GOLLE_ECRYPTO;
-  }
-  else if (!BN_is_one (num)) {
-    /* Doesn't pass. */
-    err = GOLLE_ECRYPTO;
-  }
+  else {
+    err = golle_test_prime (key->q);
 
-  BN_CTX_end (ctx);
-  BN_CTX_free (ctx);
+    if (err != GOLLE_PROBABLY_PRIME) {
+      err = GOLLE_ECRYPTO;
+    } else {
+      err = GOLLE_OK;
+    }
+  }
 
   if (err == GOLLE_OK) {
     if (!(key->p = BN_dup (p))) {
-      err = GOLLE_EMEM;
-    }
-    else if (!(key->q = BN_dup (q))) {
-      err = GOLLE_EMEM;
-    }
-    else if (!(key->g = BN_dup (g))) {
       err = GOLLE_EMEM;
     }
   }
@@ -156,11 +145,11 @@ golle_error golle_key_set_public (golle_key_t *key,
 
 golle_error golle_key_gen_private (golle_key_t *key) {
   GOLLE_ASSERT (key, GOLLE_ERROR);
-  GOLLE_ASSERT (key->q, GOLLE_ERROR);
-  GOLLE_ASSERT (key->g, GOLLE_ERROR);
+
 
   golle_error err = golle_random_seed ();
   GOLLE_ASSERT (err == GOLLE_OK, err);
+  
 
   BIGNUM* r = BN_new ();
   GOLLE_ASSERT (r, GOLLE_EMEM);
@@ -170,10 +159,10 @@ golle_error golle_key_gen_private (golle_key_t *key) {
     err = GOLLE_EMEM;
   }
 
-  /* Calculate h */
+  /* Calculate h = 2^x mod p*/
   BIGNUM *h;
   if (err == GOLLE_OK) {
-    h = get_h (key->g, r);
+    h = get_h (r, key->p);
     if (!h) {
       err = GOLLE_EMEM;
     }
@@ -195,7 +184,6 @@ golle_error golle_key_gen_private (golle_key_t *key) {
   if (err != GOLLE_OK) {
     BN_free (r);
   }
-
   return err;
 }
 

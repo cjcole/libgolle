@@ -28,6 +28,13 @@
 /*!
  * \defgroup bin Binary buffers
  * @{
+ * Many parts of this library, and client applications, need to work with a
+ * block of data of arbitrary size. It is important to always know how
+ * large the block is and to always work with it in the context of its size.
+ * Here we present the very simple ::golle_bin_t, which marries the size of
+ * a data block to the block itself. By using the golle_bin_new() and 
+ * golle_bin_delete() functions, it's not so hard to screw up; as long as you
+ * always check the size of the buffer before using it.
  */
 
 /*!
@@ -46,7 +53,8 @@ typedef struct golle_bin_t {
 
 
 /*!
- * \brief Create a new binary buffer of a given size.
+ * \brief Create a new binary buffer of a given size. The data block
+ * is zeroed out before returning.
  * \param size The size of the buffer to allocate.
  * \return The allocated buffer, or NULL if allocation failed.
  * \note This function only performs one `malloc`. It allocates
@@ -58,7 +66,7 @@ typedef struct golle_bin_t {
  * `free` the whole structure or, even better, call
  * ::golle_bin_delete. 
  * 
- * It is not usually a good idea to
+ * \warning It is not usually a good idea to
  * set the members of a structure returned by this function.
  */
 GOLLE_EXTERN golle_bin_t *golle_bin_new (size_t size);

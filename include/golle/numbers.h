@@ -67,35 +67,4 @@ GOLLE_EXTERN golle_num_t golle_generate_prime (int bits,
 GOLLE_EXTERN golle_error golle_test_prime (const golle_num_t p);
 
 
-/*!
- * \brief Test whether a number, \f$g\f$ is a generator for
- * \f$\mathbb{G}_{q}\f$ and is _not_ a generator for the group
- * \f$\mathbb{Z}^{*}_{p}\f$.
- * \param g The generator to test.
- * \param p The \f$p\f$ in the above formula.
- * \param q The \f$q\f$ in the above formula.
- * \param ctx The address of an OpenSSL BN_CTX, if available. Pass NULL
- * to have one generated for you.
- * \return ::GOLLE_ERROR if any value is `NULL`.
- * ::GOLLE_PROBABLY_GENERATOR if `g` is a likely generator that
- * fulfills the constraints. ::GOLLE_PROBABLY_NOT_GENERATOR if it is likely that
- * `g` does not fulfill the constraints. ::GOLLE_EMEM if memory
- * allocation failed.
- */
-GOLLE_EXTERN golle_error golle_test_generator (const golle_num_t g,
-					       const golle_num_t p,
-					       const golle_num_t q,
-					       void *ctx);
-
-/*!
- * \brief Find a generator \f$g\f$ for \f$\mathbb{G}_{q}\f$
- * that is not also a generator for the group \f$\mathbb{Z}^{*}_{p}\f$
- * \param p The p for the group \f$\mathbb{Z}^{*}_{p}\f$
- * \param q The q for group \f$\mathbb{G}_{q}\f$ to be found.
- * \return A generator, or `NULL` if an error.
- */
-GOLLE_EXTERN golle_num_t golle_find_generator (const golle_num_t p, 
-					       const golle_num_t q);
-
-
 #endif

@@ -20,6 +20,14 @@
 /*!
  * \defgroup random Random Data
  * @{
+ * Functions provide wrappers around OpenSSL's
+ * random data generation functions. The
+ * golle_random_seed() function will attempt to
+ * set up a hardware random number generator if
+ * one is available.
+ *
+ * A well-behaved application will call golle_random_clear()
+ * before exiting.
  */
 
 /*!

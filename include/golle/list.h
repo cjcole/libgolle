@@ -24,8 +24,10 @@ GOLLE_BEGIN_C
 
 
 /*!
- * \defgroup list Singly-linked list functions
+ * \defgroup list Singly-linked lists
  * @{
+ * Contains structures and functions for maintaining a
+ * singly-linked list (or a FIFO queue).
  */
 
 /*!

@@ -61,6 +61,7 @@ static void load_hardware_engine () {
 
 
 golle_error golle_random_seed () {
+  LOAD_HARDWARE_ENGINE
   RAND_poll ();
   return GOLLE_OK;
 }
