@@ -45,6 +45,20 @@ int main () {
     assert (*search == i);
   }
 
+  /* Clear all items. */
+  err = golle_set_clear (set);
+  assert (err == GOLLE_OK);
+  assert (golle_set_check (set) == GOLLE_OK);
+  assert (golle_set_size (set) == 0);
+
+  /* Add them all back */
+  for (int i = 0; i < HIGH_ITEMS; i++) {
+    err = golle_set_insert (set, &i, ITEM_SIZE);
+    assert (err == GOLLE_OK);
+    assert (golle_set_check (set) == GOLLE_OK);
+  }
+  assert (golle_set_size (set) == HIGH_ITEMS);
+
   /* Delete every second one */
   for (int i = 0; i < HIGH_ITEMS; i += 2) {
     err = golle_set_erase (set, &i);
@@ -117,6 +131,9 @@ int main () {
   /* NULL to find */
   assert (golle_set_find (NULL, NULL, NULL) == GOLLE_ERROR);
   assert (golle_set_find (set, NULL, NULL) == GOLLE_ERROR);
+
+  /* NULL to clear */
+  assert (golle_set_clear (NULL) == GOLLE_ERROR);
 
   /* Finding non-existant item. */
   int *x;

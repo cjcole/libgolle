@@ -117,6 +117,16 @@ GOLLE_EXTERN golle_error golle_set_erase (golle_set_t *set,
 
 
 /*!
+ * \brief Remove all items from a set.
+ * \param set The set to clear.
+ * \return ::GOLLE_OK if the set was cleared. ::GOLLE_ERROR if the
+ * set is `NULL`.
+ *
+ * \warning Iterators will be invalidated.
+ */
+GOLLE_EXTERN golle_error golle_set_clear (golle_set_t *set);
+
+/*!
  * \brief Find an item in a set.
  *
  * \param set The set to search in.

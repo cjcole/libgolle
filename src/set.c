@@ -83,6 +83,7 @@ static void *node_local_data (const set_node_t *node) {
   return ((char*)node) + sizeof (set_node_t);
 }
 
+
 /*
  * Unlink a leaf from the tree and return it to the free list.
  */
@@ -93,6 +94,20 @@ static void set_leaf_unlink (golle_set_t *set, set_node_t *node) {
 	
   golle_error err = golle_list_push (set->free_nodes, &node, sizeof(node));
   assert (err == GOLLE_OK);
+}
+
+
+/*
+ * Walk through a tree, returning each node to the free list.
+ */
+static void set_tree_unlink (golle_set_t *set, set_node_t *node) {
+  if (!node) {
+    return;
+  }
+
+  set_tree_unlink (set, node->children[TREE_LEFT]);
+  set_tree_unlink (set, node->children[TREE_RIGHT]);
+  set_leaf_unlink (set, node);
 }
 
 /*
@@ -952,6 +967,14 @@ golle_error golle_set_erase (golle_set_t *set,
   if (--set->count == 0) {
     set->root = NULL;
   }
+  return GOLLE_OK;
+}
+
+golle_error golle_set_clear (golle_set_t *set) {
+  GOLLE_ASSERT (set, GOLLE_ERROR);
+  set_tree_unlink (set, set->root);
+  set->root = NULL;
+  set->count = 0;
   return GOLLE_OK;
 }
 
