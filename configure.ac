@@ -66,5 +66,5 @@ DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
 
 
 # Output
-AC_CONFIG_FILES([Doxyfile Makefile src/Makefile tests/Makefile])
+AC_CONFIG_FILES([Doxyfile Makefile src/Makefile tools/Makefile tests/Makefile])
 AC_OUTPUT

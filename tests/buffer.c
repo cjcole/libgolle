@@ -22,6 +22,9 @@ int main () {
   assert (copy->size == buffer->size);
   assert (memcmp (copy->bin, buffer->bin, buffer->size) == 0);
 
+  assert (golle_bin_resize (buffer, buffer->size * 2) == GOLLE_OK);
+  assert (buffer->size == BUFFER_SIZE * 2);
+
   golle_bin_delete (buffer);
   golle_bin_delete (copy);
 }

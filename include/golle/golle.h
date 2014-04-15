@@ -10,6 +10,8 @@
 #include "errors.h"
 #include "list.h"
 #include "set.h"
+#include "commit.h"
+#include "distribute.h"
 
 
 
@@ -59,7 +61,7 @@ typedef int golle_peer_t;
  * Each peer should verify the commitment.
  */
 typedef struct golle_rand_t {
-  golle_bin_t commitment; /*!< A non-malleable commitment to the selection. */
+  golle_commit_t commitment; /*!< A non-malleable commitment to the selection. */
   golle_bin_t selection; /*!< A randomly-selected item, encrypted. */
 } golle_rand_t;
 
@@ -154,50 +156,24 @@ GOLLE_EXTERN golle_error golle_peer_remove (golle_t *state,
 
 
 /*!
- * \brief Allocate a random prime number for the state.
- * \param state The state to set the prime for.
- * \return ::GOLLE_ERROR if state is NULL. ::GOLLE_EINVALID if a round
- * is in progress. ::GOLLE_OK if successful. ::GOLLE_ENOTPRIME if
- * the number library cannot generate a prime.
- *
- * \warning Every peer must share the same prime.
+ * \brief Set the key state after public key distribution
+ * has occurred.
+ * \param state The state to set the keys for.
+ * \param key The key object. The public key elements, incluing `h_product`
+ * must be set.
+ * \return ::GOLLE_OK if the set succeeded. ::GOLLE_ERROR if any parameter is
+ * `NULL` or if the `key` is invalid. ::GOLLE_EINVALID if attempting
+ * to set the key in the middle of the round.
  */
-GOLLE_EXTERN golle_error golle_prime_allocate (golle_t *state);
-
-/*!
- * \brief Get the current prime number for the state.
- * \param state The state to query.
- * \param[out] str The string that will be populated with hexadecimal
- * representation of the prime, if not NULL.
- * \param max The maximum length that can be written to str.
- * \param[out] len If not NULL, contains the actual length of the prime string.
- *
- * \return ::GOLLE_ERROR if state is NULL. ::GOLLE_EOUTOFRANGE if len is too
- * short. ::GOLLE_EEMPTY if no prime is set.
- */
-GOLLE_EXTERN golle_error golle_prime_get (const golle_t *state, 
-					  char *str,
-					  size_t max, 
-					  size_t *len);
-
-
-/*!
- * \brief Set the prime number for the state. Use this if another peer allocated
- * the prime and sent it.
- * \param state The state to set the prime for.
- * \param prime A hexadecimal representation of the prime. NUL-terminated.
- * \return ::GOLLE_ERROR if state or prime is NULL. ::GOLLE_ENOTPRIME if prime is
- * not a probable prime. ::GOLLE_EINVALID if attempting to set the prime in the
- * middle of a round.
- */
-GOLLE_EXTERN golle_error golle_prime_set (golle_t *state, const char *prime);
+GOLLE_EXTERN golle_error golle_set_session_key (golle_t *state,
+						const golle_key_t *key);
 
 /*!
  * \brief Clear the list of dealt cards, ready for a new round.
  * \param state The state to prepare.
  * \return ::GOLLE_ERROR if state is NULL. ::GOLLE_EINVALID if a
- * current round is already in place. ::GOLLE_EEMPTY if the prime
- * (and subsequent private key) hasn't been established yet.
+ * current round is already in place. ::GOLLE_EEMPTY if the key hasn't
+ * been set yet.
  */
 GOLLE_EXTERN golle_error golle_round_begin (golle_t *state);
 
@@ -226,7 +202,7 @@ GOLLE_EXTERN golle_error golle_select (golle_t *state, golle_rand_t *rand);
  * \brief Store a commitment from a peer.
  * \param state The state to store against.
  * \param peer The peer that sent the commitment.
- * \param commitment The commitment bytes.
+ * \param commit The commitment values (`rsend` and `hash`).
  * \return ::GOLLE_ERROR if any parameter is NULL. ::GOLLE_EINVALID if
  * the state is not in a round. ::GOLLE_EEXISTS if a commitment from the
  * peer has already been recieved for this selection. ::GOLLE_ENOCOMMIT if
@@ -234,13 +210,14 @@ GOLLE_EXTERN golle_error golle_select (golle_t *state, golle_rand_t *rand);
  */
 GOLLE_EXTERN golle_error golle_commitment_store (golle_t *state,
 						 golle_peer_t peer,
-						 const golle_bin_t *commitment);
+						 const golle_commit_t *commit);
 
 /*!
  * \brief Accumulate the given selection.
  * \param state The state to add the selection to.
  * \param peer The id of the peer that the selection is from.
- * \param selection The encrypted selection bytes from the peer.
+ * \param select The encrypted selection bytes from the peer and the remaining
+ * parameters required to validate the commitment (`rkeep`).
  * \return ::GOLLE_ERROR if any parameter is NULL. GOLLE_INVALID if
  * the state is not in a round. ::GOLLE_EEXISTS if a selection from the
  * peer has already been received. ::GOLLE_ENOTFOUND if a commitment from
@@ -249,7 +226,7 @@ GOLLE_EXTERN golle_error golle_commitment_store (golle_t *state,
  */
 GOLLE_EXTERN golle_error golle_selection_store (golle_t *state,
 						golle_peer_t peer,
-						const golle_bin_t *selection);
+						const golle_commit_t *select);
 
 
 /*!

@@ -5,6 +5,7 @@
 #ifndef LIBGOLLE_BIN_H
 #define LIBGOLLE_BIN_H
 
+#include "errors.h"
 #include "types.h"
 #include "platform.h"
 
@@ -63,8 +64,7 @@ typedef struct golle_bin_t {
  * just after the object.
  * \warning Do no independantly `free` the `bin` member of a
  * ::golle_bin_t structure allocated with this function.
- * `free` the whole structure or, even better, call
- * ::golle_bin_delete. 
+ * Call ::golle_bin_delete instead. 
  * 
  * \warning It is not usually a good idea to
  * set the members of a structure returned by this function.
@@ -89,6 +89,17 @@ GOLLE_EXTERN void golle_bin_delete (golle_bin_t *buff);
  * \note You should delete this copy with ::golle_bin_delete.
  */
 GOLLE_EXTERN golle_bin_t *golle_bin_copy (golle_bin_t *buff);
+
+
+/*!
+ * \brief Resize the buffer.
+ * \param buff The buffer to resize.
+ * \param size The new size of the buffer.
+ * \return ::GOLLE_OK if successful. 
+ * ::GOLLE_ERROR if `buff` is `NULL` or size is 0.
+ * ::GOLLE_EMEM if memory reallocation failed.
+ */
+GOLLE_EXTERN golle_error golle_bin_resize (golle_bin_t *buff, size_t size);
 
 /*!
  * @}

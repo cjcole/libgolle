@@ -5,6 +5,11 @@
 #include <golle/distribute.h>
 #include <openssl/bn.h>
 #include <assert.h>
+#include <limits.h>
+
+enum {
+  NUM_BITS = 64
+};
 
 void produce_h (golle_key_t *target,
 		golle_num_t h1,
@@ -22,13 +27,17 @@ int main () {
   /* Excluding bit commitment steps. */
 
   /* A generates the public keys */
-  assert (golle_key_gen_public (&a) == GOLLE_OK);
+  assert (golle_key_gen_public (&a, 
+				NUM_BITS, 
+				INT_MAX) == GOLLE_OK);
 
   /* A sends to B and B */
   assert (golle_key_set_public (&c,
-				a.p) == GOLLE_OK);
+				a.p,
+				a.g) == GOLLE_OK);
   assert (golle_key_set_public (&b,
-				a.p) == GOLLE_OK);
+				a.p,
+				a.g) == GOLLE_OK);
 
 
   /* All peers generate private keys */

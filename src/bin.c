@@ -53,3 +53,20 @@ golle_bin_t *golle_bin_copy (golle_bin_t *buff) {
 
   return copy;
 }
+
+golle_error golle_bin_resize (golle_bin_t *buff, size_t size) {
+  GOLLE_ASSERT (buff, GOLLE_ERROR);
+  GOLLE_ASSERT (size, GOLLE_ERROR);
+
+  if (buff->bin == BIN_LOCAL (buff)) {
+    buff->bin = NULL; /* force a malloc */
+  }
+
+  void * newbin = realloc (buff->bin, size);
+  GOLLE_ASSERT (newbin, GOLLE_EMEM);
+
+  buff->bin = newbin;
+  buff->size = size;
+
+  return GOLLE_OK;
+}

@@ -51,31 +51,29 @@ static void load_hardware_engine () {
   rand_loaded = 1;
 }
 
-#define LOAD_HARDWARE_ENGINE load_hardware_engine ();
-#define UNLOAD_HARDWARE_ENGINE unload_hardware_engine ();
+#define LOAD_HARDWARE_ENGINE do { load_hardware_engine () } while (0)
+#define UNLOAD_HARDWARE_ENGINE do { unload_hardware_engine (); } while (0)
 
 #else
-#define LOAD_HARDWARE_ENGINE
-#define UNLOAD_HARDWARE_ENGINE
+#define LOAD_HARDWARE_ENGINE do {} while (0)
+#define UNLOAD_HARDWARE_ENGINE do {} while (0)
 #endif
 
 
 golle_error golle_random_seed () {
-  LOAD_HARDWARE_ENGINE
-  RAND_poll ();
+  LOAD_HARDWARE_ENGINE;
+    
+  if (!RAND_status ()) {
+    RAND_poll ();
+  }
   return GOLLE_OK;
 }
 
 golle_error golle_random_generate (golle_bin_t *buffer) {
   GOLLE_ASSERT (buffer, GOLLE_ERROR);
 
-  LOAD_HARDWARE_ENGINE
-
-  if (!RAND_status ()) {
-    golle_error err = golle_random_seed ();
-    GOLLE_ASSERT (err == GOLLE_OK, err);
-  }
-
+  golle_error err = golle_random_seed ();
+  GOLLE_ASSERT (err == GOLLE_OK, err);
   
   int rc = RAND_bytes (buffer->bin, buffer->size);
   ERR_get_error ();
@@ -87,7 +85,7 @@ golle_error golle_random_generate (golle_bin_t *buffer) {
 }
 
 golle_error golle_random_clear () {
-  UNLOAD_HARDWARE_ENGINE
+  UNLOAD_HARDWARE_ENGINE;
   RAND_cleanup ();
   return GOLLE_OK;
 }

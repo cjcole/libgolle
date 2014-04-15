@@ -2,7 +2,7 @@ TEST_INC =  -I$(top_srcdir)/include
 TEST_LIB =$(top_srcdir)/src/libgolle.la
 
 
-check_PROGRAMS = list set buffer randomness commitment distribution
+check_PROGRAMS = list set buffer randomness commitment keygen distribution
 
 list_SOURCES = $(srcdir)/list.c
 list_LDADD = $(TEST_LIB)
@@ -27,9 +27,16 @@ commitment_CPPFLAGS = $(TEST_INC)
 commitment_LDADD = $(TEST_LIB)
 
 
+
 distribution_SOURCES = $(srcdir)/distribution.c
 distribution_CPPFLAGS = $(TEST_INC)
 distribution_LDADD = $(TEST_LIB)
 
 
-TESTS = list set buffer randomness commitment distribution
+
+keygen_SOURCES = $(srcdir)/keygen.c
+keygen_CPPFLAGS = $(TEST_INC)
+keygen_LDADD = $(TEST_LIB)
+
+
+TESTS = list set buffer randomness commitment keygen distribution

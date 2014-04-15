@@ -5,6 +5,11 @@
 #include <openssl/bn.h>
 #include <golle/numbers.h>
 #include <golle/random.h>
+#include <golle/types.h>
+
+#if HAVE_STRING_H
+#include <string.h>
+#endif
 
 /*
  * Shorthand for goto error;
@@ -27,6 +32,11 @@
 enum {
   GENERATOR_CAP = 1000000
 };
+
+
+golle_num_t golle_num_new () {
+  return BN_new ();
+}
 
 void golle_num_delete (golle_num_t n) {
   if (n) {
@@ -68,4 +78,126 @@ golle_error golle_test_prime (golle_num_t p) {
 
   BN_CTX_free (ctx);
   return err;
+}
+
+
+golle_error golle_find_generator (golle_num_t g,
+				  const golle_num_t p,
+				  const golle_num_t q,
+				  int n)
+{
+  BIGNUM *h, *i, *j, *test;
+  golle_error err = GOLLE_OK;
+
+
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+
+  BN_CTX_start (ctx);
+
+  /* Make temporary g */
+  if (!(test = BN_CTX_get (ctx))) {
+      err = GOLLE_EMEM;
+  }
+
+  /* Make random */
+  if (err == GOLLE_OK && !(h = BN_CTX_get (ctx))) {
+    err = GOLLE_EMEM;
+  }
+
+  /* Get p - 1 */
+  if (err == GOLLE_OK) {
+    if (!(i = BN_CTX_get (ctx))) {
+      err = GOLLE_EMEM;
+    }
+    else if (!BN_copy (i, p)) {
+      err = GOLLE_EMEM;
+    }
+    else if (!BN_sub_word (i, 1)) {
+      err = GOLLE_EMEM;
+    }
+  }
+
+  /* Get (p - 1) / q */
+  if (err == GOLLE_OK) {
+    if (!(j = BN_CTX_get (ctx))) {
+      err = GOLLE_EMEM;
+    }
+    else if (!BN_div (j, NULL, i, q, ctx)) {
+      err = GOLLE_EMEM;
+    }
+  }
+
+  /* Just keep looking until we find one. */
+  while (err == GOLLE_OK && 
+	 (n-- > 0))
+   {
+     err = golle_random_seed ();
+     if (err != GOLLE_OK) {
+       err = GOLLE_ECRYPTO;
+       break;
+     }
+     
+     if (!BN_rand_range (h, p)) {
+       err = GOLLE_ECRYPTO;
+       break;
+     }
+
+     /* Set g = h^((p-1)/q) */
+     if (!BN_mod_exp (test, h, j, p, ctx)) {
+       err = GOLLE_EMEM;
+       break;
+     }
+
+     if (!BN_is_one (test)) {
+       /* We don't want 1 */
+       break;
+     }
+     
+   }
+
+  if (!n) {
+    err = GOLLE_ENOTFOUND;
+  }
+
+  if (err == GOLLE_OK && g != NULL) {
+    if (!BN_copy (g, test)) {
+      err = GOLLE_EMEM;
+    }
+  }
+
+  BN_CTX_end (ctx);
+  BN_CTX_free (ctx);
+  return err;
+}
+
+golle_error golle_num_to_bin (const golle_num_t n, golle_bin_t *bin) {
+  GOLLE_ASSERT (n, GOLLE_ERROR);
+  GOLLE_ASSERT (bin, GOLLE_ERROR);
+  
+  memset (bin->bin, 0, bin->size);
+
+  size_t size = BN_num_bytes (AS_BN(n));
+
+  if (size > bin->size) {
+    golle_error err = golle_bin_resize (bin, size);
+    GOLLE_ASSERT (err = GOLLE_OK, GOLLE_EMEM);
+  }
+
+  size_t copied = BN_bn2bin (AS_BN(n), (unsigned char *)bin->bin);
+  GOLLE_ASSERT (copied > 0, GOLLE_EMEM);
+
+  bin->size = copied;
+
+  return GOLLE_OK;
+}
+
+golle_error golle_bin_to_num (const golle_bin_t *bin, golle_num_t n) {
+  GOLLE_ASSERT (bin, GOLLE_ERROR);
+  GOLLE_ASSERT (n, GOLLE_ERROR);
+  GOLLE_ASSERT (bin->size, GOLLE_ERROR);
+  GOLLE_ASSERT (bin->bin, GOLLE_ERROR);
+
+  GOLLE_ASSERT (BN_bin2bn (bin->bin, (int)bin->size, AS_BN(n)), GOLLE_EMEM);
+  return GOLLE_OK;
 }
