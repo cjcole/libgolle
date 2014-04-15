@@ -4,6 +4,7 @@
 
 
 #include <golle/distribute.h>
+#include <golle/random.h>
 #include <assert.h>
 #include <limits.h>
 
@@ -22,4 +23,5 @@ int main () {
   assert (golle_test_prime (key.q) == GOLLE_PROBABLY_PRIME);
 
   golle_key_cleanup (&key);
+  golle_random_clear ();
 }

@@ -3,6 +3,7 @@
  */
 
 #include <golle/distribute.h>
+#include <golle/random.h>
 #include <openssl/bn.h>
 #include <assert.h>
 #include <limits.h>
@@ -59,5 +60,6 @@ int main () {
   golle_key_cleanup (&b);  
   golle_key_cleanup (&c);
 
+  golle_random_clear ();
   return 0;
 }
