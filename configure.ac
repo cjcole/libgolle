@@ -39,9 +39,6 @@ if test "x$COMMIT_RANDOM_BITS" == "x"; then
    COMMIT_RANDOM_BITS=256
 fi
 AC_MSG_NOTICE([Using $COMMIT_RANDOM_BITS bits for commitment protocol.])
-#AC_ARG_VAR([COMMIT_RANDOM_BITS], [The size of a commitment random block. 
-#				 In practice, the size will be rounded up to 
-#				 the nearest multiple of CHAR_BIT.])
 
 AC_DEFINE_UNQUOTED([COMMIT_RANDOM_BITS], 
 		   [$COMMIT_RANDOM_BITS], 
@@ -66,5 +63,5 @@ DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
 
 
 # Output
-AC_CONFIG_FILES([Doxyfile Makefile src/Makefile tools/Makefile tests/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile tools/Makefile tests/Makefile Doxyfile])
 AC_OUTPUT

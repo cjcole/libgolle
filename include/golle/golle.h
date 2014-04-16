@@ -26,6 +26,17 @@
 /*!
  * \defgroup golle Golle state functions
  * @{
+ *
+ * Due to ElGamal's multiplicative homomorphism, the value 
+ * \f$C = \prod_{i}g^{r_{i}}\f$ can be calculated by each member of the group
+ * once each member has shared their own ciphertext \f$c\f$. 
+ *
+ * For a member to determine the final message in the protocol, the member
+ * must receive (securely) the plaintext message \f$m_{i}\f$ and the random
+ * value \f$r_{i}\f$ from member \f$i\f$. The decrypting member can then
+ * verify that the encryption was correct. To get the final value, the
+ * member calculates \f$\sum_{i}r_{i} \mod d\f$, where \f$d\f$ is the number
+ * of items in the set. The result gives the index into the set.
  */
 
 
