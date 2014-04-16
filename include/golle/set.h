@@ -9,6 +9,7 @@
 #include "errors.h"
 #include "types.h"
 #include <stdlib.h>
+#include "bin.h"
 
 /*!
  * \file golle/set.h
@@ -43,7 +44,7 @@ typedef struct golle_set_t golle_set_t;
  * parameter comes second in a strict weak ordering.
  * Return 0 if the two parameters are considered equal.
  */
-typedef int (*golle_set_comp_t) (const void *, const void *);
+typedef int (*golle_set_comp_t) (const golle_bin_t *, const golle_bin_t *);
 
 /*!
  * \struct golle_set_iterator_t
@@ -62,8 +63,6 @@ typedef struct golle_set_iterator_t golle_set_iterator_t;
  * allocated. ::GOLLE_ERROR if \p set or \p comp is \p NULL.
  */
 GOLLE_EXTERN golle_error golle_set_new (golle_set_t **set, 
-					size_t num_items, 
-					size_t item_size,
 					golle_set_comp_t comp);
 
 /*!
@@ -113,7 +112,8 @@ GOLLE_EXTERN golle_error golle_set_insert (golle_set_t *set,
  * \warning Erasure invalidates iterators.
  */
 GOLLE_EXTERN golle_error golle_set_erase (golle_set_t *set,
-					  const void *item);
+					  const void *item,
+					  size_t size);
 
 
 /*!
@@ -142,7 +142,8 @@ GOLLE_EXTERN golle_error golle_set_clear (golle_set_t *set);
  */
 GOLLE_EXTERN golle_error golle_set_find (const golle_set_t *set, 
 					 const void *item,
-					 const void **found);
+					 size_t size,
+					 const golle_bin_t **found);
 
 
 /*!
@@ -172,7 +173,7 @@ GOLLE_EXTERN golle_error golle_set_iterator (const golle_set_t *set,
  * safer to do it the former way.
  */
 GOLLE_EXTERN golle_error golle_set_iterator_next (golle_set_iterator_t * iter,
-						  const void **item);
+						  const golle_bin_t **item);
 
 
 /*!

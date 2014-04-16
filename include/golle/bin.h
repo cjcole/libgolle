@@ -52,6 +52,29 @@ typedef struct golle_bin_t {
   void *bin; /*!< Binary bytes. */
 } golle_bin_t;
 
+/*!
+ * \brief Initialise the inner buffer of a non-dynamic buffer.
+ * A typical use case is declaring on the stack or as a
+ * non-pointer member of another structure.
+ *
+ *    golle_bin_t buffer;
+ *    golle_bin_init (&buffer, size);
+ *
+ * \param buff The buffer to initialise. It is assumed that the `bin`
+ * member of `buff` is invalid (i.e. this function won't free it).
+ * \param size The requested size to initialise the buffer to.
+ * \return GOLLE_OK if everything succeeded. GOLLE_EMEM if memory
+ * allocation failed. GOLLE_ERROR if `buffer` is NULL or `size` is 0.
+ */
+GOLLE_EXTERN golle_error golle_bin_init (golle_bin_t *buff, size_t size);
+
+/*!
+ * \brief Releases the inner buffer without releasing the ::golle_bin_t structure
+ * itself. Useful for releasing resources allocated with golle_bin_init().
+ * \param buff The buffer to release.
+ */
+GOLLE_EXTERN void golle_bin_release (golle_bin_t *buff);
+
 
 /*!
  * \brief Create a new binary buffer of a given size. The data block

@@ -7,16 +7,29 @@
 #include <string.h>
 #endif
 
-#define CLEAR_BUFF(b) memset ((b)->bin, 0, (b)->size)
+#define CLEAR_BUFF(b) \
+  do { if ((b)->bin) { memset ((b)->bin, 0, (b)->size); } } while (0)
 
 #define BIN_LOCAL(b) (((char *)b) + sizeof (golle_bin_t))
 
+golle_error golle_bin_init (golle_bin_t *buff, size_t size) {
+  GOLLE_ASSERT (buff, GOLLE_ERROR);
+  buff->bin = malloc (size);
+  GOLLE_ASSERT (buff->bin, GOLLE_EMEM);
+  buff->size = size;
+  return GOLLE_OK;
+}
+
+void golle_bin_release (golle_bin_t *buff) {
+  if (buff && buff->bin) {
+    CLEAR_BUFF (buff);
+    free (buff->bin);
+  }
+}
+
 golle_bin_t *golle_bin_new (size_t size) {
   golle_bin_t *bin = malloc (size + sizeof (*bin));
-
-  if (!bin) {
-    return NULL;
-  }
+  GOLLE_ASSERT (bin, NULL);
 
   bin->size = size;
   bin->bin = BIN_LOCAL(bin);

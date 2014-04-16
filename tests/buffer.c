@@ -27,4 +27,10 @@ int main () {
 
   golle_bin_delete (buffer);
   golle_bin_delete (copy);
+
+  golle_bin_t local;
+  assert (golle_bin_init (&local, BUFFER_SIZE) == GOLLE_OK);
+  assert (local.bin);
+  assert (local.size == BUFFER_SIZE);
+  golle_bin_release (&local);
 }
