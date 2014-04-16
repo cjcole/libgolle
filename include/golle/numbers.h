@@ -76,7 +76,7 @@ GOLLE_EXTERN golle_error golle_test_prime (const golle_num_t p);
 
 /*!
  * \brief Find a generator for the multiplicative subgroup of 
- * \f$\mathbb_{Z}_{p}^{*}\f$ of order \f$q\f$ (\f$\mathbb_{G}_{q}\f$).
+ * \f$\mathbb{Z}^{*}_{p}\f$ of order \f$q\f$ (\f$\mathbb{G}_{q}\f$).
  * \param g If not `NULL`, will be populated with the found generator.
  * \param p A large prime.
  * \param q Another prime with divides `p`.
@@ -85,9 +85,13 @@ GOLLE_EXTERN golle_error golle_test_prime (const golle_num_t p);
  * or `g` is `NULL`. ::GOLLE_EMEM if memory failed to allocate.
  * ::GOLLE_ECRYPTO if the crypto library fails. ::GOLLE_ENOTFOUND if a generator
  * could not be found in n attempts.
- * \warning This function can be very slow for large primes.
  * \warning This function assumes that `p` and `q` are valid primes, and that
- * `p` divides `q`.
+ * `q` divides `p`.
+ * \note A generator is calculated by taking a random number
+ *  \f$h \in \mathbb{Z}^{*}_{p}\f$ and computing \f$g = h^{(p-1)/q} \mod p\f$.
+ * If \f$g \neq 1\f$ then \f$g\f$ is a generator.
+ * This technique is described in H. Delfs and H. Knebl, *Introduction to
+ * Cryptography: Principles and Applications*, 2007, pp. 303-304.
  */
 GOLLE_EXTERN golle_error golle_find_generator (golle_num_t g,
 					       const golle_num_t p,

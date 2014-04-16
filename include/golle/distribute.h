@@ -54,7 +54,7 @@ GOLLE_BEGIN_C
 typedef struct golle_key_t {
   golle_num_t p; /*!< A 1024-bit prime st. \f$\alpha q + 1 = p\f$. */
   golle_num_t q; /*!< The value \f$q = (p - 1) / 2\f$. */
-  golle_num_t g; /*!< A generator for \f$\mathbb_{G}_{q}\f$ */
+  golle_num_t g; /*!< A generator for \f$\mathbb{G}_{q}\f$ */
   golle_num_t x; /*!< A value \f$x \in \mathbb{Z}_{q}\f$.
 		  \warning This is the private key. */
   golle_num_t h; /*!< The value \f$g^{x}\f$. Computed when \f$x\f$ is
