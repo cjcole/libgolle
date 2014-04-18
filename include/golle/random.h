@@ -34,7 +34,7 @@
  * \brief Seed the system's random generator.
  * \return GOLLE_OK or GOLLE_ERROR.
  */
-GOLLE_EXTERN golle_error golle_random_seed ();
+GOLLE_EXTERN golle_error golle_random_seed (void);
 
 /*!
  * \brief Fill the buffer with random data.
@@ -49,7 +49,7 @@ GOLLE_EXTERN golle_error golle_random_generate (golle_bin_t *buffer);
  * should be called before application exit.
  * \return Always returns GOLLE_OK.
  */
-GOLLE_EXTERN golle_error golle_random_clear ();
+GOLLE_EXTERN golle_error golle_random_clear (void);
 
 /*!
  * @}

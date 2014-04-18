@@ -8,14 +8,12 @@
 #include <assert.h>
 #include <limits.h>
 
-
 enum {
   NUM_BITS = 64 /* Just a small prime. */
 };
 
 int main () {
   golle_key_t key = { 0 };
-
 
   assert (golle_key_gen_public (&key, NUM_BITS, INT_MAX) == GOLLE_OK);
 
@@ -24,4 +22,5 @@ int main () {
 
   golle_key_cleanup (&key);
   golle_random_clear ();
+  return 0;
 }

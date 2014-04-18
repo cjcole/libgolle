@@ -181,10 +181,10 @@ golle_error golle_key_gen_private (golle_key_t *key) {
     err = GOLLE_EMEM;
   }
 
-  /* Calculate h = g^x mod p*/
+  /* Calculate h = g^x mod q*/
   BIGNUM *h;
   if (err == GOLLE_OK) {
-    h = get_h (r, key->p, key->g);
+    h = get_h (r, key->q, key->g);
     if (!h) {
       err = GOLLE_EMEM;
     }

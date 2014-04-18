@@ -13,10 +13,10 @@
 #include <openssl/engine.h>
 #include <openssl/crypto.h>
 
-
 static ENGINE *reng = NULL;
 static int rand_loaded = 0;
 
+/* Free memory for the hardware engine */
 static void unload_hardware_engine () {
   if (!reng)
     return;
@@ -28,6 +28,8 @@ static void unload_hardware_engine () {
   rand_loaded = 0;
 }
 
+/* Attempt to hook up the hardware random number
+ * generator, if it's available. */
 static void load_hardware_engine () {
   if (rand_loaded)
     return;
@@ -59,8 +61,7 @@ static void load_hardware_engine () {
 #define UNLOAD_HARDWARE_ENGINE do {} while (0)
 #endif
 
-
-golle_error golle_random_seed () {
+golle_error golle_random_seed (void) {
   LOAD_HARDWARE_ENGINE;
     
   if (!RAND_status ()) {
@@ -84,7 +85,7 @@ golle_error golle_random_generate (golle_bin_t *buffer) {
   return GOLLE_OK;
 }
 
-golle_error golle_random_clear () {
+golle_error golle_random_clear (void) {
   UNLOAD_HARDWARE_ENGINE;
   RAND_cleanup ();
   return GOLLE_OK;

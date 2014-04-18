@@ -26,14 +26,6 @@
  */
 #define AS_GN(bn) ((golle_num_t)(bn))
 
-/*
- * Maximum search field
- */
-enum {
-  GENERATOR_CAP = 1000000
-};
-
-
 golle_num_t golle_num_new () {
   return BN_new ();
 }
@@ -42,6 +34,10 @@ void golle_num_delete (golle_num_t n) {
   if (n) {
     BN_free (AS_BN (n));
   }
+}
+
+int golle_num_cmp (const golle_num_t n1, const golle_num_t n2) {
+  return BN_cmp (n1, n2);
 }
 
 golle_num_t golle_generate_prime (int bits, 
@@ -79,7 +75,6 @@ golle_error golle_test_prime (golle_num_t p) {
   BN_CTX_free (ctx);
   return err;
 }
-
 
 golle_error golle_find_generator (golle_num_t g,
 				  const golle_num_t p,
@@ -153,7 +148,6 @@ golle_error golle_find_generator (golle_num_t g,
        /* We don't want 1 */
        break;
      }
-     
    }
 
   if (!n) {
@@ -200,4 +194,47 @@ golle_error golle_bin_to_num (const golle_bin_t *bin, golle_num_t n) {
 
   GOLLE_ASSERT (BN_bin2bn (bin->bin, (int)bin->size, AS_BN(n)), GOLLE_EMEM);
   return GOLLE_OK;
+}
+
+golle_error golle_num_mod_exp (golle_num_t out, 
+			       const golle_num_t base, 
+			       const golle_num_t exp, 
+			       const golle_num_t mod)
+{
+  GOLLE_ASSERT (out, GOLLE_ERROR);
+  GOLLE_ASSERT (base, GOLLE_ERROR);
+  GOLLE_ASSERT (exp, GOLLE_ERROR);
+  GOLLE_ASSERT (mod, GOLLE_ERROR);
+
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+
+  golle_error err = GOLLE_OK;
+  if (!BN_mod_exp (out, base, exp, mod, ctx)) {
+    err = GOLLE_ECRYPTO;
+  }
+  
+  BN_CTX_free (ctx);
+  return err;
+}
+
+golle_error golle_num_print (FILE *file, const golle_num_t num) {
+  GOLLE_ASSERT (file, GOLLE_ERROR);
+  GOLLE_ASSERT (num, GOLLE_ERROR);
+  golle_error err = GOLLE_OK;
+
+  golle_bin_t buff;
+  if (golle_bin_init (&buff, BN_num_bytes (AS_BN(num))) != GOLLE_OK) {
+    return GOLLE_EMEM;
+  }
+  err = golle_num_to_bin (num, &buff);
+  if (err == GOLLE_OK) {
+    for (size_t i = 0; i < buff.size; i++) {
+      unsigned char c = ((unsigned char *)buff.bin)[i];
+      fprintf (file, "%02x", c);
+    }
+  }
+
+  golle_bin_release (&buff);
+  return err;
 }

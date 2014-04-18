@@ -75,7 +75,6 @@ GOLLE_EXTERN golle_error golle_bin_init (golle_bin_t *buff, size_t size);
  */
 GOLLE_EXTERN void golle_bin_release (golle_bin_t *buff);
 
-
 /*!
  * \brief Create a new binary buffer of a given size. The data block
  * is zeroed out before returning.
@@ -112,7 +111,6 @@ GOLLE_EXTERN void golle_bin_delete (golle_bin_t *buff);
  * \note You should delete this copy with ::golle_bin_delete.
  */
 GOLLE_EXTERN golle_bin_t *golle_bin_copy (golle_bin_t *buff);
-
 
 /*!
  * \brief Resize the buffer.

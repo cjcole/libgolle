@@ -6,7 +6,6 @@
 #define LIBGOLLE_ELGAMAL_H
 
 #include "platform.h"
-#include "bin.h"
 #include "distribute.h"
 #include "numbers.h"
 #include "errors.h"
@@ -46,28 +45,35 @@ GOLLE_BEGIN_C
  */
 
 /*!
- * \brief Encrypt a message.
+ * \brief Encrypt a number \f$m \in \mathbb{G}_{q}\f$.
  * \param key The ElGamal public key to use during encryption.
- * \param msg The message to encrypt. Must be <= the number of bits in `key->q`.
- * \param c1 An uninitialised buffer that will receive the value of \f$c_{1}\f$.
- * \param c2 An uninitialised buffer that will receive the value of \f$c_{2}\f$.
+ * \param m The number to encrypt. \f$msg \in \mathbb{G}_{q}\f$
+ * \param a Will receive the value of \f$c_{1}\f$.
+ * \param b Will receive the value of \f$c_{2}\f$.
+ * \param rand If the value pointed to is not `NULL`, it will be used as the
+ * random value \f$r \in \mathbb{Z}^{*}_{q}\f$. Otherwise, a random
+ * value will be collected and returned as new number, via golle_num_new().
  * \return ::GOLLE_ERROR if any parameter is `NULL`. ::GOLLE_EOUTOFRANGE if
- * `msg` is too big. It must be split or reduced first. ::GOLLE_ECRYPTO if
+ * \f$m < {q}\f$. ::GOLLE_ECRYPTO if
  * an error happens during cryptography. ::GOLLE_EMEM if memory allocation
  * fails. ::GOLLE_OK if successful.
+ * \note It is assumed that \f$m \in \mathbb{G}_{q}\f$ by computing
+ * \f$ m = g^{n} \mod q\f$ prior to encrypting.
  */
 GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
-					   golle_bin_t *msg,
-					   golle_bin_t *c1,
-					   golle_bin_t *c2);
+					   golle_num_t m,
+					   golle_num_t a,
+					   golle_num_t b,
+					   golle_num_t *rand);
 
 /*!
  * \brief Decrypt a message.
+ * \param key The key containing the primes used for modulus operations.
  * \param xi An array of private key values, for each member of the group.
  * \param len The number of keys in `xi`.
- * \param c1 The first value of the ciphertext returned by golle_eg_encrypt().
- * \param c2 The second value returned by golle_eg_encrypt().
- * \param msg An unitialised buffer that will receive the decrypted message.
+ * \param a The first value of the ciphertext returned by golle_eg_encrypt().
+ * \param b The second value returned by golle_eg_encrypt().
+ * \param m The decrypted number.
  * \return ::GOLLE_ERROR if any parameter is `NULL` or if `len` is `0`.
  * ::GOLLE_ECRYPTO if an error occurs during cryptography. 
  * ::GOLLE_EMEM if memory allocation fails. ::GOLLE_OK if successful.
@@ -77,16 +83,16 @@ GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
  * cryptosystem if encryption is asymmetric, with one encryptor and one
  * decryptor.
  */
-GOLLE_EXTERN golle_error golle_eg_decrypt (golle_num_t *xi,
+GOLLE_EXTERN golle_error golle_eg_decrypt (golle_key_t *key,
+					   golle_num_t *xi,
 					   size_t len,
-					   golle_bin_t *c1,
-					   golle_bin_t *c2,
-					   golle_bin_t *msg);
+					   golle_num_t a,
+					   golle_num_t b,
+					   golle_num_t m);
 
 /*!
  * @}
  */
-
 
 GOLLE_END_C
 

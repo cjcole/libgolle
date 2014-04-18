@@ -8,6 +8,7 @@
 #include "platform.h"
 #include "errors.h"
 #include "bin.h"
+#include <stdio.h>
 
 GOLLE_BEGIN_C
 
@@ -51,6 +52,15 @@ GOLLE_EXTERN golle_num_t golle_num_new ();
  */
 GOLLE_EXTERN void golle_num_delete (golle_num_t n);
 
+/*!
+ * \brief Compare two numbers.
+ * \param n1 The first number (left-hand side).
+ * \param n2 The second number (right-hand side).
+ * \return `-1` if `n1 < n2`. `1` if `n1 > n2`. `0` if `n1 == n2`.
+ * \warning No parameter checking is done. If `n1` or `n2` is
+ * `NULL`, behaviour is undefined.
+ */
+GOLLE_EXTERN int golle_num_cmp (const golle_num_t n1, const golle_num_t n2);
 
 /*!
  * \brief Generate a pseudo-random `size`-bit prime number.
@@ -119,6 +129,31 @@ GOLLE_EXTERN golle_error golle_num_to_bin (const golle_num_t n,
  */
 GOLLE_EXTERN golle_error golle_bin_to_num (const golle_bin_t *bin, 
 					   golle_num_t n);
+
+/*!
+ * \brief Calculate \f$m = g^n \mod q\f$
+ * \param out \f$m\f$
+ * \param base \f$g\f$
+ * \param exp \f$n\f$
+ * \param mod \f$q\f$
+ * \return ::GOLLE_ERROR if any argument is `NULL`.
+ * ::GOLLE_ECRYPTO if the operation fails.
+ * ::GOLLE_EMEM if resources run out.
+ * ::GOLLE_OK if successful.
+ */
+GOLLE_EXTERN golle_error golle_num_mod_exp (golle_num_t out, 
+					    const golle_num_t base, 
+					    const golle_num_t exp, 
+					    const golle_num_t mod);
+
+/*!
+ * \brief Print a number, in big-endian hexadecimal, to the given file pointer.
+ * \param file The file pointer to print to.
+ * \param num The number to print.
+ * \return ::GOLLE_ERROR if either argument is `NULL`.
+ * ::GOLLE_EMEM if the buffer allocation failed. ::GOLLE_OK otherwise.
+ */
+GOLLE_EXTERN golle_error golle_num_print (FILE *file, const golle_num_t num);
 
 GOLLE_END_C
 

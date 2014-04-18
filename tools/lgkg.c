@@ -30,38 +30,6 @@ static int bits = 1024;
 
 static golle_key_t key = { 0 };
 
-
-/* Write the buffer to standard output in hex.
- */
-static void print_buffer (golle_bin_t *buff) {
-  for (size_t i = 0; i < buff->size; i++) {
-    unsigned char c = ((unsigned char *)buff->bin)[i];
-    printf ("%02x", c);
-  }
-  printf ("\n");
-}
-
-/* Write the number to standard output in hex.
- */
-static void print_number (golle_num_t num) {
-
-  golle_bin_t *bin = golle_bin_new ((bits + CHAR_BIT) / CHAR_BIT);
-  if (!bin) {
-    fprintf (stderr, "Error: failed to allocate buffer\n");
-    exit (4);
-  }
-
-  golle_error err = golle_num_to_bin (num, bin);
-  if (err != GOLLE_OK) {
-    fprintf (stderr, "Error: binary transform failed\n");
-    exit (4);
-  }
-
-  print_buffer (bin);
-
-  golle_bin_delete (bin);
-}
-
 /* Write the generated public key parts p and g to
  * standard output in the correct format.
  */
@@ -76,8 +44,10 @@ static void print_key () {
     exit (3);
   }
 
-  print_number (key.p);
-  print_number (key.g);
+  golle_num_print (stdout, key.p);
+  printf ("\n");
+  golle_num_print (stdout, key.g);
+  printf ("\n");
 }
 
 /* Generate a public key of bits length.

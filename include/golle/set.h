@@ -26,7 +26,7 @@ GOLLE_BEGIN_C
  * @{
  * Functions and structs for working with
  * a set structure. The set is implemented as
- * an RB Tree. No duplicates are allowed. as such
+ * an RB Tree. No duplicates are allowed. As such
  * each element of the set is disctinct and makes
  * it easier to find collisions.
  */
