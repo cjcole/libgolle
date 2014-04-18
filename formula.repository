@@ -1,0 +1,48 @@
+\form#0:$p$
+\form#1:$q$
+\form#2:$g$
+\form#3:$G_{q}$
+\form#4:$P_{i}$
+\form#5:$x_{i} \in \mathbb{Z}_{q}$
+\form#6:$h_{i} = g^{x_{i}}$
+\form#7:$h_{i}$
+\form#8:$h = \prod_{i} h_{i}$
+\form#9:$q \nmid (p - 1)$
+\form#10:$\mathbb{G}_{q}$
+\form#11:$x \in \mathbb{Z}_{q}$
+\form#12:$h = g^{x}$
+\form#13:$x$
+\form#14:$h$
+\form#15:$\alpha q + 1 = p$
+\form#16:$q = (p - 1) / 2$
+\form#17:$g^{x}$
+\form#18:$\prod_{i} h_{i}$
+\form#19:$m \in \mathbb{G}$
+\form#20:$r \xleftarrow{R} \{\mathbb{Z}^{*}_{q}\}$
+\form#21:$c = (g^{r}, mh^{r})$
+\form#22:$(a, b)$
+\form#23:$b/a^{x}$
+\form#24:$a^{x} = \prod_{i=1}^{k}a^{x_{i}}$
+\form#25:$k$
+\form#26:$m \in \mathbb{G}_{q}$
+\form#27:$msg \in \mathbb{G}_{q}$
+\form#28:$c_{1}$
+\form#29:$c_{2}$
+\form#30:$r \in \mathbb{Z}^{*}_{q}$
+\form#31:$m < {q}$
+\form#32:$ m = g^{n} \mod q$
+\form#33:$C = \prod_{i}g^{r_{i}}$
+\form#34:$c$
+\form#35:$m_{i}$
+\form#36:$r_{i}$
+\form#37:$i$
+\form#38:$\sum_{i}r_{i} \mod d$
+\form#39:$d$
+\form#40:$prime \mod div = 1$
+\form#41:$\mathbb{Z}^{*}_{p}$
+\form#42:$h \in \mathbb{Z}^{*}_{p}$
+\form#43:$g = h^{(p-1)/q} \mod p$
+\form#44:$g \neq 1$
+\form#45:$m = g^n \mod q$
+\form#46:$m$
+\form#47:$n$

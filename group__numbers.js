@@ -1,0 +1,14 @@
+var group__numbers =
+[
+    [ "golle_num_t", "group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5", null ],
+    [ "golle_bin_to_num", "group__numbers.html#ga6ba639c5b021f8ce4339bfc9908c5172", null ],
+    [ "golle_find_generator", "group__numbers.html#ga6f298392ed858371f35e9593379f75b6", null ],
+    [ "golle_generate_prime", "group__numbers.html#ga01f0cd75c898c920c7d1458c364e58fc", null ],
+    [ "golle_num_cmp", "group__numbers.html#gadce4f82b6623518b49e12e81c5e4eb64", null ],
+    [ "golle_num_delete", "group__numbers.html#gad03ebf8035b90dfc49c1ffd00ec2f897", null ],
+    [ "golle_num_mod_exp", "group__numbers.html#ga4243b3ef5bfd48a1272f7261b7ba3da8", null ],
+    [ "golle_num_new", "group__numbers.html#ga42b0ea114c71b1f06e9a66cb64f192f9", null ],
+    [ "golle_num_print", "group__numbers.html#gabbd1393989f3b8bbe770805bedb9c6ab", null ],
+    [ "golle_num_to_bin", "group__numbers.html#ga160d5cda727b3286dd89ae8fe4476386", null ],
+    [ "golle_test_prime", "group__numbers.html#ga174b5b5188dbab0345cd4c1aff33f76e", null ]
+];
