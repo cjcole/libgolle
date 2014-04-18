@@ -96,7 +96,6 @@ endif DX_COND_latex
 doxygen-run: @DX_DOCDIR@/@PACKAGE@.tag
 doxygen-doc: doxygen-run $(DX_PS_GOAL) $(DX_PDF_GOAL)
 @DX_DOCDIR@/@PACKAGE@.tag: $(DX_CONFIG) $(pkginclude_HEADERS)
-	rm -rf @DX_DOCDIR@
 	$(DX_ENV) $(DX_DOXYGEN) $(srcdir)/$(DX_CONFIG)
 
 
