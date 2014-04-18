@@ -46,3 +46,4 @@
 \form#45:$m = g^n \mod q$
 \form#46:$m$
 \form#47:$n$
+\form#48:$m >= {q}$
