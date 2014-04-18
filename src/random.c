@@ -2,9 +2,7 @@
  * Copyright (C) Anthony Arnold 2014
  */
 
-#include <golle/bin.h>
-#include <golle/errors.h>
-#include <golle/platform.h>
+#include <golle/random.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
 #include <golle/config.h>

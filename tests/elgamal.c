@@ -14,7 +14,7 @@ enum {
   NUM_BITS = 128 /* Doing smaller key for speed */
 };
 
-int main () {
+int main (void) {
   golle_key_t key = { 0 };
   assert (golle_key_gen_public (&key, NUM_BITS, INT_MAX) == GOLLE_OK);
   assert (golle_key_gen_private (&key) == GOLLE_OK);

@@ -19,7 +19,7 @@ golle_error golle_eg_encrypt (golle_key_t *key,
 			      golle_num_t *rand)
 {
   golle_error err = GOLLE_OK;
-  BIGNUM *mh, *r, *rn = NULL;
+  BIGNUM *mh, *r = NULL, *rn = NULL;
   BN_CTX *ctx;
   GOLLE_ASSERT (key, GOLLE_ERROR);
   GOLLE_ASSERT (m, GOLLE_ERROR);

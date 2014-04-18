@@ -26,7 +26,7 @@
  */
 #define AS_GN(bn) ((golle_num_t)(bn))
 
-golle_num_t golle_num_new () {
+golle_num_t golle_num_new (void) {
   return BN_new ();
 }
 

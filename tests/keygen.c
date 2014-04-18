@@ -12,7 +12,7 @@ enum {
   NUM_BITS = 64 /* Just a small prime. */
 };
 
-int main () {
+int main (void) {
   golle_key_t key = { 0 };
 
   assert (golle_key_gen_public (&key, NUM_BITS, INT_MAX) == GOLLE_OK);

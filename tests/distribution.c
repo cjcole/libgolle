@@ -20,7 +20,7 @@ void produce_h (golle_key_t *target,
   assert (golle_key_accum_h (target, h2) == GOLLE_OK);
 }
 
-int main () {
+int main (void) {
   /* Three peers, A,B,C */
   golle_key_t  a = { 0 }, b = { 0 }, c = { 0 };
 

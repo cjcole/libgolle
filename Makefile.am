@@ -10,13 +10,13 @@ if DX_COND_doc
 ## Rules specific for HTML output. ##
 ## ------------------------------- ##
 if DX_COND_html
-DX_CLEAN_HTML = @DX_DOCDIR@/html
+DX_CLEAN_HTML = @DX_DOCDIR@/html/*
 endif DX_COND_html
 ## ------------------------------ ##
 ## Rules specific for CHM output. ##
 ## ------------------------------ ##
 if DX_COND_chm
-DX_CLEAN_CHM = @DX_DOCDIR@/chm
+DX_CLEAN_CHM = @DX_DOCDIR@/chm/*
 if DX_COND_chi
 DX_CLEAN_CHI = @DX_DOCDIR@/@PACKAGE@.chi
 endif DX_COND_chi
@@ -25,19 +25,19 @@ endif DX_COND_chm
 ## Rules specific for MAN output. ##
 ## ------------------------------ ##
 if DX_COND_man
-DX_CLEAN_MAN = @DX_DOCDIR@/man
+DX_CLEAN_MAN = @DX_DOCDIR@/man/*
 endif DX_COND_man
 ## ------------------------------ ##
 ## Rules specific for RTF output. ##
 ## ------------------------------ ##
 if DX_COND_rtf
-DX_CLEAN_RTF = @DX_DOCDIR@/rtf
+DX_CLEAN_RTF = @DX_DOCDIR@/rtf/*
 endif DX_COND_rtf
 ## ------------------------------ ##
 ## Rules specific for XML output. ##
 ## ------------------------------ ##
 if DX_COND_xml
-DX_CLEAN_XML = @DX_DOCDIR@/xml
+DX_CLEAN_XML = @DX_DOCDIR@/xml/*
 endif DX_COND_xml
 ## ----------------------------- ##
 ## Rules specific for PS output. ##
@@ -86,9 +86,9 @@ endif DX_COND_pdf
 ## ------------------------------------------------- ##
 ## Rules specific for LaTeX (shared for PS and PDF). ##
 ## ------------------------------------------------- ##
-if DX_COND_latex
-DX_CLEAN_LATEX = @DX_DOCDIR@/latex
-endif DX_COND_latex
+#if DX_COND_latex
+DX_CLEAN_LATEX = @DX_DOCDIR@/latex/*
+#endif DX_COND_latex
 
 
 .PHONY: doc doxygen-run doxygen-doc $(DX_PS_GOAL) $(DX_PDF_GOAL)

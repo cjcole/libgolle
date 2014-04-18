@@ -10,7 +10,7 @@ enum {
   SECRET_SIZE = 64
 };
 
-int main () {
+int main (void) {
   /* Bob has a secret. */
   golle_bin_t *bob_secret = golle_bin_new (64);
   assert (bob_secret);

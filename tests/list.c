@@ -21,7 +21,7 @@ typedef struct entry {
   char str[STRING_LENGTH + 1];
 } entry;
 
-int main (int argc, char *argv[]) {
+int main (void) {
   /* Make a list */
   golle_list_t *list;
 

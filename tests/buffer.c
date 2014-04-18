@@ -11,7 +11,7 @@ enum {
 };
 
 
-int main () {
+int main (void) {
   golle_bin_t *buffer = golle_bin_new (BUFFER_SIZE);
 
   assert (buffer);

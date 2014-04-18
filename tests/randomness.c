@@ -16,7 +16,7 @@ enum {
   DATA_SIZE = 4096
 };
 
-int main () {
+int main (void) {
   golle_bin_t buff;
 
   buff.size = DATA_SIZE;

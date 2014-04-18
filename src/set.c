@@ -42,7 +42,6 @@ struct set_node_t {
 };
 
 
-
 struct golle_set_t {
   golle_set_comp_t comp;
   size_t count;
@@ -104,7 +103,7 @@ static golle_error set_node_copy_data (set_node_t *node,
 /*
  * Get a free node to insert. Allocate new chunks if required.
  */
-static set_node_t *alloc_node () {
+static set_node_t *alloc_node (void) {
   set_node_t *node = malloc (sizeof (*node));
   if (node) {
     memset (node, 0, sizeof (*node));
@@ -124,7 +123,7 @@ static NODE_COLOURS node_colour (set_node_t *node) {
  * Determine whether the node is the given colour.
  */
 static int node_is (set_node_t *node, int c) {
-  return node_colour (node) == c;
+  return (int)node_colour (node) == c;
 }
 
 /*
@@ -625,7 +624,7 @@ static int tree_is_valid (set_node_t *root) {
 /*
  * Get the left-most child.
  */
-set_node_t *get_least (set_node_t *node) {
+static set_node_t *get_least (set_node_t *node) {
   GOLLE_ASSERT (node, NULL);
 
   while (node->children[TREE_LEFT]) {

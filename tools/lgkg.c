@@ -33,7 +33,7 @@ static golle_key_t key = { 0 };
 /* Write the generated public key parts p and g to
  * standard output in the correct format.
  */
-static void print_key () {
+static void print_key (void) {
   if (!key.p) {
     fprintf (stderr, "Error: prime not generated\n");
     exit (3);
@@ -53,7 +53,7 @@ static void print_key () {
 /* Generate a public key of bits length.
  * Check for errors; if any occur, print a message and exit.
  */
-static void gen_key () {
+static void gen_key (void) {
   golle_error err = golle_key_gen_public (&key, bits, INT_MAX);
   if (err != GOLLE_OK) {
     fprintf (stderr, "Error: failed to generate public key. Error %u\n", err);

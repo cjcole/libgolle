@@ -16,7 +16,7 @@ static int comp (const golle_bin_t *l, const golle_bin_t *r) {
   return *(int*)l->bin - *(int*)r->bin;
 }
 
-int main () {
+int main (void) {
   /* Create a set */
   golle_set_t *set;
 
