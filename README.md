@@ -23,6 +23,4 @@ And when compiling for Windows:
 > This product includes software written by Tim Hudson (tjs@cryptsoft.com)
 
 
-The Autoconf macros used in this project are licensed under the 
-[GNU Free Documentation License](http://www.gnu.org/software/autoconf-archive/GNU-Free-Documentation-License.html).
-These include the macros under the `aclocal` directory.
+The Autoconf macros under the `aclocal` directory are part of the [Autoconf Archive](http://www.gnu.org/software/autoconf-archive) and are subject to the licensing and copyright thereof.
