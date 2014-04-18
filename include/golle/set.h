@@ -54,8 +54,6 @@ typedef struct golle_set_iterator_t golle_set_iterator_t;
 
 /*!
  * \brief Allocate a new set.
- * \param num_items Estimated number of items the set will hold.
- * \param item_size Number of bytes required to hold one item (guess if needed).
  * \param[out] set Pointer to the pointer which will hold the address of 
  * the new set.
  * \param comp The function used to compare items.
@@ -105,6 +103,7 @@ GOLLE_EXTERN golle_error golle_set_insert (golle_set_t *set,
  *
  * \param set The set to remove from.
  * \param item The element to remove from the set.
+ * \param size The size in bytes of `item`.
  * \return ::GOLLE_OK if the \p item was removed. ::GOLLE_ENOTFOUND if the
  * \p set didn't contain the \p item based on the given \p comp function.
  * ::GOLLE_ERROR if \p set is \p NULL.
@@ -131,6 +130,7 @@ GOLLE_EXTERN golle_error golle_set_clear (golle_set_t *set);
  *
  * \param set The set to search in.
  * \param item The item to search for.
+ * \param size The size in bytes of `item`.
  * \param[out] found Receives a pointer to the found item, or \p NULL if not found.
  * \return ::GOLLE_OK if the item was found. ::GOLLE_ENOTFOUND if the set
  * didn't contain the item. ::GOLLE_ERROR if set is \p NULL.

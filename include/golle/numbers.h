@@ -65,7 +65,7 @@ GOLLE_EXTERN int golle_num_cmp (const golle_num_t n1, const golle_num_t n2);
 /*!
  * \brief Generate a pseudo-random `size`-bit prime number.
  * \param bits The number of bits required.
- * \param size If non-zero, the algorithm is required to select a safe prime.
+ * \param safe If non-zero, the algorithm is required to select a safe prime.
  * \param div If not `NULL`, `div` must divide the prime - 1
  * (i.e. \f$prime \mod div = 1\f$).
  * \return A prime ::golle_num_t, or `NULL` if generation failed.

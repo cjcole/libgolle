@@ -53,8 +53,10 @@ GOLLE_BEGIN_C
  * \param rand If the value pointed to is not `NULL`, it will be used as the
  * random value \f$r \in \mathbb{Z}^{*}_{q}\f$. Otherwise, a random
  * value will be collected and returned as new number, via golle_num_new().
+ * If the argument itself is `NULL`, then a random value will be generated
+ * but not returned.
  * \return ::GOLLE_ERROR if any parameter is `NULL`. ::GOLLE_EOUTOFRANGE if
- * \f$m < {q}\f$. ::GOLLE_ECRYPTO if
+ * \f$m >= {q}\f$. ::GOLLE_ECRYPTO if
  * an error happens during cryptography. ::GOLLE_EMEM if memory allocation
  * fails. ::GOLLE_OK if successful.
  * \note It is assumed that \f$m \in \mathbb{G}_{q}\f$ by computing
