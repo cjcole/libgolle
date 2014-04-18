@@ -93,6 +93,8 @@ GOLLE_EXTERN void golle_delete (golle_t *state);
  * \return ::GOLLE_OK if the set succeeded. ::GOLLE_ERROR if any parameter is
  * `NULL` or if the `key` is invalid. ::GOLLE_EINVALID if attempting
  * to set the key in the middle of the round.
+ * \warning Clears any existing elements. Element set should be set
+ * after key and peer setup.
  * \note Setting the public key causes the private key to be
  * generated. Call golle_get_key_commitment() to get the commitment to
  * the local value of `h`. Call golle_commit_peer_key() to store
@@ -175,7 +177,8 @@ GOLLE_EXTERN golle_error golle_set_peer_key (golle_t *state,
  * \param comp A comparison function for comparing elements.
  * \return ::GOLLE_OK if successful. ::GOLLE_ERROR if state or set is
  * NULL. ::GOLLE_EEMPTY if the set is empty.  ::GOLLE_EINVALID if
- * in the middle of a round, or if the session key hasn't been set yet.
+ * in the middle of a round, or if the session key hasn't been set yet,
+ * or if there are no peers.
  * ::GOLLE_EEXISTS if there are any duplicate elements in the \p array.
  */
 GOLLE_EXTERN golle_error golle_elements_set (golle_t *state,

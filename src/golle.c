@@ -73,6 +73,17 @@ static int pub_key_set (golle_t *state) {
 }
 
 /*
+ * Get the number of peers, including the local peer (ourselves)
+ */
+static size_t num_peers (golle_t *state) {
+  if (!state ||
+      !state->peers) {
+    return 0;
+  }
+  return golle_set_size (state->peers) + 1;
+}
+
+/*
  * Compare two peer structs. Strict week ordering.
  */
 static int compare_peers (const golle_bin_t *peer1, const golle_bin_t *peer2) {
@@ -103,16 +114,23 @@ static void free_copy (elem_t *elems, size_t len) {
 }
 
 /*
+ * Safely release an array of ciphers.
+ */
+static void free_ciphers (golle_eg_t *ciphers, size_t len) {
+  for (size_t i = 0; i < len; i++) {
+    golle_eg_clear (&ciphers[i]);
+  }
+  free (ciphers);
+}
+
+/*
  * Safely clean up memory for a state.
  */
 static void free_state (golle_t *state, int flags) {
   if (state) {
     if (flags & FREE_FLAG (CIPHERS)) {
       if (state->ciphers) {
-	for (size_t i = 0; i < state->len; i++) {
-	  golle_eg_clear (&state->ciphers[i]);
-	}
-	free (state->ciphers);
+	free_ciphers (state->ciphers, num_peers (state));
 	state->ciphers = NULL;
       }
     }
@@ -195,7 +213,6 @@ static golle_error exp_elems (golle_t *state) {
   GOLLE_ASSERT (ctx, GOLLE_EMEM);
   BN_CTX_start (ctx);
 
-
   golle_error err = GOLLE_OK;
   if (!(temp = BN_CTX_get (ctx))) {
     err = GOLLE_EMEM;
@@ -244,13 +261,15 @@ static golle_error exp_elems (golle_t *state) {
   return err;
 }
 
+/* Get the encryption of the number of elements * the peer index */
 static golle_error encrypt_idx (golle_t *state) {
   size_t i = 0;
   BIGNUM *m, *e, *ilen, *idx;
   BN_CTX *ctx;
   golle_error err = GOLLE_OK;
 
-  golle_eg_t *ciphers = calloc (sizeof (golle_eg_t), state->len);
+  size_t len = num_peers (state); 
+  golle_eg_t *ciphers = calloc (sizeof (golle_eg_t), len);
   GOLLE_ASSERT (ciphers, GOLLE_EMEM);
 
   ctx = BN_CTX_new ();
@@ -276,12 +295,12 @@ static golle_error encrypt_idx (golle_t *state) {
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!(BN_set_word (ilen, state->len))) {
+  if (!(BN_set_word (ilen, len))) {
     err = GOLLE_EMEM;
     goto out;
   }
  
-  for (i = 0; i < state->len; i++) {
+  for (i = 0; i < len; i++) {
     elem_t *elem = &state->copy[i];
     if (!BN_set_word (idx, elem->index)) {
       err = GOLLE_EMEM;
@@ -342,6 +361,25 @@ golle_error golle_new (golle_t **state) {
 
 void golle_delete (golle_t *state) {
   free_state (state, FREE_ALL);
+
+}
+
+
+golle_error golle_set_session_key (golle_t *state,
+				   const golle_key_t *key)
+{
+  GOLLE_ASSERT (state, GOLLE_ERROR);
+  GOLLE_ASSERT (key, GOLLE_ERROR);
+  GOLLE_ASSERT (!state->in_round, GOLLE_EINVALID);
+  
+  free_state (state, 
+	      FREE_FLAG (KEY) | 
+	      FREE_FLAG (EXPONENTS) | 
+	      FREE_FLAG (CIPHERS) |
+	      FREE_FLAG (ELEMENTS) |
+	      FREE_FLAG (COPY));
+  
+  return GOLLE_ERROR;
 }
 
 golle_error golle_elements_set (golle_t *state,
@@ -356,6 +394,7 @@ golle_error golle_elements_set (golle_t *state,
   GOLLE_ASSERT (size, GOLLE_ERROR);
   GOLLE_ASSERT (comp, GOLLE_ERROR);
   GOLLE_ASSERT (pub_key_set (state), GOLLE_EINVALID);
+  GOLLE_ASSERT (num_peers (state), GOLLE_EINVALID);
   GOLLE_ASSERT (!state->in_round, GOLLE_EINVALID);
 
   /* Copy the elements into the element array. */
@@ -373,7 +412,7 @@ golle_error golle_elements_set (golle_t *state,
   if (err != GOLLE_OK) {
     goto out;
   }
-  
+
   return GOLLE_OK;
  out:
     free_state (state, FREE_FLAG (COPY));
