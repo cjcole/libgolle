@@ -232,11 +232,11 @@ Functions</h2></td></tr>
     <tr><td class="paramname">m</td><td>The number to encrypt. <img class="formulaInl" alt="$msg \in \mathbb{G}_{q}$" src="form_27.png"/> </td></tr>
     <tr><td class="paramname">a</td><td>Will receive the value of <img class="formulaInl" alt="$c_{1}$" src="form_28.png"/>. </td></tr>
     <tr><td class="paramname">b</td><td>Will receive the value of <img class="formulaInl" alt="$c_{2}$" src="form_29.png"/>. </td></tr>
-    <tr><td class="paramname">rand</td><td>If the value pointed to is not <code>NULL</code>, it will be used as the random value <img class="formulaInl" alt="$r \in \mathbb{Z}^{*}_{q}$" src="form_30.png"/>. Otherwise, a random value will be collected and returned as new number, via <a class="el" href="group__numbers.html#ga42b0ea114c71b1f06e9a66cb64f192f9" title="Create a new number.">golle_num_new()</a>. If the argument itself is <code>NULL</code>, then a random value will be generated but not returned. </td></tr>
+    <tr><td class="paramname">rand</td><td>If the value pointed to is not <code>NULL</code>, it will be used as the random value <img class="formulaInl" alt="$r \in \mathbb{Z}^{*}_{q}$" src="form_30.png"/>. Otherwise, a random value will be collected and returned as new number, via <a class="el" href="group__numbers.html#gaa83f0cbd6388011b68c9a27b340af36f" title="Create a new number.">golle_num_new()</a>. If the argument itself is <code>NULL</code>, then a random value will be generated but not returned. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a5c181218a4fb29ec6c0ec4141fd4d8a6">GOLLE_EOUTOFRANGE</a> if <img class="formulaInl" alt="$m >= {q}$" src="form_48.png"/>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if an error happens during cryptography. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory allocation fails. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a5c181218a4fb29ec6c0ec4141fd4d8a6">GOLLE_EOUTOFRANGE</a> if <img class="formulaInl" alt="$m >= {q}$" src="form_31.png"/>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if an error happens during cryptography. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory allocation fails. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>It is assumed that <img class="formulaInl" alt="$m \in \mathbb{G}_{q}$" src="form_26.png"/> by computing <img class="formulaInl" alt="$ m = g^{n} \mod q$" src="form_32.png"/> prior to encrypting. </dd></dl>
 
 </div>
@@ -246,7 +246,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 19 2014 00:06:23 for libgolle by
+    <li class="footer">Generated on Sat Apr 19 2014 00:48:16 for libgolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

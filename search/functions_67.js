@@ -43,7 +43,7 @@ var searchData=
   ['golle_5fnum_5fcmp',['golle_num_cmp',['../group__numbers.html#gadce4f82b6623518b49e12e81c5e4eb64',1,'numbers.h']]],
   ['golle_5fnum_5fdelete',['golle_num_delete',['../group__numbers.html#gad03ebf8035b90dfc49c1ffd00ec2f897',1,'numbers.h']]],
   ['golle_5fnum_5fmod_5fexp',['golle_num_mod_exp',['../group__numbers.html#ga4243b3ef5bfd48a1272f7261b7ba3da8',1,'numbers.h']]],
-  ['golle_5fnum_5fnew',['golle_num_new',['../group__numbers.html#ga42b0ea114c71b1f06e9a66cb64f192f9',1,'numbers.h']]],
+  ['golle_5fnum_5fnew',['golle_num_new',['../group__numbers.html#gaa83f0cbd6388011b68c9a27b340af36f',1,'numbers.h']]],
   ['golle_5fnum_5fprint',['golle_num_print',['../group__numbers.html#gabbd1393989f3b8bbe770805bedb9c6ab',1,'numbers.h']]],
   ['golle_5fnum_5fto_5fbin',['golle_num_to_bin',['../group__numbers.html#ga160d5cda727b3286dd89ae8fe4476386',1,'numbers.h']]],
   ['golle_5fpeer_5fadd',['golle_peer_add',['../group__golle.html#gacc191949e24fc0f9329073ac9e96bb2f',1,'golle.h']]],

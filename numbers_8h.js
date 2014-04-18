@@ -7,7 +7,7 @@ var numbers_8h =
     [ "golle_num_cmp", "numbers_8h.html#gadce4f82b6623518b49e12e81c5e4eb64", null ],
     [ "golle_num_delete", "numbers_8h.html#gad03ebf8035b90dfc49c1ffd00ec2f897", null ],
     [ "golle_num_mod_exp", "numbers_8h.html#ga4243b3ef5bfd48a1272f7261b7ba3da8", null ],
-    [ "golle_num_new", "numbers_8h.html#ga42b0ea114c71b1f06e9a66cb64f192f9", null ],
+    [ "golle_num_new", "numbers_8h.html#gaa83f0cbd6388011b68c9a27b340af36f", null ],
     [ "golle_num_print", "numbers_8h.html#gabbd1393989f3b8bbe770805bedb9c6ab", null ],
     [ "golle_num_to_bin", "numbers_8h.html#ga160d5cda727b3286dd89ae8fe4476386", null ],
     [ "golle_test_prime", "numbers_8h.html#ga174b5b5188dbab0345cd4c1aff33f76e", null ]
