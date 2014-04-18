@@ -45,11 +45,30 @@ GOLLE_BEGIN_C
  */
 
 /*!
+ * \struct golle_eg_t
+ * \brief ElGamal ciphertex.
+ */
+typedef struct golle_eg_t {
+  golle_num_t a; /*!< The first ciphertext element. */
+  golle_num_t b; /*!< The second ciphertext element. */
+} golle_eg_t;
+
+/*!
+ * \brief Clear memory allocated for the ciphertext.
+ * \param cipher The ciphertext to clear.
+ */
+GOLLE_INLINE void golle_eg_clear (golle_eg_t *cipher) {
+  if (cipher) {
+    golle_num_delete (cipher->a); cipher->a = NULL;
+    golle_num_delete (cipher->b); cipher->b = NULL;
+  }
+}
+
+/*!
  * \brief Encrypt a number \f$m \in \mathbb{G}_{q}\f$.
  * \param key The ElGamal public key to use during encryption.
  * \param m The number to encrypt. \f$msg \in \mathbb{G}_{q}\f$
- * \param a Will receive the value of \f$c_{1}\f$.
- * \param b Will receive the value of \f$c_{2}\f$.
+ * \param cipher A non-`NULL` ::golle_eg_t structure.
  * \param rand If the value pointed to is not `NULL`, it will be used as the
  * random value \f$r \in \mathbb{Z}^{*}_{q}\f$. Otherwise, a random
  * value will be collected and returned as new number, via golle_num_new().
@@ -64,8 +83,7 @@ GOLLE_BEGIN_C
  */
 GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
 					   golle_num_t m,
-					   golle_num_t a,
-					   golle_num_t b,
+					   golle_eg_t *cipher,
 					   golle_num_t *rand);
 
 /*!
@@ -73,8 +91,7 @@ GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
  * \param key The key containing the primes used for modulus operations.
  * \param xi An array of private key values, for each member of the group.
  * \param len The number of keys in `xi`.
- * \param a The first value of the ciphertext returned by golle_eg_encrypt().
- * \param b The second value returned by golle_eg_encrypt().
+ * \param cipher A non-`NULL` ciphertext value from golle_eg_encrypt().
  * \param m The decrypted number.
  * \return ::GOLLE_ERROR if any parameter is `NULL` or if `len` is `0`.
  * ::GOLLE_ECRYPTO if an error occurs during cryptography. 
@@ -88,8 +105,7 @@ GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
 GOLLE_EXTERN golle_error golle_eg_decrypt (golle_key_t *key,
 					   golle_num_t *xi,
 					   size_t len,
-					   golle_num_t a,
-					   golle_num_t b,
+					   const golle_eg_t *cipher,
 					   golle_num_t m);
 
 /*!

@@ -16,4 +16,5 @@ libgolle_la_SOURCES =\
 	$(srcdir)/commit.c \
 	$(srcdir)/numbers.c \
 	$(srcdir)/distribute.c \
-	$(srcdir)/elgamal.c
+	$(srcdir)/elgamal.c \
+	$(srcdir)/golle.c

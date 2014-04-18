@@ -13,8 +13,6 @@
 #include "commit.h"
 #include "distribute.h"
 
-
-
 /*!
  * \file golle/golle.h
  * \author Anthony Arnold
@@ -39,23 +37,11 @@
  * of items in the set. The result gives the index into the set.
  */
 
-
-
 /*!
  * \struct golle_t
  * \brief An opaque pointer, represents a Golle state.
  */
 typedef struct golle_t golle_t;
-
-
-/*!
- * \typedef golle_comp_t
- * \brief A comparison function which compares elements.
- * - Return < 0 if the first argument is "less than" the second.
- * - Return > 0 if the first argument is "greater than" the second.
- * - Return 0 if both arguments are equal.
- */
-typedef int (*golle_comp_t) (const void *, const void *);
 
 
 /*!
@@ -77,6 +63,14 @@ typedef struct golle_rand_t {
 } golle_rand_t;
 
 /*!
+ * \brief A function callback for comparing two items.
+ * Return < 0 if the first argument is semantically less than
+ * the second. Return > 0 if the first item is greater than the second.
+ * Return 0 if the two items are equal.
+ */
+typedef int (*golle_comp_t) (const golle_bin_t *, const golle_bin_t *);
+
+/*!
  * \brief Create a new Golle state.
  * \param[out] state Assigned the allocated object. 
  * \return ::GOLLE_EMEM if memory couldn't be allocated.
@@ -90,68 +84,45 @@ GOLLE_EXTERN golle_error golle_new (golle_t **state);
  */
 GOLLE_EXTERN void golle_delete (golle_t *state);
 
+/*!
+ * \brief Set the key state after public key distribution
+ * has occurred.
+ * \param state The state to set the keys for.
+ * \param key The key object. The public key elements, not incluing `h_product`
+ * must be set.
+ * \return ::GOLLE_OK if the set succeeded. ::GOLLE_ERROR if any parameter is
+ * `NULL` or if the `key` is invalid. ::GOLLE_EINVALID if attempting
+ * to set the key in the middle of the round.
+ * \note Setting the public key causes the private key to be
+ * generated. Call golle_get_key_commitment() to get the commitment to
+ * the local value of `h`. Call golle_commit_peer_key() to store
+ * a commitment from a peer to their own `h`. Call golle_set_peer_key()
+ * to check the commitment to `h` and accumulate it if correct
+ * see (golle_key_accum_h()).
+ */
+GOLLE_EXTERN golle_error golle_set_session_key (golle_t *state,
+						const golle_key_t *key);
 
 /*!
- * \brief Set the distinct elements that will be
- * allocated at random by the protocol.
- * \param state The Golle state to set the elements for.
- * \param set The set of elements. Will overwrite any existing ones.
- * \return ::GOLLE_OK if successful. ::GOLLE_ERROR if state or set is
- * NULL. ::GOLLE_EEMPTY if the set is empty. ::GOLLE_ETOOFEW if a replacement
- * would result in too few elements being available for all peers.
+ * \brief Get a commitment to the local `h` member of the key (see @ref commit).
+ * \param state The state for which to get the commitment to `h`.
+ * \param commit Filled with the results of the commitment.
+ * \return ::GOLLE_ERROR if either parameter is `NULL`. Otherwise,
+ * returns whatever golle_commit_new() or golle_bin_new() returns.
+ * \note You must free `commit` with golle_commit_delete().
  */
-GOLLE_EXTERN golle_error golle_elements_set (golle_t *state,
-					     golle_set_t *set);
-
-
-/*!
- * \brief Set the distinct elements that will be
- * allocated at random by the protocol.
- * \param state The Golle state to set the elements for.
- * \param list  The list of elements. Will overwrite any existing ones.
- * \param comp A comparison function for comparing elements.
- * \return ::GOLLE_OK if successful. ::GOLLE_ERROR if state or set is
- * NULL. ::GOLLE_EEMPTY if the set is empty. ::GOLLE_ETOOFEW if a replacement
- * would result in too few elements being available for all peers. 
- * ::GOLLE_EEXISTS if there are any duplicate elements in the \p list.
- */
-GOLLE_EXTERN golle_error golle_elements_list (golle_t *state,
-					      golle_list_t *list,
-					      golle_comp_t *comp);
-
-
-/*!
- * \brief Set the distinct elements that will be
- * allocated at random by the protocol.
- * \param state The Golle state to set the elements for.
- * \param array  The array of elements. Will overwrite any existing ones.
- * \param len The number of items in the array.
- * \param size The size of each item in the array.
- * \param comp A comparison function for comparing elements.
- * \return ::GOLLE_OK if successful. ::GOLLE_ERROR if state or set is
- * NULL. ::GOLLE_EEMPTY if the set is empty. ::GOLLE_ETOOFEW if a replacement
- * would result in too few elements being available for all peers. 
- * ::GOLLE_EEXISTS if there are any duplicate elements in the \p array.
- */
-GOLLE_EXTERN golle_error golle_elements_array (golle_t *state,
-					       void *array,
-					       size_t len,
-					       size_t size,
-					       golle_comp_t *comp);
-
-
+GOLLE_EXTERN golle_error golle_get_key_commitment (golle_t *state,
+						   golle_commit_t **commit);
 /*!
  * \brief Add a peer to the state.
  * \param state The state to add the peer to.
  * \param[out] peer Receives the new peer's id.
  * \return ::GOLLE_ERROR if state or peer is NULL.
- * ::GOLLE_ETOOFEW if a new peer would result in more peers than elements.
  * ::GOLLE_OK otherwise. Could also return ::GOLLE_EMEM if out of resources.
  * ::GOLLE_EINVALID if attempting to add a peer in the middle of a round.
  */
 GOLLE_EXTERN golle_error golle_peer_add (golle_t *state,
 					 golle_peer_t *peer);
-
 
 /*!
  * \brief Remove a peer from the state.
@@ -165,19 +136,53 @@ GOLLE_EXTERN golle_error golle_peer_add (golle_t *state,
 GOLLE_EXTERN golle_error golle_peer_remove (golle_t *state,
 					    golle_peer_t peer);
 
+/*!
+ * \brief Store a commitment from a peer to their local `h` value.
+ * \param state The state to store the commitment in.
+ * \param peer The peer for whom to store the commitment.
+ * \param commit The commitment from the peer.
+ * \return ::GOLLE_OK if successful. ::GOLLE_EINVALID if in the middle of
+ * a round. ::GOLLE_ERROR if any parameter is `NULL`. ::GOLLE_ENOTFOUND
+ * if the given `peer` doesn't exist.
+ */
+GOLLE_EXTERN golle_error golle_commit_peer_key (golle_t *state,
+						golle_peer_t peer,
+						const golle_commit_t *commit);
 
 /*!
- * \brief Set the key state after public key distribution
- * has occurred.
- * \param state The state to set the keys for.
- * \param key The key object. The public key elements, incluing `h_product`
- * must be set.
- * \return ::GOLLE_OK if the set succeeded. ::GOLLE_ERROR if any parameter is
- * `NULL` or if the `key` is invalid. ::GOLLE_EINVALID if attempting
- * to set the key in the middle of the round.
+ * \brief Set the `h` value for a given key and accumulate the
+ * global `h_product` for the @ref elgamal key. Verify the previous
+ * commitment from the peer.
+ * \param state The state to accumulate the `h_product`.
+ * \param peer The peer to whom the key belongs.
+ * \param key Contains the key and the further values required
+ * to validate the commitment.
+ * \return ::GOLLE_OK if successful. ::GOLLE_EINVALID if in the middle of a
+ * round. ::GOLLE_ERROR if any parameter is `NULL`. ::GOLLE_ENOTFOUND if
+ * the given `peer` doesn't exist or if a commitment was not previouslt set. 
+ * ::GOLLE_COMMIT_FAILED if the commitment failed.
  */
-GOLLE_EXTERN golle_error golle_set_session_key (golle_t *state,
-						const golle_key_t *key);
+GOLLE_EXTERN golle_error golle_set_peer_key (golle_t *state,
+					     golle_peer_t peer,
+					     const golle_commit_t *key);
+/*!
+ * \brief Set the distinct elements that will be
+ * allocated at random by the protocol.
+ * \param state The Golle state to set the elements for.
+ * \param array  The array of elements. Will overwrite any existing ones.
+ * \param len The number of items in the array.
+ * \param size The size of each item in the array.
+ * \param comp A comparison function for comparing elements.
+ * \return ::GOLLE_OK if successful. ::GOLLE_ERROR if state or set is
+ * NULL. ::GOLLE_EEMPTY if the set is empty.  ::GOLLE_EINVALID if
+ * in the middle of a round, or if the session key hasn't been set yet.
+ * ::GOLLE_EEXISTS if there are any duplicate elements in the \p array.
+ */
+GOLLE_EXTERN golle_error golle_elements_set (golle_t *state,
+					     const void **array,
+					     size_t len,
+					     size_t size,
+					     golle_comp_t *comp);
 
 /*!
  * \brief Clear the list of dealt cards, ready for a new round.

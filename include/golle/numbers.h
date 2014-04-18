@@ -40,7 +40,6 @@ GOLLE_BEGIN_C
  */
 typedef void * golle_num_t;
 
-
 /*!
  * \brief Create a new number.
  * \return A newly-allocated number, or `NULL` if failed.
@@ -51,6 +50,13 @@ GOLLE_EXTERN golle_num_t golle_num_new (void);
  * \brief Free a number.
  */
 GOLLE_EXTERN void golle_num_delete (golle_num_t n);
+
+/*!
+ * \brief Create a new number from a given native integer.
+ * \param The value to set the newly allocated number.
+ * \return A newly-allocated number, or `NULL` if failed.
+ */
+GOLLE_EXTERN golle_num_t golle_num_new_int (size_t i);
 
 /*!
  * \brief Compare two numbers.

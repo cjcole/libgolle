@@ -95,8 +95,6 @@ GOLLE_EXTERN golle_error golle_set_insert (golle_set_t *set,
 					   const void *item, 
 					   size_t size);
 
-
-
 /*!
  * \brief Remove an item from a set.
  * The item will be removed from the set and the allocated space freed.
@@ -113,8 +111,6 @@ GOLLE_EXTERN golle_error golle_set_insert (golle_set_t *set,
 GOLLE_EXTERN golle_error golle_set_erase (golle_set_t *set,
 					  const void *item,
 					  size_t size);
-
-
 /*!
  * \brief Remove all items from a set.
  * \param set The set to clear.

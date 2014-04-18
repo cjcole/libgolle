@@ -16,6 +16,7 @@ enum {
 
 int main (void) {
   golle_key_t key = { 0 };
+  golle_eg_t cipher = { 0 };
   assert (golle_key_gen_public (&key, NUM_BITS, INT_MAX) == GOLLE_OK);
   assert (golle_key_gen_private (&key) == GOLLE_OK);
 
@@ -43,12 +44,12 @@ int main (void) {
   golle_num_t a, b, r = NULL;
   assert (a = golle_num_new ());
   assert (b = golle_num_new ());
-  assert (golle_eg_encrypt (&key, m, a, b, &r) == GOLLE_OK);
+  assert (golle_eg_encrypt (&key, m, &cipher, &r) == GOLLE_OK);
   printf ("a = ");
-  golle_num_print (stdout, a);
+  golle_num_print (stdout, cipher.a);
   printf ("\n");
   printf ("b = ");
-  golle_num_print (stdout, b);
+  golle_num_print (stdout, cipher.b);
   printf ("\n");
   printf ("r = ");
   golle_num_print (stdout, r);
@@ -57,7 +58,7 @@ int main (void) {
   /* Decrypt */
   golle_num_t p = golle_num_new ();
   assert (p);
-  assert (golle_eg_decrypt (&key, &key.x, 1, a, b, p) == GOLLE_OK);
+  assert (golle_eg_decrypt (&key, &key.x, 1, &cipher, p) == GOLLE_OK);
   printf ("p = ");
   golle_num_print (stdout, p);
   printf ("\n");
@@ -65,11 +66,11 @@ int main (void) {
   /* Are they the same? */
   assert (golle_num_cmp (m, p) == 0);
 
-  golle_num_delete (a);
-  golle_num_delete (b);
+  golle_eg_clear (&cipher);
   golle_num_delete (p);
   golle_num_delete (n);
   golle_num_delete (m);
+  golle_num_delete (r);
   golle_bin_release (&orig);
   golle_key_cleanup (&key);
   golle_random_clear ();

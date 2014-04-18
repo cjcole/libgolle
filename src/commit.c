@@ -30,7 +30,7 @@ enum {
 /*
  * Create a copy of the secret
  */
-golle_bin_t *copy_secret (const golle_bin_t *secret) {
+static golle_bin_t *copy_secret (const golle_bin_t *secret) {
   golle_bin_t *copy = golle_bin_new (secret->size);
 
   if (copy) {
@@ -42,7 +42,7 @@ golle_bin_t *copy_secret (const golle_bin_t *secret) {
 /*
  * Create a random buffer
  */
-golle_bin_t *random_buffer (void) {
+static golle_bin_t *random_buffer (void) {
   golle_bin_t *rand = golle_bin_new (RANDOM_BYTES);
   if (rand) {
     golle_error err = golle_random_generate (rand);
@@ -57,7 +57,7 @@ golle_bin_t *random_buffer (void) {
 /*
  * Create a hash. ALWAYS IN THE ORDER: rsend, rkeep, secret.
  */
-golle_bin_t *get_hash (const golle_bin_t *rsend,
+static golle_bin_t *get_hash (const golle_bin_t *rsend,
 		       const golle_bin_t *rkeep,
 		       const golle_bin_t *secret)
 {

@@ -36,6 +36,17 @@ void golle_num_delete (golle_num_t n) {
   }
 }
 
+golle_num_t golle_num_new_int (size_t i) {
+  golle_num_t n = golle_num_new ();
+  if (n) {
+    if (!BN_set_word (AS_BN (n), i)) {
+      golle_num_delete (n);
+      n = NULL;
+    }
+  }
+  return n;
+}
+
 int golle_num_cmp (const golle_num_t n1, const golle_num_t n2) {
   return BN_cmp (n1, n2);
 }
