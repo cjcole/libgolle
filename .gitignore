@@ -35,3 +35,8 @@ tests/keygen
 tests/buffer
 tests/commitment
 tests/elgamal
+AUTHORS.md
+ChangeLog.md
+COPYING.md
+NEWS.md
+mainpage.md
