@@ -34,3 +34,4 @@ tests/distribution
 tests/keygen
 tests/buffer
 tests/commitment
+tests/elgamal
