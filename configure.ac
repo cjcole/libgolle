@@ -32,7 +32,6 @@ AC_C_INLINE
 AC_HEADER_ASSERT
 AC_FUNC_MALLOC
 AX_CFLAGS_WARN_ALL
-AX_CFLAGS_STRICT_PROTOTYPES
 
 # Determine bit commitment random sizes
 if test "x$COMMIT_RANDOM_BITS" == "x"; then
