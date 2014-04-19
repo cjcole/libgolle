@@ -31,7 +31,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"annotated.html",
+"platform_8h_source.html"
 ];
 
 var navTreeSubIndices = new Array();

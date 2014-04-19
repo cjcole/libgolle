@@ -120,22 +120,22 @@ Functions</h2></td></tr>
 <tr class="memdesc:gab1d9a98c77819b73e86f1ee181e5f5f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new binary buffer of a given size. The data block is zeroed out before returning.  <a href="#gab1d9a98c77819b73e86f1ee181e5f5f3"></a><br/></td></tr>
 <tr class="memitem:ga17ac68b19be493c116f4a0847482a47e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bin.html#ga17ac68b19be493c116f4a0847482a47e">golle_bin_delete</a> (<a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *buff)</td></tr>
 <tr class="memdesc:ga17ac68b19be493c116f4a0847482a47e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates resources held by a <a class="el" href="structgolle__bin__t.html" title="Represents a binary buffer.">golle_bin_t</a> structure.  <a href="#ga17ac68b19be493c116f4a0847482a47e"></a><br/></td></tr>
-<tr class="memitem:ga67d1ae160da55c404fd295aae2fe87ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bin.html#ga67d1ae160da55c404fd295aae2fe87ff">golle_bin_copy</a> (<a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *buff)</td></tr>
-<tr class="memdesc:ga67d1ae160da55c404fd295aae2fe87ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a copy of <code>buff</code> via <a class="el" href="group__bin.html#gab1d9a98c77819b73e86f1ee181e5f5f3" title="Create a new binary buffer of a given size. The data block is zeroed out before returning.">golle_bin_new</a>.  <a href="#ga67d1ae160da55c404fd295aae2fe87ff"></a><br/></td></tr>
+<tr class="memitem:ga79ce31aabeb1661e361e0c40bfe0e504"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bin.html#ga79ce31aabeb1661e361e0c40bfe0e504">golle_bin_copy</a> (const <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *buff)</td></tr>
+<tr class="memdesc:ga79ce31aabeb1661e361e0c40bfe0e504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a copy of <code>buff</code> via <a class="el" href="group__bin.html#gab1d9a98c77819b73e86f1ee181e5f5f3" title="Create a new binary buffer of a given size. The data block is zeroed out before returning.">golle_bin_new</a>.  <a href="#ga79ce31aabeb1661e361e0c40bfe0e504"></a><br/></td></tr>
 <tr class="memitem:gaf59cbcb6d9f792557efcbfb6fd5c8114"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bin.html#gaf59cbcb6d9f792557efcbfb6fd5c8114">golle_bin_resize</a> (<a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *buff, size_t size)</td></tr>
 <tr class="memdesc:gaf59cbcb6d9f792557efcbfb6fd5c8114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize the buffer.  <a href="#gaf59cbcb6d9f792557efcbfb6fd5c8114"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Many parts of this library, and client applications, need to work with a block of data of arbitrary size. It is important to always know how large the block is and to always work with it in the context of its size. Here we present the very simple <a class="el" href="structgolle__bin__t.html" title="Represents a binary buffer.">golle_bin_t</a>, which marries the size of a data block to the block itself. By using the <a class="el" href="group__bin.html#gab1d9a98c77819b73e86f1ee181e5f5f3" title="Create a new binary buffer of a given size. The data block is zeroed out before returning.">golle_bin_new()</a> and <a class="el" href="group__bin.html#ga17ac68b19be493c116f4a0847482a47e" title="Deallocates resources held by a golle_bin_t structure.">golle_bin_delete()</a> functions, it's not so hard to screw up; as long as you always check the size of the buffer before using it. </p>
 <h2>Function Documentation</h2>
-<a class="anchor" id="ga67d1ae160da55c404fd295aae2fe87ff"></a>
+<a class="anchor" id="ga79ce31aabeb1661e361e0c40bfe0e504"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="structgolle__bin__t.html">golle_bin_t</a>* golle_bin_copy </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *&#160;</td>
           <td class="paramname"><em>buff</em></td><td>)</td>
           <td></td>
         </tr>
@@ -310,7 +310,7 @@ It is not usually a good idea to set the members of a structure returned by this
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 19 2014 00:48:16 for libgolle by
+    <li class="footer">Generated on Sun Apr 20 2014 01:38:50 for libgolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

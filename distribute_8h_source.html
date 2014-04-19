@@ -140,32 +140,34 @@ $(document).ready(function(){initNavTree('distribute_8h_source.html','');});
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  }</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga835d0ec888a675a418e2632e95201dd2" title="Generate a full public key description. This should usually be done once, and be distributed amongst ...">golle_key_gen_public</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key, </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                           <span class="keywordtype">int</span> bits, </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                           <span class="keywordtype">int</span> n);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga3e850592b4be58abe97fcec4485622f8" title="Set the public key description.">golle_key_set_public</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                           <span class="keyword">const</span> <a class="code" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5" title="Wraps BIGNUM in an opaque (OK, maybe translucent) way.">golle_num_t</a> p,</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                           <span class="keyword">const</span> <a class="code" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5" title="Wraps BIGNUM in an opaque (OK, maybe translucent) way.">golle_num_t</a> g);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga491baf6a90f39c5b2b04561d88ea50ec" title="Generate a private key  and calculate . The h and h_product members will be set.">golle_key_gen_private</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga951edf5b2e66aa4cd0f653e40c4315ad" title="Calculate the product of all  in order to get . Call this function successively for each ...">golle_key_accum_h</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key,</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                        <span class="keyword">const</span> <a class="code" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5" title="Wraps BIGNUM in an opaque (OK, maybe translucent) way.">golle_num_t</a> h);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<a class="code" href="platform_8h.html#ad66b2c9a71493f7c7ae17ac8dc0c6053">GOLLE_END_C</a></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="code" href="group__distribute.html#gabd5beedb7e63c1f022be672eed6c169b">   84</a></span>&#160;<span class="preprocessor">#define golle_key_clear(k) golle_key_cleanup(k)</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga835d0ec888a675a418e2632e95201dd2" title="Generate a full public key description. This should usually be done once, and be distributed amongst ...">golle_key_gen_public</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key, </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                           <span class="keywordtype">int</span> bits, </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                           <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga3e850592b4be58abe97fcec4485622f8" title="Set the public key description.">golle_key_set_public</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key,</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                           <span class="keyword">const</span> <a class="code" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5" title="Wraps BIGNUM in an opaque (OK, maybe translucent) way.">golle_num_t</a> p,</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                           <span class="keyword">const</span> <a class="code" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5" title="Wraps BIGNUM in an opaque (OK, maybe translucent) way.">golle_num_t</a> g);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga491baf6a90f39c5b2b04561d88ea50ec" title="Generate a private key  and calculate . The h and h_product members will be set.">golle_key_gen_private</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<a class="code" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="code" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> <a class="code" href="group__distribute.html#ga951edf5b2e66aa4cd0f653e40c4315ad" title="Calculate the product of all  in order to get . Call this function successively for each ...">golle_key_accum_h</a> (<a class="code" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> *key,</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                        <span class="keyword">const</span> <a class="code" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5" title="Wraps BIGNUM in an opaque (OK, maybe translucent) way.">golle_num_t</a> h);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<a class="code" href="platform_8h.html#ad66b2c9a71493f7c7ae17ac8dc0c6053">GOLLE_END_C</a></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_10a438a595fd497cefe5c0ebdc0216f5.html">golle</a></li><li class="navelem"><a class="el" href="distribute_8h.html">distribute.h</a></li>
-    <li class="footer">Generated on Sat Apr 19 2014 00:48:16 for libgolle by
+    <li class="footer">Generated on Sun Apr 20 2014 01:38:50 for libgolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

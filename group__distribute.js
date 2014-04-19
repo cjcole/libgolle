@@ -1,6 +1,7 @@
 var group__distribute =
 [
     [ "golle_key_t", "structgolle__key__t.html", null ],
+    [ "golle_key_clear", "group__distribute.html#gabd5beedb7e63c1f022be672eed6c169b", null ],
     [ "golle_key_accum_h", "group__distribute.html#ga951edf5b2e66aa4cd0f653e40c4315ad", null ],
     [ "golle_key_cleanup", "group__distribute.html#ga2b1155db108b4bdc1e59e865e9df9d74", null ],
     [ "golle_key_gen_private", "group__distribute.html#ga491baf6a90f39c5b2b04561d88ea50ec", null ],

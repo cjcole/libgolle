@@ -8,6 +8,7 @@ var group__numbers =
     [ "golle_num_delete", "group__numbers.html#gad03ebf8035b90dfc49c1ffd00ec2f897", null ],
     [ "golle_num_mod_exp", "group__numbers.html#ga4243b3ef5bfd48a1272f7261b7ba3da8", null ],
     [ "golle_num_new", "group__numbers.html#gaa83f0cbd6388011b68c9a27b340af36f", null ],
+    [ "golle_num_new_int", "group__numbers.html#gafe69c2041b5590f026db06f1aac3954a", null ],
     [ "golle_num_print", "group__numbers.html#gabbd1393989f3b8bbe770805bedb9c6ab", null ],
     [ "golle_num_to_bin", "group__numbers.html#ga160d5cda727b3286dd89ae8fe4476386", null ],
     [ "golle_test_prime", "group__numbers.html#ga174b5b5188dbab0345cd4c1aff33f76e", null ]

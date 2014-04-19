@@ -115,9 +115,11 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:gae7972c466158ab1ceed5e8b1d2198756"><td class="memItemLeft" align="right" valign="top">typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gae7972c466158ab1ceed5e8b1d2198756">golle_comp_t</a> )(const void *, const void *)</td></tr>
-<tr class="memdesc:gae7972c466158ab1ceed5e8b1d2198756"><td class="mdescLeft">&#160;</td><td class="mdescRight">A comparison function which compares elements.  <a href="#gae7972c466158ab1ceed5e8b1d2198756"></a><br/></td></tr>
 <tr class="memitem:gab40ba7a268c97b56771307ba6e266ecd"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a></td></tr>
+<tr class="memdesc:gab40ba7a268c97b56771307ba6e266ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a peer within a set of peers.  <a href="#gab40ba7a268c97b56771307ba6e266ecd"></a><br/></td></tr>
+<tr class="memitem:ga8337d871e02487da233b1f13105aadaa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga8337d871e02487da233b1f13105aadaa"></a>
+typedef int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga8337d871e02487da233b1f13105aadaa">golle_comp_t</a> )(const <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *, const <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *)</td></tr>
+<tr class="memdesc:ga8337d871e02487da233b1f13105aadaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function callback for comparing two items. Return &lt; 0 if the first argument is semantically less than the second. Return &gt; 0 if the first item is greater than the second. Return 0 if the two items are equal. <br/></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -125,18 +127,20 @@ Functions</h2></td></tr>
 <tr class="memdesc:gac2fdee031e9f36f020ff576dba4501e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new Golle state.  <a href="#gac2fdee031e9f36f020ff576dba4501e2"></a><br/></td></tr>
 <tr class="memitem:gac5af426dd9982151ce0c6c9419a56595"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gac5af426dd9982151ce0c6c9419a56595">golle_delete</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state)</td></tr>
 <tr class="memdesc:gac5af426dd9982151ce0c6c9419a56595"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate a Golle state.  <a href="#gac5af426dd9982151ce0c6c9419a56595"></a><br/></td></tr>
-<tr class="memitem:ga271d0630838c19385826c0f28596f357"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga271d0630838c19385826c0f28596f357">golle_elements_set</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="structgolle__set__t.html">golle_set_t</a> *set)</td></tr>
-<tr class="memdesc:ga271d0630838c19385826c0f28596f357"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the distinct elements that will be allocated at random by the protocol.  <a href="#ga271d0630838c19385826c0f28596f357"></a><br/></td></tr>
-<tr class="memitem:ga17f695f8ca9a658b2219d26f4ce12077"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga17f695f8ca9a658b2219d26f4ce12077">golle_elements_list</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="structgolle__list__t.html">golle_list_t</a> *list, <a class="el" href="group__golle.html#gae7972c466158ab1ceed5e8b1d2198756">golle_comp_t</a> *comp)</td></tr>
-<tr class="memdesc:ga17f695f8ca9a658b2219d26f4ce12077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the distinct elements that will be allocated at random by the protocol.  <a href="#ga17f695f8ca9a658b2219d26f4ce12077"></a><br/></td></tr>
-<tr class="memitem:ga04ba7dfe43365f4fa62d42ecff3963b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga04ba7dfe43365f4fa62d42ecff3963b7">golle_elements_array</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, void *array, size_t len, size_t size, <a class="el" href="group__golle.html#gae7972c466158ab1ceed5e8b1d2198756">golle_comp_t</a> *comp)</td></tr>
-<tr class="memdesc:ga04ba7dfe43365f4fa62d42ecff3963b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the distinct elements that will be allocated at random by the protocol.  <a href="#ga04ba7dfe43365f4fa62d42ecff3963b7"></a><br/></td></tr>
+<tr class="memitem:gaf45d915f4824f7f09bbbe6ffd1db3c66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gaf45d915f4824f7f09bbbe6ffd1db3c66">golle_set_session_key</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *key)</td></tr>
+<tr class="memdesc:gaf45d915f4824f7f09bbbe6ffd1db3c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the key state after public key distribution has occurred.  <a href="#gaf45d915f4824f7f09bbbe6ffd1db3c66"></a><br/></td></tr>
+<tr class="memitem:ga1c733590a3426fe670cbee589a56ba42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga1c733590a3426fe670cbee589a56ba42">golle_get_key_commitment</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> **commit)</td></tr>
+<tr class="memdesc:ga1c733590a3426fe670cbee589a56ba42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a commitment to the local <code>h</code> member of the key (see <a class="el" href="group__commit.html">Bit Commitment</a>).  <a href="#ga1c733590a3426fe670cbee589a56ba42"></a><br/></td></tr>
 <tr class="memitem:gacc191949e24fc0f9329073ac9e96bb2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gacc191949e24fc0f9329073ac9e96bb2f">golle_peer_add</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a> *peer)</td></tr>
 <tr class="memdesc:gacc191949e24fc0f9329073ac9e96bb2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a peer to the state.  <a href="#gacc191949e24fc0f9329073ac9e96bb2f"></a><br/></td></tr>
 <tr class="memitem:ga0e69c363130b798c656a235b782127e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga0e69c363130b798c656a235b782127e5">golle_peer_remove</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a> peer)</td></tr>
 <tr class="memdesc:ga0e69c363130b798c656a235b782127e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a peer from the state.  <a href="#ga0e69c363130b798c656a235b782127e5"></a><br/></td></tr>
-<tr class="memitem:gaf45d915f4824f7f09bbbe6ffd1db3c66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gaf45d915f4824f7f09bbbe6ffd1db3c66">golle_set_session_key</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *key)</td></tr>
-<tr class="memdesc:gaf45d915f4824f7f09bbbe6ffd1db3c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the key state after public key distribution has occurred.  <a href="#gaf45d915f4824f7f09bbbe6ffd1db3c66"></a><br/></td></tr>
+<tr class="memitem:gacd504b356c50199e9619250e748cbc02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gacd504b356c50199e9619250e748cbc02">golle_commit_peer_key</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a> peer, const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *commit)</td></tr>
+<tr class="memdesc:gacd504b356c50199e9619250e748cbc02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a commitment from a peer to their local <code>h</code> value.  <a href="#gacd504b356c50199e9619250e748cbc02"></a><br/></td></tr>
+<tr class="memitem:ga1721f94d8a7e29df3621ed936f0e8421"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga1721f94d8a7e29df3621ed936f0e8421">golle_set_peer_key</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a> peer, const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *key)</td></tr>
+<tr class="memdesc:ga1721f94d8a7e29df3621ed936f0e8421"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <code>h</code> value for a given key and accumulate the global <code>h_product</code> for the <a class="el" href="group__elgamal.html">ElGamal</a> key. Verify the previous commitment from the peer.  <a href="#ga1721f94d8a7e29df3621ed936f0e8421"></a><br/></td></tr>
+<tr class="memitem:ga937fff0230530521fbff29e71aea8379"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga937fff0230530521fbff29e71aea8379">golle_elements_set</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, const void **array, size_t len, size_t size, <a class="el" href="group__golle.html#ga8337d871e02487da233b1f13105aadaa">golle_comp_t</a> *comp)</td></tr>
+<tr class="memdesc:ga937fff0230530521fbff29e71aea8379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the distinct elements that will be allocated at random by the protocol.  <a href="#ga937fff0230530521fbff29e71aea8379"></a><br/></td></tr>
 <tr class="memitem:gaeb7ae8d1aab55f13ec7fd0aabc385ad0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gaeb7ae8d1aab55f13ec7fd0aabc385ad0">golle_round_begin</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state)</td></tr>
 <tr class="memdesc:gaeb7ae8d1aab55f13ec7fd0aabc385ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the list of dealt cards, ready for a new round.  <a href="#gaeb7ae8d1aab55f13ec7fd0aabc385ad0"></a><br/></td></tr>
 <tr class="memitem:gac59c103ce1f4949e30e8e3b5abfa20e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#gac59c103ce1f4949e30e8e3b5abfa20e5">golle_round_end</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state)</td></tr>
@@ -152,28 +156,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga6657de4e5f2c11c84b84537c8f20c835"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__golle.html#ga6657de4e5f2c11c84b84537c8f20c835">golle_selection_decrypt</a> (<a class="el" href="structgolle__t.html">golle_t</a> *state, <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *selection)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
-<p>Due to ElGamal's multiplicative homomorphism, the value <img class="formulaInl" alt="$C = \prod_{i}g^{r_{i}}$" src="form_33.png"/> can be calculated by each member of the group once each member has shared their own ciphertext <img class="formulaInl" alt="$c$" src="form_34.png"/>.</p>
-<p>For a member to determine the final message in the protocol, the member must receive (securely) the plaintext message <img class="formulaInl" alt="$m_{i}$" src="form_35.png"/> and the random value <img class="formulaInl" alt="$r_{i}$" src="form_36.png"/> from member <img class="formulaInl" alt="$i$" src="form_37.png"/>. The decrypting member can then verify that the encryption was correct. To get the final value, the member calculates <img class="formulaInl" alt="$\sum_{i}r_{i} \mod d$" src="form_38.png"/>, where <img class="formulaInl" alt="$d$" src="form_39.png"/> is the number of items in the set. The result gives the index into the set. </p>
+<p>Due to ElGamal's multiplicative homomorphism, the value <img class="formulaInl" alt="$C = \prod_{i}g^{r_{i}}$" src="form_31.png"/> can be calculated by each member of the group once each member has shared their own ciphertext <img class="formulaInl" alt="$c$" src="form_32.png"/>.</p>
+<p>For a member to determine the final message in the protocol, the member must receive (securely) the plaintext message <img class="formulaInl" alt="$m_{i}$" src="form_33.png"/> and the random value <img class="formulaInl" alt="$r_{i}$" src="form_34.png"/> from member <img class="formulaInl" alt="$i$" src="form_35.png"/>. The decrypting member can then verify that the encryption was correct. To get the final value, the member calculates <img class="formulaInl" alt="$\sum_{i}r_{i} \mod d$" src="form_36.png"/>, where <img class="formulaInl" alt="$d$" src="form_37.png"/> is the number of items in the set. The result gives the index into the set. </p>
 <h2>Typedef Documentation</h2>
-<a class="anchor" id="gae7972c466158ab1ceed5e8b1d2198756"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">golle_comp_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A comparison function which compares elements. </p>
-<ul>
-<li>Return &lt; 0 if the first argument is "less than" the second.</li>
-<li>Return &gt; 0 if the first argument is "greater than" the second.</li>
-<li>Return 0 if both arguments are equal. </li>
-</ul>
-
-</div>
-</div>
 <a class="anchor" id="gab40ba7a268c97b56771307ba6e266ecd"></a>
 <div class="memitem">
 <div class="memproto">
@@ -183,11 +168,56 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Represents a peer within a set of peers. </p>
 <p>Represents a peer within the state. </p>
 
 </div>
 </div>
 <h2>Function Documentation</h2>
+<a class="anchor" id="gacd504b356c50199e9619250e748cbc02"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_commit_peer_key </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgolle__t.html">golle_t</a> *&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a>&#160;</td>
+          <td class="paramname"><em>peer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *&#160;</td>
+          <td class="paramname"><em>commit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store a commitment from a peer to their local <code>h</code> value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>The state to store the commitment in. </td></tr>
+    <tr><td class="paramname">peer</td><td>The peer for whom to store the commitment. </td></tr>
+    <tr><td class="paramname">commit</td><td>The commitment from the peer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if in the middle of a round. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aef7fb63f1eceb72704f1bf9080ea7f37">GOLLE_ENOTFOUND</a> if the given <code>peer</code> doesn't exist. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga4e8978d36a578b4e3c2e258633675e63"></a>
 <div class="memitem">
 <div class="memproto">
@@ -255,12 +285,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga04ba7dfe43365f4fa62d42ecff3963b7"></a>
+<a class="anchor" id="ga937fff0230530521fbff29e71aea8379"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_elements_array </td>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_elements_set </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structgolle__t.html">golle_t</a> *&#160;</td>
           <td class="paramname"><em>state</em>, </td>
@@ -268,7 +298,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void *&#160;</td>
+          <td class="paramtype">const void **&#160;</td>
           <td class="paramname"><em>array</em>, </td>
         </tr>
         <tr>
@@ -286,7 +316,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__golle.html#gae7972c466158ab1ceed5e8b1d2198756">golle_comp_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__golle.html#ga8337d871e02487da233b1f13105aadaa">golle_comp_t</a> *&#160;</td>
           <td class="paramname"><em>comp</em>&#160;</td>
         </tr>
         <tr>
@@ -308,16 +338,16 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if state or set is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a> if the set is empty. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a2e32e86b562c49a25c7de4838bc631e7">GOLLE_ETOOFEW</a> if a replacement would result in too few elements being available for all peers. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a37b2abef86119e7735bade24971b0862">GOLLE_EEXISTS</a> if there are any duplicate elements in the <code>array</code>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if state or set is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a> if the set is empty. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if in the middle of a round, or if the session key hasn't been set yet, or if there are no peers. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a37b2abef86119e7735bade24971b0862">GOLLE_EEXISTS</a> if there are any duplicate elements in the <code>array</code>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga17f695f8ca9a658b2219d26f4ce12077"></a>
+<a class="anchor" id="ga1c733590a3426fe670cbee589a56ba42"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_elements_list </td>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_get_key_commitment </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structgolle__t.html">golle_t</a> *&#160;</td>
           <td class="paramname"><em>state</em>, </td>
@@ -325,14 +355,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structgolle__list__t.html">golle_list_t</a> *&#160;</td>
-          <td class="paramname"><em>list</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__golle.html#gae7972c466158ab1ceed5e8b1d2198756">golle_comp_t</a> *&#160;</td>
-          <td class="paramname"><em>comp</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="structgolle__commit__t.html">golle_commit_t</a> **&#160;</td>
+          <td class="paramname"><em>commit</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -342,52 +366,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Set the distinct elements that will be allocated at random by the protocol. </p>
+<p>Get a commitment to the local <code>h</code> member of the key (see <a class="el" href="group__commit.html">Bit Commitment</a>). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">state</td><td>The Golle state to set the elements for. </td></tr>
-    <tr><td class="paramname">list</td><td>The list of elements. Will overwrite any existing ones. </td></tr>
-    <tr><td class="paramname">comp</td><td>A comparison function for comparing elements. </td></tr>
+    <tr><td class="paramname">state</td><td>The state for which to get the commitment to <code>h</code>. </td></tr>
+    <tr><td class="paramname">commit</td><td>Filled with the results of the commitment. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if state or set is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a> if the set is empty. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a2e32e86b562c49a25c7de4838bc631e7">GOLLE_ETOOFEW</a> if a replacement would result in too few elements being available for all peers. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a37b2abef86119e7735bade24971b0862">GOLLE_EEXISTS</a> if there are any duplicate elements in the <code>list</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga271d0630838c19385826c0f28596f357"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_elements_set </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structgolle__t.html">golle_t</a> *&#160;</td>
-          <td class="paramname"><em>state</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structgolle__set__t.html">golle_set_t</a> *&#160;</td>
-          <td class="paramname"><em>set</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Set the distinct elements that will be allocated at random by the protocol. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">state</td><td>The Golle state to set the elements for. </td></tr>
-    <tr><td class="paramname">set</td><td>The set of elements. Will overwrite any existing ones. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if state or set is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a> if the set is empty. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a2e32e86b562c49a25c7de4838bc631e7">GOLLE_ETOOFEW</a> if a replacement would result in too few elements being available for all peers. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if either parameter is <code>NULL</code>. Otherwise, returns whatever <a class="el" href="group__commit.html#ga3dc309585c5daa18d5bd3c1477d8a7fc" title="Generate a new bit commitment to a value.">golle_commit_new()</a> or <a class="el" href="group__bin.html#gab1d9a98c77819b73e86f1ee181e5f5f3" title="Create a new binary buffer of a given size. The data block is zeroed out before returning.">golle_bin_new()</a> returns. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>You must free <code>commit</code> with <a class="el" href="group__commit.html#gaa787f45ce8647105dd9ab614f8fc8675" title="Free resources allocated by a call to golle_commit_new.">golle_commit_delete()</a>. </dd></dl>
 
 </div>
 </div>
@@ -448,7 +436,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if state or peer is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a2e32e86b562c49a25c7de4838bc631e7">GOLLE_ETOOFEW</a> if a new peer would result in more peers than elements. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> otherwise. Could also return <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if out of resources. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if attempting to add a peer in the middle of a round. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if state or peer is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> otherwise. Could also return <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if out of resources. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if attempting to add a peer in the middle of a round. </dd></dl>
 
 </div>
 </div>
@@ -688,6 +676,49 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga1721f94d8a7e29df3621ed936f0e8421"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_set_peer_key </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgolle__t.html">golle_t</a> *&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a>&#160;</td>
+          <td class="paramname"><em>peer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the <code>h</code> value for a given key and accumulate the global <code>h_product</code> for the <a class="el" href="group__elgamal.html">ElGamal</a> key. Verify the previous commitment from the peer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>The state to accumulate the <code>h_product</code>. </td></tr>
+    <tr><td class="paramname">peer</td><td>The peer to whom the key belongs. </td></tr>
+    <tr><td class="paramname">key</td><td>Contains the key and the further values required to validate the commitment. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if in the middle of a round. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aef7fb63f1eceb72704f1bf9080ea7f37">GOLLE_ENOTFOUND</a> if the given <code>peer</code> doesn't exist or if a commitment was not previouslt set. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ab1aae2bf5cbd05dd7c0dba36055c5abc">GOLLE_COMMIT_FAILED</a> if the commitment failed. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaf45d915f4824f7f09bbbe6ffd1db3c66"></a>
 <div class="memitem">
 <div class="memproto">
@@ -716,11 +747,13 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">state</td><td>The state to set the keys for. </td></tr>
-    <tr><td class="paramname">key</td><td>The key object. The public key elements, incluing <code>h_product</code> must be set. </td></tr>
+    <tr><td class="paramname">key</td><td>The key object. The public key elements, not incluing <code>h_product</code> must be set. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if the set succeeded. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code> or if the <code>key</code> is invalid. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if attempting to set the key in the middle of the round. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Clears any existing elements. Element set should be set after key and peer setup. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Setting the public key causes the private key to be generated. Call <a class="el" href="group__golle.html#ga1c733590a3426fe670cbee589a56ba42" title="Get a commitment to the local h member of the key (see Bit Commitment).">golle_get_key_commitment()</a> to get the commitment to the local value of <code>h</code>. Call <a class="el" href="group__golle.html#gacd504b356c50199e9619250e748cbc02" title="Store a commitment from a peer to their local h value.">golle_commit_peer_key()</a> to store a commitment from a peer to their own <code>h</code>. Call <a class="el" href="group__golle.html#ga1721f94d8a7e29df3621ed936f0e8421" title="Set the h value for a given key and accumulate the global h_product for the ElGamal key...">golle_set_peer_key()</a> to check the commitment to <code>h</code> and accumulate it if correct see (<a class="el" href="group__distribute.html#ga951edf5b2e66aa4cd0f653e40c4315ad" title="Calculate the product of all  in order to get . Call this function successively for each ...">golle_key_accum_h()</a>). </dd></dl>
 
 </div>
 </div>
@@ -729,7 +762,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 19 2014 00:48:16 for libgolle by
+    <li class="footer">Generated on Sun Apr 20 2014 01:38:51 for libgolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

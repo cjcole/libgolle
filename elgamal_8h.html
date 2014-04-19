@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('elgamal_8h.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">elgamal.h File Reference</div>  </div>
@@ -119,12 +120,19 @@ $(document).ready(function(){initNavTree('elgamal_8h.html','');});
 </div>
 <p><a href="elgamal_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgolle__eg__t.html">golle_eg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ElGamal ciphertex.  <a href="structgolle__eg__t.html#details">More...</a><br/></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga8added1398404d4505b991e8d522fb8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga8added1398404d4505b991e8d522fb8a">golle_eg_encrypt</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> a, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> b, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *rand)</td></tr>
-<tr class="memdesc:ga8added1398404d4505b991e8d522fb8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypt a number <img class="formulaInl" alt="$m \in \mathbb{G}_{q}$" src="form_26.png"/>.  <a href="group__elgamal.html#ga8added1398404d4505b991e8d522fb8a"></a><br/></td></tr>
-<tr class="memitem:ga3320d0fbaf0241743e5e84b0b21c02d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga3320d0fbaf0241743e5e84b0b21c02d3">golle_eg_decrypt</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *xi, size_t len, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> a, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> b, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m)</td></tr>
-<tr class="memdesc:ga3320d0fbaf0241743e5e84b0b21c02d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypt a message.  <a href="group__elgamal.html#ga3320d0fbaf0241743e5e84b0b21c02d3"></a><br/></td></tr>
+<tr class="memitem:ga5f638172acd6292dd82fd0154e3e634a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a22aa8f08d7b06ebc8d08e23227d1c5e8">GOLLE_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga5f638172acd6292dd82fd0154e3e634a">golle_eg_clear</a> (<a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher)</td></tr>
+<tr class="memdesc:ga5f638172acd6292dd82fd0154e3e634a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear memory allocated for the ciphertext.  <a href="group__elgamal.html#ga5f638172acd6292dd82fd0154e3e634a"></a><br/></td></tr>
+<tr class="memitem:ga625a017a80ac474a35568d6da1b4957d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga625a017a80ac474a35568d6da1b4957d">golle_eg_encrypt</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m, <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *rand)</td></tr>
+<tr class="memdesc:ga625a017a80ac474a35568d6da1b4957d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypt a number <img class="formulaInl" alt="$m \in \mathbb{G}_{q}$" src="form_26.png"/>.  <a href="group__elgamal.html#ga625a017a80ac474a35568d6da1b4957d"></a><br/></td></tr>
+<tr class="memitem:gaecf1acb355bc8c4cc6a397fc16466f60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#gaecf1acb355bc8c4cc6a397fc16466f60">golle_eg_decrypt</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *xi, size_t len, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m)</td></tr>
+<tr class="memdesc:gaecf1acb355bc8c4cc6a397fc16466f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypt a message.  <a href="group__elgamal.html#gaecf1acb355bc8c4cc6a397fc16466f60"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Describes functions for performing distributed ElGamal cryptography. </p>
@@ -137,7 +145,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_10a438a595fd497cefe5c0ebdc0216f5.html">golle</a></li><li class="navelem"><a class="el" href="elgamal_8h.html">elgamal.h</a></li>
-    <li class="footer">Generated on Sat Apr 19 2014 00:48:16 for libgolle by
+    <li class="footer">Generated on Sun Apr 20 2014 01:38:50 for libgolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

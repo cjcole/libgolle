@@ -118,6 +118,8 @@ Functions</h2></td></tr>
 <tr class="memitem:gad03ebf8035b90dfc49c1ffd00ec2f897"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gad03ebf8035b90dfc49c1ffd00ec2f897"></a>
 <a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gad03ebf8035b90dfc49c1ffd00ec2f897">golle_num_delete</a> (<a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> n)</td></tr>
 <tr class="memdesc:gad03ebf8035b90dfc49c1ffd00ec2f897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a number. <br/></td></tr>
+<tr class="memitem:gafe69c2041b5590f026db06f1aac3954a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gafe69c2041b5590f026db06f1aac3954a">golle_num_new_int</a> (size_t i)</td></tr>
+<tr class="memdesc:gafe69c2041b5590f026db06f1aac3954a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new number from a given native integer.  <a href="#gafe69c2041b5590f026db06f1aac3954a"></a><br/></td></tr>
 <tr class="memitem:gadce4f82b6623518b49e12e81c5e4eb64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gadce4f82b6623518b49e12e81c5e4eb64">golle_num_cmp</a> (const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> n1, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> n2)</td></tr>
 <tr class="memdesc:gadce4f82b6623518b49e12e81c5e4eb64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two numbers.  <a href="#gadce4f82b6623518b49e12e81c5e4eb64"></a><br/></td></tr>
 <tr class="memitem:ga01f0cd75c898c920c7d1458c364e58fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga01f0cd75c898c920c7d1458c364e58fc">golle_generate_prime</a> (int bits, int safe, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> div)</td></tr>
@@ -125,13 +127,13 @@ Functions</h2></td></tr>
 <tr class="memitem:ga174b5b5188dbab0345cd4c1aff33f76e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga174b5b5188dbab0345cd4c1aff33f76e">golle_test_prime</a> (const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> p)</td></tr>
 <tr class="memdesc:ga174b5b5188dbab0345cd4c1aff33f76e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test a number for proabable primality.  <a href="#ga174b5b5188dbab0345cd4c1aff33f76e"></a><br/></td></tr>
 <tr class="memitem:ga6f298392ed858371f35e9593379f75b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga6f298392ed858371f35e9593379f75b6">golle_find_generator</a> (<a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> g, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> p, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> q, int n)</td></tr>
-<tr class="memdesc:ga6f298392ed858371f35e9593379f75b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a generator for the multiplicative subgroup of <img class="formulaInl" alt="$\mathbb{Z}^{*}_{p}$" src="form_41.png"/> of order <img class="formulaInl" alt="$q$" src="form_1.png"/> ( <img class="formulaInl" alt="$\mathbb{G}_{q}$" src="form_10.png"/>).  <a href="#ga6f298392ed858371f35e9593379f75b6"></a><br/></td></tr>
+<tr class="memdesc:ga6f298392ed858371f35e9593379f75b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a generator for the multiplicative subgroup of <img class="formulaInl" alt="$\mathbb{Z}^{*}_{p}$" src="form_39.png"/> of order <img class="formulaInl" alt="$q$" src="form_1.png"/> ( <img class="formulaInl" alt="$\mathbb{G}_{q}$" src="form_10.png"/>).  <a href="#ga6f298392ed858371f35e9593379f75b6"></a><br/></td></tr>
 <tr class="memitem:ga160d5cda727b3286dd89ae8fe4476386"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga160d5cda727b3286dd89ae8fe4476386">golle_num_to_bin</a> (const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> n, <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *bin)</td></tr>
 <tr class="memdesc:ga160d5cda727b3286dd89ae8fe4476386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the big-endian binary representation of a number into the given binary buffer. The buffer will be resized to the number of bytes required.  <a href="#ga160d5cda727b3286dd89ae8fe4476386"></a><br/></td></tr>
 <tr class="memitem:ga6ba639c5b021f8ce4339bfc9908c5172"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga6ba639c5b021f8ce4339bfc9908c5172">golle_bin_to_num</a> (const <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *bin, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> n)</td></tr>
 <tr class="memdesc:ga6ba639c5b021f8ce4339bfc9908c5172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a big-endian binary buffer into a number.  <a href="#ga6ba639c5b021f8ce4339bfc9908c5172"></a><br/></td></tr>
 <tr class="memitem:ga4243b3ef5bfd48a1272f7261b7ba3da8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga4243b3ef5bfd48a1272f7261b7ba3da8">golle_num_mod_exp</a> (<a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> out, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> base, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> exp, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> mod)</td></tr>
-<tr class="memdesc:ga4243b3ef5bfd48a1272f7261b7ba3da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate <img class="formulaInl" alt="$m = g^n \mod q$" src="form_45.png"/>.  <a href="#ga4243b3ef5bfd48a1272f7261b7ba3da8"></a><br/></td></tr>
+<tr class="memdesc:ga4243b3ef5bfd48a1272f7261b7ba3da8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate <img class="formulaInl" alt="$m = g^n \mod q$" src="form_43.png"/>.  <a href="#ga4243b3ef5bfd48a1272f7261b7ba3da8"></a><br/></td></tr>
 <tr class="memitem:gabbd1393989f3b8bbe770805bedb9c6ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gabbd1393989f3b8bbe770805bedb9c6ab">golle_num_print</a> (FILE *file, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> num)</td></tr>
 <tr class="memdesc:gabbd1393989f3b8bbe770805bedb9c6ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a number, in big-endian hexadecimal, to the given file pointer.  <a href="#gabbd1393989f3b8bbe770805bedb9c6ab"></a><br/></td></tr>
 </table>
@@ -211,7 +213,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find a generator for the multiplicative subgroup of <img class="formulaInl" alt="$\mathbb{Z}^{*}_{p}$" src="form_41.png"/> of order <img class="formulaInl" alt="$q$" src="form_1.png"/> ( <img class="formulaInl" alt="$\mathbb{G}_{q}$" src="form_10.png"/>). </p>
+<p>Find a generator for the multiplicative subgroup of <img class="formulaInl" alt="$\mathbb{Z}^{*}_{p}$" src="form_39.png"/> of order <img class="formulaInl" alt="$q$" src="form_1.png"/> ( <img class="formulaInl" alt="$\mathbb{G}_{q}$" src="form_10.png"/>). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">g</td><td>If not <code>NULL</code>, will be populated with the found generator. </td></tr>
@@ -223,7 +225,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if a generator was found. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if <code>p</code> or <code>g</code> is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory failed to allocate. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if the crypto library fails. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aef7fb63f1eceb72704f1bf9080ea7f37">GOLLE_ENOTFOUND</a> if a generator could not be found in n attempts. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function assumes that <code>p</code> and <code>q</code> are valid primes, and that <code>q</code> divides <code>p</code>. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>A generator is calculated by taking a random number <img class="formulaInl" alt="$h \in \mathbb{Z}^{*}_{p}$" src="form_42.png"/> and computing <img class="formulaInl" alt="$g = h^{(p-1)/q} \mod p$" src="form_43.png"/>. If <img class="formulaInl" alt="$g \neq 1$" src="form_44.png"/> then <img class="formulaInl" alt="$g$" src="form_2.png"/> is a generator. This technique is described in H. Delfs and H. Knebl, <em>Introduction to Cryptography: Principles and Applications</em>, 2007, pp. 303-304. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>A generator is calculated by taking a random number <img class="formulaInl" alt="$h \in \mathbb{Z}^{*}_{p}$" src="form_40.png"/> and computing <img class="formulaInl" alt="$g = h^{(p-1)/q} \mod p$" src="form_41.png"/>. If <img class="formulaInl" alt="$g \neq 1$" src="form_42.png"/> then <img class="formulaInl" alt="$g$" src="form_2.png"/> is a generator. This technique is described in H. Delfs and H. Knebl, <em>Introduction to Cryptography: Principles and Applications</em>, 2007, pp. 303-304. </dd></dl>
 
 </div>
 </div>
@@ -262,7 +264,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">bits</td><td>The number of bits required. </td></tr>
     <tr><td class="paramname">safe</td><td>If non-zero, the algorithm is required to select a safe prime. </td></tr>
-    <tr><td class="paramname">div</td><td>If not <code>NULL</code>, <code>div</code> must divide the prime - 1 (i.e. <img class="formulaInl" alt="$prime \mod div = 1$" src="form_40.png"/>). </td></tr>
+    <tr><td class="paramname">div</td><td>If not <code>NULL</code>, <code>div</code> must divide the prime - 1 (i.e. <img class="formulaInl" alt="$prime \mod div = 1$" src="form_38.png"/>). </td></tr>
   </table>
   </dd>
 </dl>
@@ -343,12 +345,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Calculate <img class="formulaInl" alt="$m = g^n \mod q$" src="form_45.png"/>. </p>
+<p>Calculate <img class="formulaInl" alt="$m = g^n \mod q$" src="form_43.png"/>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">out</td><td><img class="formulaInl" alt="$m$" src="form_46.png"/> </td></tr>
+    <tr><td class="paramname">out</td><td><img class="formulaInl" alt="$m$" src="form_44.png"/> </td></tr>
     <tr><td class="paramname">base</td><td><img class="formulaInl" alt="$g$" src="form_2.png"/> </td></tr>
-    <tr><td class="paramname">exp</td><td><img class="formulaInl" alt="$n$" src="form_47.png"/> </td></tr>
+    <tr><td class="paramname">exp</td><td><img class="formulaInl" alt="$n$" src="form_45.png"/> </td></tr>
     <tr><td class="paramname">mod</td><td><img class="formulaInl" alt="$q$" src="form_1.png"/> </td></tr>
   </table>
   </dd>
@@ -372,6 +374,31 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Create a new number. </p>
+<dl class="section return"><dt>Returns</dt><dd>A newly-allocated number, or <code>NULL</code> if failed. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gafe69c2041b5590f026db06f1aac3954a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> golle_num_new_int </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new number from a given native integer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">The</td><td>value to set the newly allocated number. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>A newly-allocated number, or <code>NULL</code> if failed. </dd></dl>
 
 </div>
@@ -478,7 +505,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 19 2014 00:48:16 for libgolle by
+    <li class="footer">Generated on Sun Apr 20 2014 01:38:51 for libgolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

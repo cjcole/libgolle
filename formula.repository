@@ -26,23 +26,21 @@
 \form#25:$k$
 \form#26:$m \in \mathbb{G}_{q}$
 \form#27:$msg \in \mathbb{G}_{q}$
-\form#28:$c_{1}$
-\form#29:$c_{2}$
-\form#30:$r \in \mathbb{Z}^{*}_{q}$
-\form#31:$m >= {q}$
-\form#32:$ m = g^{n} \mod q$
-\form#33:$C = \prod_{i}g^{r_{i}}$
-\form#34:$c$
-\form#35:$m_{i}$
-\form#36:$r_{i}$
-\form#37:$i$
-\form#38:$\sum_{i}r_{i} \mod d$
-\form#39:$d$
-\form#40:$prime \mod div = 1$
-\form#41:$\mathbb{Z}^{*}_{p}$
-\form#42:$h \in \mathbb{Z}^{*}_{p}$
-\form#43:$g = h^{(p-1)/q} \mod p$
-\form#44:$g \neq 1$
-\form#45:$m = g^n \mod q$
-\form#46:$m$
-\form#47:$n$
+\form#28:$r \in \mathbb{Z}^{*}_{q}$
+\form#29:$m >= {q}$
+\form#30:$ m = g^{n} \mod q$
+\form#31:$C = \prod_{i}g^{r_{i}}$
+\form#32:$c$
+\form#33:$m_{i}$
+\form#34:$r_{i}$
+\form#35:$i$
+\form#36:$\sum_{i}r_{i} \mod d$
+\form#37:$d$
+\form#38:$prime \mod div = 1$
+\form#39:$\mathbb{Z}^{*}_{p}$
+\form#40:$h \in \mathbb{Z}^{*}_{p}$
+\form#41:$g = h^{(p-1)/q} \mod p$
+\form#42:$g \neq 1$
+\form#43:$m = g^n \mod q$
+\form#44:$m$
+\form#45:$n$
