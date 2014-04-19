@@ -186,7 +186,7 @@ golle_error golle_num_to_bin (const golle_num_t n, golle_bin_t *bin) {
 
   if (size > bin->size) {
     golle_error err = golle_bin_resize (bin, size);
-    GOLLE_ASSERT (err = GOLLE_OK, GOLLE_EMEM);
+    GOLLE_ASSERT (err == GOLLE_OK, GOLLE_EMEM);
   }
 
   size_t copied = BN_bn2bin (AS_BN(n), (unsigned char *)bin->bin);

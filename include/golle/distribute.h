@@ -78,6 +78,11 @@ GOLLE_INLINE void golle_key_cleanup (golle_key_t *k) {
   }
 }
 
+/*!
+ * \brief An alias for golle_key_cleanup()
+ */
+#define golle_key_clear(k) golle_key_cleanup(k)
+
 
 /*!
  * \brief Generate a full public key description.

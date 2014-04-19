@@ -61,6 +61,11 @@ DX_PDF_FEATURE
 DX_PS_FEATURE 
 DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
 
+#Decide whether to turn off the fun options
+AC_ARG_ENABLE([fun], 
+              [AS_HELP_STRING([--disable-fun], [For people who don't like, or can't have, fun])])
+
+AM_CONDITIONAL([HAVE_FUN], [test "x$enable_fun" != "xno"])
 
 # Output
 AC_CONFIG_FILES([Makefile src/Makefile tools/Makefile tests/Makefile Doxyfile])

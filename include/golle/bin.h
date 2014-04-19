@@ -110,7 +110,7 @@ GOLLE_EXTERN void golle_bin_delete (golle_bin_t *buff);
  * if ::golle_bin_new returned `NULL`.
  * \note You should delete this copy with ::golle_bin_delete.
  */
-GOLLE_EXTERN golle_bin_t *golle_bin_copy (golle_bin_t *buff);
+GOLLE_EXTERN golle_bin_t *golle_bin_copy (const golle_bin_t *buff);
 
 /*!
  * \brief Resize the buffer.

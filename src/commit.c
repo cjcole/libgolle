@@ -27,17 +27,6 @@ enum {
   GOLLE_ASSERT (commitment->rkeep->bin, GOLLE_ERROR);\
   GOLLE_ASSERT (commitment->hash->bin, GOLLE_ERROR);
 
-/*
- * Create a copy of the secret
- */
-static golle_bin_t *copy_secret (const golle_bin_t *secret) {
-  golle_bin_t *copy = golle_bin_new (secret->size);
-
-  if (copy) {
-    memcpy (copy->bin, secret->bin, secret->size);
-  }
-  return copy;
-}
 
 /*
  * Create a random buffer
@@ -109,7 +98,7 @@ golle_commit_t *golle_commit_new (const golle_bin_t *secret) {
     *hash = NULL;
 
   /* Copy the secret. */
-  secret_copy = copy_secret (secret);
+  secret_copy = golle_bin_copy (secret);
   if (!secret_copy) {
     goto error;
   }

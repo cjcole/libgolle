@@ -52,7 +52,7 @@ void golle_bin_delete (golle_bin_t *buff) {
   free (buff);
 }
 
-golle_bin_t *golle_bin_copy (golle_bin_t *buff) {
+golle_bin_t *golle_bin_copy (const golle_bin_t *buff) {
   golle_bin_t *copy = NULL;
 
   if (buff && buff->bin) {

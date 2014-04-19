@@ -62,13 +62,11 @@ typedef struct golle_commit_t {
  */
 GOLLE_EXTERN golle_commit_t *golle_commit_new (const golle_bin_t *secret);
 
-
 /*!
  * \brief Free resources allocated by a call to ::golle_commit_new.
- * \param commitment A pointer returned by ::golle_commit_new.
+ * \param commitment A pointer returned by ::golle_commit_new().
  */
 GOLLE_EXTERN void golle_commit_delete (golle_commit_t *commitment);
-
 
 /*!
  * \brief Verify a commmitment.

@@ -35,6 +35,7 @@ tests/keygen
 tests/buffer
 tests/commitment
 tests/elgamal
+tests/p2p
 AUTHORS.md
 ChangeLog.md
 COPYING.md

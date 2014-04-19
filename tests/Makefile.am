@@ -1,7 +1,11 @@
 TEST_INC =  -I$(top_srcdir)/include
 TEST_LIB =$(top_srcdir)/src/libgolle.la
 
+AM_COLOR_TESTS=always
 
+EXTRA_DIST = runtest
+
+#These are the programs that will be tested
 check_PROGRAMS = \
 	list\
 	set\
@@ -10,7 +14,8 @@ check_PROGRAMS = \
 	commitment\
 	keygen\
 	distribution\
-	elgamal
+	elgamal \
+	p2p
 
 #Make list test
 list_SOURCES = $(srcdir)/list.c
@@ -52,11 +57,22 @@ elgamal_SOURCES = $(srcdir)/elgamal.c
 elgamal_CPPFLAGS = $(TEST_INC)
 elgamal_LDADD = $(TEST_LIB)
 
+#Make peer set distribution test
+p2p_SOURCES = $(srcdir)/p2p.c
+p2p_CPPFLAGS = $(TEST_INC)
+p2p_LDADD = $(TEST_LIB)
+
+
 TESTS = list\
-	set\
-	buffer\
-	randomness\
-	commitment\
+	elgamal\
 	keygen\
 	distribution\
-	elgamal
+	commitment\
+	randomness\
+	buffer\
+	p2p\
+	set
+
+if HAVE_FUN
+TESTS_ENVIRONMENT = $(SHELL) runtest
+endif
