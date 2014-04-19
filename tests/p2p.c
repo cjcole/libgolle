@@ -6,6 +6,7 @@
 #include <golle/peer.h>
 #include <assert.h>
 #include <limits.h>
+#include <golle/random.h>
 
 enum {
   NUM_BITS = 512
@@ -153,6 +154,7 @@ int main (void) {
   golle_peers_delete (B);
   golle_peers_delete (C);
   golle_key_clear (&SHARED_KEY);
+  golle_random_clear ();
 
   return 0;
 }
