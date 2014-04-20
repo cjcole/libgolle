@@ -17,30 +17,42 @@
 struct golle_select_t {
   /* Number of objects in the set */
   size_t n;
+
   /* Stor n as a big number */
   golle_num_t bn_n;
+
   /* Objects g^0 .. g^(n-1) */
   golle_num_t *exp;
+
   /* The number of peers */
   size_t k;
+
   /* E(g^(ni)) for i = 0, ..., k-1 */
   golle_num_t *S;
+
   /* Already selected items. */
   golle_set_t *selected;
+
   /* Keep track of peer commitments */
   golle_set_t *commitments;
+
   /* Store the peer set */
   golle_peer_set_t *peers;
+
   /* Accumulate the product of encryptions. */
   golle_eg_t product;
+
+  /* Accumulate the sum of plaintext to get the object. */
+  size_t c;
 };
 
 /* Store a commitment against a peer */
-typedef struct peer_commit_t {
+typedef struct peer_t {
   golle_peer_t peer;
   golle_commit_t commit;
   golle_eg_t cipher;
-} peer_commit_t;
+  golle_num_t r;
+} peer_t;
 
 /* Compare two numbers, set-style */
 static int num_cmp (const golle_bin_t *b1, const golle_bin_t *b2) {
@@ -190,7 +202,7 @@ static golle_error eg_to_bin (const golle_eg_t *enc,
 }
 
 /* Store an ElGamal encryption. */
-static golle_error store_secret (peer_commit_t *pc,
+static golle_error store_secret (peer_t *pc,
 				 golle_bin_t *bin,
 				 const golle_key_t *key)
 {
@@ -396,9 +408,10 @@ static golle_error free_set_items (golle_set_t *set,
 
 /* Free a peer commitment */
 static void free_peer_commitment (const golle_bin_t *item) {
-  peer_commit_t *commit = (peer_commit_t*)item->bin;
+  peer_t *commit = (peer_t*)item->bin;
   golle_commit_clear (&commit->commit);
   golle_eg_clear (&commit->cipher);
+  golle_num_delete (commit->r);
 }
 
 /* Free the commit record for each peer. */
@@ -456,14 +469,14 @@ static golle_error select_assign (golle_select_t *s,
 /* Find a commitment for a peer. */
 static golle_error find_commitment (golle_select_t *select,
 				    golle_peer_t peer,
-				    peer_commit_t **cmt)
+				    peer_t **cmt)
 {
   const golle_bin_t *bin;
-  peer_commit_t c;
+  peer_t c;
   c.peer = peer;
   golle_error err = golle_set_find (select->commitments, &c, sizeof (c), &bin);
   if (err == GOLLE_OK) {
-    *cmt = (peer_commit_t*)bin->bin;
+    *cmt = (peer_t*)bin->bin;
   }
   return err;
 }
@@ -595,7 +608,7 @@ golle_error golle_select_peer_commit (golle_select_t *select,
   golle_commit_t commit = { 0 };
   commit.hash = hash;
   commit.rsend = rsend;
-  peer_commit_t c = { 0 };
+  peer_t c = { 0 };
   golle_error err = golle_commit_copy (&c.commit, &commit);
   if (err != GOLLE_OK) {
     goto out;
@@ -628,7 +641,7 @@ golle_error golle_select_peer_verify (golle_select_t *select,
   GOLLE_ASSERT (golle_peers_check_key (select->peers, peer), GOLLE_ENOTFOUND);
 
   /* Find the commitment. */
-  peer_commit_t *c;
+  peer_t *c;
   golle_error err = find_commitment (select, peer, &c);
   GOLLE_ASSERT (err == GOLLE_OK, err);
   GOLLE_ASSERT (c, GOLLE_ERROR);
@@ -648,7 +661,7 @@ golle_error golle_select_peer_verify (golle_select_t *select,
   }
   /* Verify the commitment */
   err = golle_commit_verify (&c->commit);
-  if (err == GOLLE_OK) {
+  if (err == GOLLE_COMMIT_PASSED) {
     /* Store the secret */
     err = store_secret (c, secret, key);
     if (err == GOLLE_OK) {
@@ -657,6 +670,10 @@ golle_error golle_select_peer_verify (golle_select_t *select,
 				   key);
     }
   }
+  else {
+    /* Commitment failed! */
+    err = GOLLE_ENOCOMMIT;
+  }
 
  out:
   if (err != GOLLE_OK) {
@@ -664,6 +681,42 @@ golle_error golle_select_peer_verify (golle_select_t *select,
     golle_bin_delete(c->commit.hash); c->commit.hash = NULL;
   }
   return err;
+}
+
+golle_error golle_select_reveal (golle_select_t *select,
+				 golle_peer_t peer,
+				 golle_bin_t *r,
+				 golle_bin_t *rand)
+{
+  GOLLE_ASSERT (select, GOLLE_ERROR);
+  GOLLE_ASSERT (r, GOLLE_ERROR);
+  GOLLE_ASSERT (rand, GOLLE_ERROR);
+
+  golle_key_t *key = golle_peers_get_key (select->peers);
+  GOLLE_ASSERT (key, GOLLE_ERROR);
+
+  /* Ensure that peer is a verified member of the set. */
+  GOLLE_ASSERT (golle_peers_check_key (select->peers, peer), GOLLE_ENOTFOUND);
+
+  /* Find the commitment. */
+  peer_t *c;
+  golle_error err = find_commitment (select, peer, &c);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+  GOLLE_ASSERT (c, GOLLE_ERROR);
+
+  /* Ensure it has been verified. */
+  GOLLE_ASSERT (c->commit.secret, GOLLE_ENOTFOUND);
+  GOLLE_ASSERT (c->commit.rkeep, GOLLE_ENOTFOUND);
+  GOLLE_ASSERT (c->cipher.a, GOLLE_ENOTFOUND);
+  GOLLE_ASSERT (c->cipher.b, GOLLE_ENOTFOUND);
+
+  /* Ensure it hasn't set its value yet. */
+  GOLLE_ASSERT (c->r == NULL, GOLLE_EEXISTS);
+
+  /* Verify the E(g^r) using rand is correct. */
+  /* TODO */
+
+  return GOLLE_OK;
 }
 
 golle_error golle_select_next_round (golle_select_t *select) {
@@ -690,3 +743,4 @@ golle_error golle_select_reset (golle_select_t *select) {
   }
   return err;
 }
+
