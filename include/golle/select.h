@@ -47,6 +47,46 @@ GOLLE_BEGIN_C
 typedef struct golle_select_t golle_select_t;
 
 /*!
+ * \typedef golle_select_callback_t
+ * \brief This kind of callback function is invoked three different ways
+ * when a call is made to golle_select_object(). 
+ *
+ * In the first call, the buffers contain the commitment
+ * buffers from ::golle_commit_t (see @ref commit). They are,
+ * respectively, the `rsend` field followed by the `hash` field.
+ * The receiving peer will store them via golle_select_peer_commit().
+ *
+ * In the second call, the buffers contain the verification
+ * buffers (including the actual selection value). They are,
+ * respectively, the `rkeep` field followed by the `secret` field.
+ * The receiving peer will store them via via golle_select_peer_verify().
+ *
+ * In the third call, the buffers contain the selected object index
+ * and a random value. The receiving peer should store them
+ * via golle_select_accumulate(). 
+ *
+ * In the first two instances the two ::golle_bin_t buffers should
+ * be sent to each peer. 
+ *
+ * In the third instance, the two buffers should be sent to any
+ * peer to whom the selection should be revealed. The receiving
+ * peer(s) will pass the received buffers to golle_select_reveal().
+ * The first buffer will be the the `ri` parameter, the 
+ * second buffer will be the `rand` parameter.
+ *
+ * It is up to the sending protocol
+ * to be able to tell the difference between the two buffers
+ * (it's really important). The best way is to send them
+ * separately, with a distinct order.
+ *
+ * If any error occurs, return it and force the
+ * selection to abort.
+ */
+typedef golle_error (*golle_select_callback_t) (const golle_select_t *,
+						const golle_bin_t *,
+						const golle_bin_t *);
+
+/*!
  * \brief Construct a new ::golle_select_t struct based on a
  * ::golle_peer_set_t and a number of objects.
  * \param select Will receive the pointer to the new struct
@@ -70,6 +110,23 @@ GOLLE_EXTERN golle_error golle_select_new (golle_select_t **select,
  * As such, the key must outlive the ::golle_select_t.
  */
 GOLLE_EXTERN void golle_select_delete (golle_select_t *select);
+
+/*!
+ * \brief Begin a selection round by selecting a random g^i.
+ * \param select The collection to select from.
+ * \param commit The commitment callback.
+ * \param verify The verification callback.
+ * \param reveal The final callback which reveals the selection.
+ * \return ::GOLLE_ERROR if any parameter is `NULL`.
+ * ::GOLLE_EMEM if memory allocation fails.
+ * ::GOLLE_ECRYPTO if an error happens in the crypto library.
+ * ::GOLLE_EABORT if any callback fails.
+ * ::GOLLE_OK if successful.
+ */
+GOLLE_EXTERN golle_error golle_select_object (golle_select_t *select,
+					      golle_select_callback_t commit,
+					      golle_select_callback_t verify,
+					      golle_select_callback_t reveal);
 
 /*!
  * @}

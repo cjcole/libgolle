@@ -92,6 +92,7 @@ static golle_peer_impl_t *find_peer (golle_peer_t peer,
  * Clear the h value of a single peer
  */
 static void clear_single_peer_h (golle_peer_impl_t *p, void *unused) {
+  GOLLE_UNUSED (unused);
   golle_num_delete (p->h);
   p->h = NULL;
 }
@@ -107,6 +108,7 @@ static golle_error clear_peer_h (golle_peer_set_t *set) {
  * Free memory associated with a peer.
  */
 static void clear_peer (golle_peer_impl_t *p, void *unused) {
+  GOLLE_UNUSED (unused);
   golle_num_delete (p->h);
   golle_bin_delete (p->commit.rsend);
   golle_bin_delete (p->commit.rkeep);
