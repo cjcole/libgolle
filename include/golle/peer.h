@@ -20,7 +20,6 @@ GOLLE_BEGIN_C
  * \date 2014
  * \brief Interface for peer maintenance.
  */
-
 /*!
  * \defgroup peer Peers
  * @{
@@ -29,7 +28,6 @@ GOLLE_BEGIN_C
  * and the distribution of keys. For a more detailed explanation
  * of how the key distribution protocol works, see @ref distribute.
  */
-
 /*!
  * \typedef golle_peer_t
  * \brief Represents a peer within a set of peers.

@@ -17,4 +17,5 @@ libgolle_la_SOURCES =\
 	$(srcdir)/numbers.c \
 	$(srcdir)/distribute.c \
 	$(srcdir)/elgamal.c \
-	$(srcdir)/peer.c
+	$(srcdir)/peer.c \
+	$(srcdir)/select.c
