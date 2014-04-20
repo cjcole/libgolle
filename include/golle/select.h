@@ -127,6 +127,67 @@ GOLLE_EXTERN golle_error golle_select_object (golle_select_t *select,
 					      golle_select_callback_t commit,
 					      golle_select_callback_t verify,
 					      golle_select_callback_t reveal);
+/*!
+ * \brief Store a commitment from a peer.
+ * \param select The select structure to store the commitment in.
+ * \param peer The peer to store the commitment for.
+ * \param rsend The rsend of the commitment to store.
+ * \param hash The hash of the commitment to store.
+ * \return ::GOLLE_ERROR if any parameter is `NULL`.
+ * ::GOLLE_ENOTFOUND if the peer doesn't exist in the set that
+ * was used to create the select struct.
+ * ::GOLLE_EEXISTS if a commitment was already stored for the given peer.
+ * ::GOLLE_EMEM for memory errors.
+ * ::GOLLE_OK for success.
+ * \note These values should have been received from a peer via
+ * a call to golle_select_object() at the remote end.
+ */
+GOLLE_EXTERN golle_error golle_select_peer_commit (golle_select_t *select,
+						   golle_peer_t peer,
+						   golle_bin_t *rsend,
+						   golle_bin_t *hash);
+/*!
+ * \brief Verify a commitment from a peer. The `secret` is
+ * stored for later revelation.
+ * \param select The select structure that stored the commitment.
+ * \param peer The peer to verify for.
+ * \param rkeep The rkeep of the commitment.
+ * \param secret The secret of the commitment.
+ * \return ::GOLLE_ERROR if any param is `NULL`.
+ * ::GOLLE_ENOTFOUND if the peer hadn't previously stored a commitment.
+ * ::GOLLE_EEXISTS if the commitment had already been verified.
+ * ::GOLLE_EMEM for memory errors.
+ * ::GOLLE_OK for success.
+ * \note These values should have been received from a peer via
+ * a call to golle_select_object() at the remote end.
+ */
+GOLLE_EXTERN golle_error golle_select_peer_verify (golle_select_t *select,
+						   golle_peer_t peer,
+						   golle_bin_t *rkeep,
+						   golle_bin_t *secret);
+/*!
+ * \brief Reveal the selected card. Upon success, the
+ * selected card is added to the list of already-selected cards.
+ * \param select The select structure.
+ * \param peer The peer who is revealing their r and rand.
+ * TODO
+ */
+
+/*!
+ * \brief Begin the next round. Clears all commitments.
+ * \param select The structure to begin the next round for.
+ * \return ::GOLLE_ERROR if `select` is `NULL`. ::GOLLE_OK
+ * if successful.
+ */
+GOLLE_EXTERN golle_error golle_select_next_round (golle_select_t *select);
+
+/*!
+ * \brief Resets the state, clearing all commitments and
+ * all records of selected objects.
+ * \param select The structure to reset.
+ * \return ::GOLLE_ERROR if `select` is `NULL`. ::GOLLE_OK if successful.
+ */
+GOLLE_EXTERN golle_error golle_select_reset (golle_select_t *select);
 
 /*!
  * @}

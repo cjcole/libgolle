@@ -25,11 +25,22 @@ struct golle_select_t {
   size_t k;
   /* E(g^(ni)) for i = 0, ..., k-1 */
   golle_num_t *S;
-  /* Just keep a copy of the key. */
-  golle_key_t *key;
   /* Already selected items. */
   golle_set_t *selected;
+  /* Keep track of peer commitments */
+  golle_set_t *commitments;
+  /* Store the peer set */
+  golle_peer_set_t *peers;
+  /* Accumulate the product of encryptions. */
+  golle_eg_t product;
 };
+
+/* Store a commitment against a peer */
+typedef struct peer_commit_t {
+  golle_peer_t peer;
+  golle_commit_t commit;
+  golle_eg_t cipher;
+} peer_commit_t;
 
 /* Compare two numbers, set-style */
 static int num_cmp (const golle_bin_t *b1, const golle_bin_t *b2) {
@@ -41,6 +52,18 @@ static int num_cmp (const golle_bin_t *b1, const golle_bin_t *b2) {
   golle_num_t n2 = (golle_num_t)b2->bin;
   assert (n2);
   return golle_num_cmp (n1, n2);
+}
+
+/* Compare two peers */
+static int peer_cmp (const golle_bin_t *b1, const golle_bin_t *b2) {
+  assert (b1);
+  assert (b2);
+
+  golle_peer_t *n1 = (golle_num_t)b1->bin;
+  assert (n1);
+  golle_peer_t *n2 = (golle_num_t)b2->bin;
+  assert (n2);
+  return (int)*n1 - (int)*n2;
 }
 
 /* Encrypt g^r mod q */
@@ -123,8 +146,14 @@ static golle_error precalc_exp (golle_key_t *key,
 
 /* Get an ElGamal ciphertext as one binary blob */
 static golle_error eg_to_bin (const golle_eg_t *enc,
+			      const golle_key_t *key,
 			      golle_bin_t *bin)
 {
+  /* Both numbers a and b are mod q,
+     so we pad them with leading zeroes up to
+     BN_num_bytes(q). */
+  const size_t q_bytes = BN_num_bytes (key->q);
+
   golle_bin_t b = { 0 };
   golle_error err = golle_num_to_bin (enc->a, bin);
   if (err != GOLLE_OK) {
@@ -135,18 +164,120 @@ static golle_error eg_to_bin (const golle_eg_t *enc,
     golle_bin_release (bin);
     return err;
   }
+
+  /* Resize to 2 * bytes(q) */
   size_t old_size = bin->size;
-  err = golle_bin_resize (bin, bin->size + b.size);
+  err = golle_bin_resize (bin, q_bytes * 2);
   if (err != GOLLE_OK) {
     golle_bin_release (bin);
     golle_bin_release (&b);
     return err;
   }
 
-  memcpy ((char*)bin->bin + old_size, b.bin, b.size);
+  /* Shift bytes along so than the first q bytes
+     are a with leading zeroes */
+  size_t move_by = q_bytes - old_size;
+  memmove((char*)bin->bin + move_by, bin->bin, move_by);
+  memset (bin->bin, 0, move_by);
+  
+  /* Copy b so that the second q bytes are b
+     with leading zeroes. */
+  move_by = q_bytes - b.size;
+  memset ((char*)bin->bin + q_bytes, 0, move_by);
+  memcpy ((char*)bin->bin + q_bytes + move_by, b.bin, b.size);
   golle_bin_release (&b);
   return GOLLE_OK;
 }
+
+/* Store an ElGamal encryption. */
+static golle_error store_secret (peer_commit_t *pc,
+				 golle_bin_t *bin,
+				 const golle_key_t *key)
+{
+  golle_num_t a = NULL, b = NULL;
+  golle_error err = GOLLE_OK;
+
+  /* bin is two numbers of the same size concatenated */
+  size_t size = BN_num_bytes (key->q);
+  GOLLE_ASSERT (bin->size == size, GOLLE_ERROR);
+
+  golle_bin_t abin;
+  abin.bin = bin->bin;
+  abin.size = size;
+  
+  if (!(a = golle_num_new ())) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  err = golle_bin_to_num (&abin, a);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+
+  /* Shift up and get the b value */
+  abin.bin = (char *)bin->bin + size;
+  if (!(b = golle_num_new())) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  err = golle_bin_to_num (&abin, b);
+
+ out:
+  if (err != GOLLE_OK) {
+    golle_num_delete (a);
+    golle_num_delete (b);
+  }
+  else {
+    pc->cipher.a = a;
+    pc->cipher.b = b;
+  }
+  return err;
+}
+
+/* Accumulate ElGamal encryptions */
+static golle_error accumulate_encryption (golle_eg_t *product,
+					  const golle_eg_t *cipher,
+					  const golle_key_t *key)
+{
+  BIGNUM *a = NULL, *b = NULL;
+  golle_error err = GOLLE_OK;
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+
+  if (!(a = BN_new ())) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  if (!(b = BN_new ())) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  
+  if (!BN_mod_mul (a, product->a, cipher->a, key->q, ctx)) {
+    err = GOLLE_ECRYPTO;
+    goto out;
+  }
+
+  if (!BN_mod_mul (b, product->b, cipher->b, key->q, ctx)) {
+    err = GOLLE_ECRYPTO;
+    goto out;
+  }
+
+ out:
+  BN_CTX_free (ctx);
+
+  if (err == GOLLE_OK) {
+    golle_eg_clear (product);
+    product->a = a;
+    product->b = b;
+  }
+  else {
+    golle_num_delete (a);
+    golle_num_delete (b);
+  }
+  return err;
+}
+					  
 
 /* Commit to the number r */
 static golle_error commit_to_enc (const golle_eg_t *enc,
@@ -154,9 +285,12 @@ static golle_error commit_to_enc (const golle_eg_t *enc,
 				  golle_select_callback_t commit,
 				  golle_select_callback_t verify)
 {
+  golle_key_t *key = golle_peers_get_key (select->peers);
+  GOLLE_ASSERT (key, GOLLE_ERROR);
+
   /* Merge the ciphertext into one binary blob */
   golle_bin_t a = { 0 };
-  golle_error err = eg_to_bin (enc, &a);
+  golle_error err = eg_to_bin (enc, key, &a);
   GOLLE_ASSERT (err == GOLLE_OK, err);
 
   golle_commit_t *cmt = golle_commit_new (&a);
@@ -237,17 +371,70 @@ static golle_error assign_numeric (golle_select_t *s,
   return GOLLE_OK;
 }
 
+/* Free all values from a set using a callback. */
+static golle_error free_set_items (golle_set_t *set,
+				   void (*cb) (const golle_bin_t *))
+{
+  golle_set_iterator_t *iter;
+  golle_error err = golle_set_iterator (set, &iter);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+
+  do {
+    const golle_bin_t *item;
+    err = golle_set_iterator_next (iter, &item);
+    if (err == GOLLE_OK) {
+      cb (item);
+    }
+  } while (err == GOLLE_OK);
+
+  golle_set_iterator_free (iter);
+
+  GOLLE_ASSERT (err == GOLLE_END, err);
+
+  return golle_set_clear (set);
+}
+
+/* Free a peer commitment */
+static void free_peer_commitment (const golle_bin_t *item) {
+  peer_commit_t *commit = (peer_commit_t*)item->bin;
+  golle_commit_clear (&commit->commit);
+  golle_eg_clear (&commit->cipher);
+}
+
+/* Free the commit record for each peer. */
+static golle_error free_peer_commitments (golle_set_t *set) {
+  return free_set_items (set, &free_peer_commitment);
+}
+
+/* Free a number from a set */
+static void free_selected_number (const golle_bin_t *item) {
+  golle_num_t num = (golle_num_t)item->bin;
+  golle_num_delete (num);
+}
+
+/* Free all of the selected numbers. */
+static golle_error free_selected (golle_set_t *set) {
+  return free_set_items (set, &free_selected_number);
+}
+
 /* Assign values to the select structure */
 static golle_error select_assign (golle_select_t *s,
 				  size_t n,
 				  size_t k,
-				  golle_key_t *key)
+				  golle_peer_set_t *peers)
 {
   golle_error err;
+  golle_key_t *key = golle_peers_get_key (peers);
+  GOLLE_ASSERT (key, GOLLE_EINVALID);
+
   /* Make an empty set of numbers */
   err = golle_set_new (&s->selected, &num_cmp);
   GOLLE_ASSERT (err == GOLLE_OK, err);
 
+  /* Make an array for storing peer commitments. */
+  err = golle_set_new (&s->commitments, &peer_cmp);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+  
   /* Create arrays of all-empty numbers */
   err = create_empty_arrays (s, n, k);
   GOLLE_ASSERT (err == GOLLE_OK, err);
@@ -262,9 +449,25 @@ static golle_error select_assign (golle_select_t *s,
   err = precalc_exp (key, s->S, n, k);
   GOLLE_ASSERT (err == GOLLE_OK, err);
 
-  s->key = key;
+  s->peers = peers;
   return GOLLE_OK;
 }
+
+/* Find a commitment for a peer. */
+static golle_error find_commitment (golle_select_t *select,
+				    golle_peer_t peer,
+				    peer_commit_t **cmt)
+{
+  const golle_bin_t *bin;
+  peer_commit_t c;
+  c.peer = peer;
+  golle_error err = golle_set_find (select->commitments, &c, sizeof (c), &bin);
+  if (err == GOLLE_OK) {
+    *cmt = (peer_commit_t*)bin->bin;
+  }
+  return err;
+}
+
 
 golle_error golle_select_new (golle_select_t **select,
 			      golle_peer_set_t *peers,
@@ -294,9 +497,9 @@ golle_error golle_select_new (golle_select_t **select,
   GOLLE_ASSERT (s, GOLLE_EMEM);
   memset (s, 0, sizeof (*s));
 
-  /* Make an empty set of numbers */
-  err = select_assign (s, n, k, key);
- 
+  /* Assign values */
+  err = select_assign (s, n, k, peers);
+
   if (err != GOLLE_OK) {
     golle_select_delete (s);
   }
@@ -308,11 +511,19 @@ golle_error golle_select_new (golle_select_t **select,
 
 void golle_select_delete (golle_select_t *select) {
   if (select) {
-    /* Free each number. */
+    /* Free each member. */
     delete_num_array (select->exp, select->n);
     delete_num_array (select->S, select->k);
-    golle_set_delete (select->selected);
     golle_num_delete (select->bn_n);
+
+    free_selected (select->selected);
+    golle_set_delete (select->selected);
+
+    free_peer_commitments (select->commitments);
+    golle_set_delete (select->commitments);
+
+    golle_eg_clear (&select->product);
+
     free (select);
   }
 }
@@ -326,10 +537,15 @@ golle_error golle_select_object (golle_select_t *select,
   golle_eg_t eg;
   BIGNUM *r, *rand = NULL;
   BN_CTX *ctx;
+  golle_key_t *key;
+
   GOLLE_ASSERT (select, GOLLE_ERROR);
   GOLLE_ASSERT (commit, GOLLE_ERROR);
   GOLLE_ASSERT (verify, GOLLE_ERROR);
   GOLLE_ASSERT (reveal, GOLLE_ERROR);
+
+  key = golle_peers_get_key (select->peers);
+  GOLLE_ASSERT (key, GOLLE_ERROR);
 
   ctx = BN_CTX_new ();
   GOLLE_ASSERT (ctx, GOLLE_EMEM);
@@ -346,7 +562,7 @@ golle_error golle_select_object (golle_select_t *select,
   }
 
   /* Compute E(g^r) */
-  err = enc_gr (&eg, r, select->key, rand, ctx);
+  err = enc_gr (&eg, r, key, rand, ctx);
 
   /* Commit and verify the encryption */
   err = commit_to_enc (&eg, select, commit, verify);
@@ -360,5 +576,117 @@ golle_error golle_select_object (golle_select_t *select,
  out:
   BN_CTX_end (ctx);
   BN_CTX_free (ctx);
+  return err;
+}
+
+golle_error golle_select_peer_commit (golle_select_t *select,
+				      golle_peer_t peer,
+				      golle_bin_t *rsend,
+				      golle_bin_t *hash)
+{
+  GOLLE_ASSERT (select, GOLLE_ERROR);
+  GOLLE_ASSERT (rsend, GOLLE_ERROR);
+  GOLLE_ASSERT (hash, GOLLE_ERROR);
+
+  /* Ensure that peer is a verified member of the set. */
+  GOLLE_ASSERT (golle_peers_check_key (select->peers, peer), GOLLE_ENOTFOUND);
+
+  /* Make a copy */
+  golle_commit_t commit = { 0 };
+  commit.hash = hash;
+  commit.rsend = rsend;
+  peer_commit_t c = { 0 };
+  golle_error err = golle_commit_copy (&c.commit, &commit);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+  c.peer = peer;
+
+  /* Attempt to insert the commitment into the set. */
+  /* Returns EEXISTS for us */
+  err = golle_set_insert (select->commitments, &c, sizeof(c));
+
+ out:
+  if (err != GOLLE_OK) {
+    golle_commit_clear (&c.commit);
+  }
+  return err;
+}
+
+golle_error golle_select_peer_verify (golle_select_t *select,
+				      golle_peer_t peer,
+				      golle_bin_t *rkeep,
+				      golle_bin_t *secret)
+{
+  GOLLE_ASSERT (select, GOLLE_ERROR);
+  GOLLE_ASSERT (rkeep, GOLLE_ERROR);
+  GOLLE_ASSERT (secret, GOLLE_ERROR);
+  golle_key_t *key = golle_peers_get_key (select->peers);
+  GOLLE_ASSERT (key, GOLLE_ERROR);
+
+  /* Ensure that peer is a verified member of the set. */
+  GOLLE_ASSERT (golle_peers_check_key (select->peers, peer), GOLLE_ENOTFOUND);
+
+  /* Find the commitment. */
+  peer_commit_t *c;
+  golle_error err = find_commitment (select, peer, &c);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+  GOLLE_ASSERT (c, GOLLE_ERROR);
+
+  /* Ensure it hasn't been verified yet. */
+  GOLLE_ASSERT (c->commit.secret == NULL, GOLLE_EEXISTS);
+  GOLLE_ASSERT (c->commit.rkeep == NULL, GOLLE_EEXISTS);
+  
+  /* Set the values. */
+  if (!(c->commit.secret = golle_bin_copy (secret))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  if (!(c->commit.rkeep = golle_bin_copy (rkeep))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  /* Verify the commitment */
+  err = golle_commit_verify (&c->commit);
+  if (err == GOLLE_OK) {
+    /* Store the secret */
+    err = store_secret (c, secret, key);
+    if (err == GOLLE_OK) {
+      err = accumulate_encryption (&select->product,
+				   &c->cipher,
+				   key);
+    }
+  }
+
+ out:
+  if (err != GOLLE_OK) {
+    golle_bin_delete(c->commit.rkeep); c->commit.rkeep = NULL;
+    golle_bin_delete(c->commit.hash); c->commit.hash = NULL;
+  }
+  return err;
+}
+
+golle_error golle_select_next_round (golle_select_t *select) {
+  GOLLE_ASSERT (select, GOLLE_ERROR);
+  golle_eg_clear (&select->product);
+
+  golle_error err = free_peer_commitments (select->commitments);
+  if (err != GOLLE_OK) {
+    golle_set_delete (select->commitments);
+    err = golle_set_new (&select->commitments, &peer_cmp);
+  }
+  return err;
+}
+
+golle_error golle_select_reset (golle_select_t *select) {
+  GOLLE_ASSERT (select, GOLLE_ERROR);
+  golle_error err = golle_select_next_round (select);
+  if (err == GOLLE_OK) {
+    err = free_selected (select->selected);
+    if (err != GOLLE_OK) {
+      golle_set_delete (select->selected);
+      err = golle_set_new (&select->selected, &num_cmp);
+    }
+  }
   return err;
 }

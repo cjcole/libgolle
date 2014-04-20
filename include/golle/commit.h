@@ -83,6 +83,30 @@ GOLLE_EXTERN void golle_commit_delete (golle_commit_t *commitment);
 GOLLE_EXTERN golle_error golle_commit_verify (const golle_commit_t *commitment);
 
 /*!
+ * \brief Release the buffers associated with a commit
+ * without freeing the commit structure itself.
+ * \param commit The commit structure whose buffers should be freed.
+ */
+GOLLE_INLINE void golle_commit_clear (golle_commit_t *commit) {
+  if (commit) {
+    golle_bin_delete (commit->secret); commit->secret = NULL;
+    golle_bin_delete (commit->rsend); commit->rsend = NULL;
+    golle_bin_delete (commit->rkeep); commit->rkeep = NULL;
+    golle_bin_delete (commit->hash); commit->hash = NULL;
+  }
+}
+
+/*!
+ * \brief Copy a commit structure, bin for bin.
+ * \param[out] dest Will have each member set to copied buffer.
+ * \param src Contains the buffers to copy from.
+ * \return ::GOLLE_OK if OK, :GOLLE_ERROR if either param is `NULL`,
+ * ::GOLLE_EMEM if memory failed.
+ */
+GOLLE_EXTERN golle_error golle_commit_copy (golle_commit_t *dest,
+					    const golle_commit_t *src);
+
+/*!
  * @}
  */
 

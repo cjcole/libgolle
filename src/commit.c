@@ -178,3 +178,50 @@ golle_error golle_commit_verify (const golle_commit_t *commitment) {
   golle_bin_delete (check);
   return err;
 }
+
+
+golle_error golle_commit_copy (golle_commit_t *dest,
+			       const golle_commit_t *src)
+{
+  GOLLE_ASSERT (dest, GOLLE_ERROR);
+  GOLLE_ASSERT (src, GOLLE_ERROR);
+
+  golle_bin_t 
+    *rkeep = 0, 
+    *rsend = 0, 
+    *hash = 0, 
+    *secret = 0;
+  
+  if (src->rkeep) {
+    if (!(rkeep = golle_bin_copy (src->rkeep))) {
+      goto error;
+    }
+  }
+  if (src->rsend) {
+    if (!(rsend = golle_bin_copy (src->rsend))) {
+      goto error;
+    }
+  }
+  if (src->hash) {
+    if (!(hash = golle_bin_copy (src->hash))) {
+      goto error;
+    }
+  }
+  if (src->secret) {
+    if (!(secret = golle_bin_copy (src->secret))) {
+      goto error;
+    }
+  }
+
+  dest->rkeep = rkeep;
+  dest->rsend = rsend;
+  dest->hash = hash;
+  dest->secret = secret;
+
+ error:
+  golle_bin_delete (rkeep);
+  golle_bin_delete (rsend);
+  golle_bin_delete (hash);
+  golle_bin_delete (secret);
+  return GOLLE_EMEM;
+}
