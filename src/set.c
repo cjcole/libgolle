@@ -434,8 +434,6 @@ static void golle_set_insert_e (golle_set_t *set, set_node_t *node) {
 }
 
 static void golle_set_insert_d (golle_set_t *set, set_node_t *node) {
-  set_node_t *g = node_gparent (node);
-
   if (!is_left (node) && is_left (node->parent)) 
     {
       node_rotate (set, node->parent, TREE_LEFT);

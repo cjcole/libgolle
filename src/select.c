@@ -105,6 +105,31 @@ static golle_error enc_gr (golle_eg_t *cipher,
   return err;
 }
 
+/* Verify that the encryption is correct */
+static golle_error verify_enc (const golle_eg_t *cipher,
+			       const golle_num_t r,
+			       const golle_num_t rand,
+			       golle_key_t *key)
+{
+  /* A context is needed for the EG encryption. */
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+
+  golle_eg_t check = { 0 };
+  golle_error err = enc_gr (&check, (const BIGNUM*)r, key, rand, ctx);
+  if (err == GOLLE_OK &&
+      (golle_num_cmp (check.a, cipher->a) != 0 ||
+       golle_num_cmp (check.b, cipher->b) != 0))
+    {
+      /* Encryption doesn't match. */
+      err = GOLLE_EABORT;
+    }
+  golle_eg_clear (&check);
+
+  BN_CTX_free (ctx);
+  return err;
+}
+
 /* Delete every number in an array safely */
 static void delete_num_array (golle_num_t *nums, size_t n) {
   if (nums) {
@@ -692,6 +717,7 @@ golle_error golle_select_reveal (golle_select_t *select,
   GOLLE_ASSERT (r, GOLLE_ERROR);
   GOLLE_ASSERT (rand, GOLLE_ERROR);
 
+  /* make sure the key's valid */
   golle_key_t *key = golle_peers_get_key (select->peers);
   GOLLE_ASSERT (key, GOLLE_ERROR);
 
@@ -713,10 +739,35 @@ golle_error golle_select_reveal (golle_select_t *select,
   /* Ensure it hasn't set its value yet. */
   GOLLE_ASSERT (c->r == NULL, GOLLE_EEXISTS);
 
-  /* Verify the E(g^r) using rand is correct. */
-  /* TODO */
+  /* Get r and rand as numbers */
+  BIGNUM *nr = NULL, *nrand = NULL;
+  if (!(nr = BN_new ())) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  if (!(nrand = BN_new ())) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
 
-  return GOLLE_OK;
+  /* Ensure that r is in [0,n) */
+  if (BN_is_negative (nr) ||
+      BN_cmp (nr, select->bn_n) >= 0)
+    {
+      err = GOLLE_EOUTOFRANGE;
+      goto out;
+    }
+
+  /* Verify that E(g^r) using rand is correct. */
+  err = verify_enc (&c->cipher, nr, nrand, key);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+ 
+ out:
+  if (err != GOLLE_OK) {
+    golle_num_delete (nr);
+    golle_num_delete (nrand);
+  }
+  return err;
 }
 
 golle_error golle_select_next_round (golle_select_t *select) {

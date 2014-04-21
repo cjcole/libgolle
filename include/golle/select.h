@@ -179,6 +179,7 @@ GOLLE_EXTERN golle_error golle_select_peer_verify (golle_select_t *select,
  * ::GOLLE_ENOTFOUND if the peer is not valid or has not verified its
  * commitment yet.
  * ::GOLLE_EEXISTS if values for the peer have already been received.
+ * ::GOLLE_EOUTOFRANGE if the r value is not in the range [0, n).
  * ::GOLLE_EABORT if the encryption value does not match the one 
  * set by the peer previously.
  * ::GOLLE_EMEM for memory errors.
