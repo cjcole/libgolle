@@ -34,34 +34,15 @@ int main (void) {
   assert (golle_num_mod_exp (m, key.g, n, key.q) == GOLLE_OK);
 
   /* Encrypt */
-  printf ("m = ");
-  golle_num_print (stdout, m);
-  printf ("\ng = ");
-  golle_num_print (stdout, key.g);
-  printf ("\nh = ");
-  golle_num_print (stdout, key.h_product);
-  printf ("\n");
   golle_num_t a, b, r = NULL;
   assert (a = golle_num_new ());
   assert (b = golle_num_new ());
   assert (golle_eg_encrypt (&key, m, &cipher, &r) == GOLLE_OK);
-  printf ("a = ");
-  golle_num_print (stdout, cipher.a);
-  printf ("\n");
-  printf ("b = ");
-  golle_num_print (stdout, cipher.b);
-  printf ("\n");
-  printf ("r = ");
-  golle_num_print (stdout, r);
-  printf ("\n");
 
   /* Decrypt */
   golle_num_t p = golle_num_new ();
   assert (p);
   assert (golle_eg_decrypt (&key, &key.x, 1, &cipher, p) == GOLLE_OK);
-  printf ("p = ");
-  golle_num_print (stdout, p);
-  printf ("\n");
 
   /* Are they the same? */
   assert (golle_num_cmp (m, p) == 0);

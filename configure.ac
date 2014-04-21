@@ -1,4 +1,7 @@
-AC_INIT([libgolle],[0.0.0],[anthony.arnold@uqconnect.edu.au])
+AC_INIT([LibGolle],
+	[0.0.0],
+	[anthony.arnold@uqconnect.edu.au],[libgolle],
+	[http://anthony-arnold.github.io/libgolle])
 AC_CONFIG_HEADERS([include/golle/config.h])
 AM_INIT_AUTOMAKE([foreign])
 AC_CANONICAL_HOST
