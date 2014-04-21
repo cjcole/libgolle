@@ -53,7 +53,7 @@ GOLLE_EXTERN void golle_num_delete (golle_num_t n);
 
 /*!
  * \brief Create a new number from a given native integer.
- * \param The value to set the newly allocated number.
+ * \param i The value to set the newly allocated number.
  * \return A newly-allocated number, or `NULL` if failed.
  */
 GOLLE_EXTERN golle_num_t golle_num_new_int (size_t i);
@@ -160,6 +160,10 @@ GOLLE_EXTERN golle_error golle_num_mod_exp (golle_num_t out,
  * ::GOLLE_EMEM if the buffer allocation failed. ::GOLLE_OK otherwise.
  */
 GOLLE_EXTERN golle_error golle_num_print (FILE *file, const golle_num_t num);
+
+/*!
+ * @}
+ */
 
 GOLLE_END_C
 

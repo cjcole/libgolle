@@ -90,7 +90,7 @@ typedef golle_error (*golle_select_callback_t) (const golle_select_t *,
  * \brief Construct a new ::golle_select_t struct based on a
  * ::golle_peer_set_t and a number of objects.
  * \param select Will receive the pointer to the new struct
- * \param set The ::golle_peer_set_t that has a ready key.
+ * \param peers The ::golle_peer_set_t that has a ready key.
  * \param n The number of objects in the selection set.
  * \return ::GOLLE_OK if everything went OK. ::GOLLE_ERROR if
  * any parameter is NULL. ::GOLLE_EINVALID if the calling

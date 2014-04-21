@@ -94,16 +94,16 @@ DX_CLEAN_LATEX = @DX_DOCDIR@/latex/*
 doxygen-run: @DX_DOCDIR@/@PACKAGE@.tag
 doxygen-doc: doxygen-run $(DX_PS_GOAL) $(DX_PDF_GOAL)
 @DX_DOCDIR@/@PACKAGE@.tag: $(DX_CONFIG) $(pkginclude_HEADERS)
-	$(DX_ENV) $(DX_DOXYGEN) $(srcdir)/$(DX_CONFIG)
+	$(DX_ENV) $(DX_DOXYGEN) $(DX_CONFIG)
 
 # EXTRA MARKDOWN PAGES
-INDEX_PAGE=$(top_srcdir)/mainpage.md
+INDEX_PAGE=./mainpage.md
 DXMDSOURCES=\
 	$(INDEX_PAGE) \
-	$(top_srcdir)/ChangeLog.md \
-	$(top_srcdir)/COPYING.md \
-	$(top_srcdir)/NEWS.md \
-	$(top_srcdir)/AUTHORS.md
+	./ChangeLog.md \
+	./COPYING.md \
+	./NEWS.md \
+	./AUTHORS.md
 
 $(INDEX_PAGE): $(top_srcdir)/README.md
 	sed '1 s/^Golle/Golle   {#mainpage}/' < $^ > $@

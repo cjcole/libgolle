@@ -63,7 +63,7 @@ GOLLE_EXTERN golle_peer_set_t *golle_peers_new (void);
 
 /*!
  * \brief Free a peer set.
- * \param The set to deallocate.
+ * \param set The set to deallocate.
  * \note All peers will become invalid after removal.
  */
 GOLLE_EXTERN void golle_peers_delete (golle_peer_set_t *set);
