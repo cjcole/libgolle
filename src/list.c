@@ -26,7 +26,6 @@ struct golle_list_iterator_t {
   golle_list_node_t *current;
 };
 
-
 /*
  * Delete a chain of linked nodes
  */
@@ -108,7 +107,6 @@ static golle_list_node_t *make_linked_list (const void *item,
   return head;
 }
 
-
 golle_error golle_list_new (golle_list_t **list) {
   GOLLE_ASSERT (list, GOLLE_ERROR);
 
@@ -121,14 +119,13 @@ golle_error golle_list_new (golle_list_t **list) {
   return GOLLE_OK;
 }
 
-
 void golle_list_delete (golle_list_t *list) {
   if (list) {
+    /* Make sure to free all node data first */
     golle_list_pop_all (list);
     free(list);
   }
 }
-
 
 size_t golle_list_size (const golle_list_t *list) {
   GOLLE_ASSERT (list, 0);
@@ -150,7 +147,9 @@ golle_error golle_list_top (const golle_list_t *list,
 golle_error golle_list_push (golle_list_t *list,
 			     const void *item,
 			     size_t size) 
-{  
+{
+  /* Shorthand for pushing many with a count of 1.
+   * It amounts to the same thing. */
   return golle_list_push_many (list, item, size, 1);
 }
 
@@ -165,9 +164,9 @@ golle_error golle_list_push_many (golle_list_t *list,
   golle_list_node_t
     *head, *tail;
 
+  /* Build a sublist of items. */
   head = make_linked_list (item, size, count, &tail);
   GOLLE_ASSERT (head, GOLLE_EMEM);
-
 
   /* Append sublist to end of list */
   if (list->tail) {
@@ -182,11 +181,11 @@ golle_error golle_list_push_many (golle_list_t *list,
   return GOLLE_OK;
 }
 
-
 golle_error golle_list_pop (golle_list_t *list) {
+  /* Shorthand for popping many, with a count of 1.
+   * It amounts to the same thing. */
   return golle_list_pop_many (list, 1);
 }
-
 
 golle_error golle_list_pop_many (golle_list_t *list, size_t count) {
   GOLLE_ASSERT(list, GOLLE_ERROR);
@@ -194,13 +193,13 @@ golle_error golle_list_pop_many (golle_list_t *list, size_t count) {
   GOLLE_ASSERT(list->count >= count, GOLLE_EEMPTY);
 
   if (count == list->count) {
-    free_linked_nodes (list->head);
-    list->head = NULL;
-    list->tail = NULL;
-    list->count = 0;
-    return GOLLE_OK;
+    /* If the count is equal to the number of
+     * nodes in the list, just clear out the list.
+     */
+    return golle_list_pop_all (list);
   }
 
+  /* Find the new head of the list. */
   golle_list_node_t *sub = list->head, *prev = NULL;
   size_t c = count;
   while (c--) {
@@ -208,22 +207,24 @@ golle_error golle_list_pop_many (golle_list_t *list, size_t count) {
     sub = sub->next;
   }
   golle_list_node_t *t = list->head;
+
+  /* Slice the required number of nodes from the list. */
+  /* The head of the sublist becomes the new head. */
   list->head = sub;
   prev->next = NULL;
 
+  /* Clean up their memory. */
   free_linked_nodes (t);
   list->head = sub;
   
   list->count -= count;
-
-
   return GOLLE_OK;
 }
-
 
 golle_error golle_list_pop_all (golle_list_t *list) {
   GOLLE_ASSERT(list, GOLLE_ERROR);
 
+  /* Just free all the nodes and reset the pointers */
   free_linked_nodes (list->head);
   list->head = NULL;
   list->tail = NULL;
@@ -232,16 +233,15 @@ golle_error golle_list_pop_all (golle_list_t *list) {
   return GOLLE_OK;
 }
 
-
 golle_error golle_list_iterator (golle_list_t *list,
 				 golle_list_iterator_t **iter)
 {
   GOLLE_ASSERT (list, GOLLE_ERROR);
   GOLLE_ASSERT (iter, GOLLE_ERROR);
 
+  /* Make a new iterator and set it as invalid (ready) */
   golle_list_iterator_t *it = malloc(sizeof(*it));
   GOLLE_ASSERT (it, GOLLE_EMEM);
-
 
   it->list = list;
   it->current = INVALID_ITERATOR(list);
@@ -287,7 +287,6 @@ golle_error golle_list_iterator_reset (golle_list_iterator_t *iter) {
   iter->current = INVALID_ITERATOR(iter->list);
   return GOLLE_OK;
 }
-
 
 golle_error golle_list_insert_at (golle_list_iterator_t *iter, 
 				  const void *item,
@@ -335,7 +334,6 @@ golle_error golle_list_insert_at (golle_list_iterator_t *iter,
   return GOLLE_OK;
 }
 
-
 golle_error golle_list_erase_at (golle_list_iterator_t *iter) {
   GOLLE_ASSERT (iter, GOLLE_ERROR);
   GOLLE_ASSERT (iter->current, GOLLE_ENOTFOUND);
@@ -343,7 +341,6 @@ golle_error golle_list_erase_at (golle_list_iterator_t *iter) {
   golle_list_t *list = iter->list;
 
   GOLLE_ASSERT (iter->current != INVALID_ITERATOR (list), GOLLE_ENOTFOUND);
-
 
   if (list->head == iter->current) {
     /* Easily remove the head node. */

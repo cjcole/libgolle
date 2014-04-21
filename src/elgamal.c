@@ -9,8 +9,15 @@
 
 #define TOBN(g) ((BIGNUM*)(g))
 
+/*
+ * Make a copy of a BIGNUM object.
+ */
 static golle_error copy_num (golle_num_t *num,
-			     const golle_num_t cpy) {
+			     const golle_num_t cpy) 
+{
+  /* Always check for NULL and make a new
+   * value if required.
+   */
   if (!(*num)) {
     *num = golle_num_new ();
     if (!*num) {
@@ -28,6 +35,12 @@ golle_error golle_eg_encrypt (golle_key_t *key,
 			      golle_eg_t *cipher,
 			      golle_num_t *rand)
 {
+  /*
+   * To encrypt m in Gq, we generate a random value
+   * r (or use r = rand if it's given to us).
+   * Then the ciphertext is (a,b) where
+   * a = g^r and b = mh^r.
+   */
   golle_error err = GOLLE_OK;
   BIGNUM *mh, *r = NULL, *rn = NULL, *a, *b;
   BN_CTX *ctx;
@@ -42,7 +55,7 @@ golle_error golle_eg_encrypt (golle_key_t *key,
 
   BN_CTX_start (ctx);
 
-  /* TODO: Cannot encrypt if m is not in Gq.
+  /* Cannot encrypt if m is not in Gq.
    This is hard to check so we just do what we
    can and assume the rest.
   */
@@ -52,7 +65,6 @@ golle_error golle_eg_encrypt (golle_key_t *key,
   }
 
   /* Get random r in Z*q */
-  
   if (!rand || !*rand) {
     if (!(rn = golle_num_new ())) {
       err = GOLLE_EMEM;
@@ -60,6 +72,9 @@ golle_error golle_eg_encrypt (golle_key_t *key,
     }
     r = rn;
 
+    /* Make sure seeded.
+     * PRNG won't actually seed if it's not needed.
+     */
     err = golle_random_seed ();
     if (err != GOLLE_OK) {
       err = GOLLE_ECRYPTO;
@@ -71,9 +86,11 @@ golle_error golle_eg_encrypt (golle_key_t *key,
 	err = GOLLE_ECRYPTO;
 	goto out;
       }
+      /* We don't want zero. */
     } while (BN_is_zero (r));
 
     if (rand) {
+      /* Return the chosen random number if required. */
       *rand = r;
     }
   }
@@ -101,15 +118,19 @@ golle_error golle_eg_encrypt (golle_key_t *key,
     goto out;
   }
 
+  /* Get h^r first */
   if (!BN_mod_exp(mh, (key->h_product), r, TOBN (key->q), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
+  /* Multiply by m */
   if (!BN_mod_mul(b, mh, m, TOBN (key->q), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
 
+  /* Store the results (a, b) in cipher.
+   * (a, b) is the ciphertext */
   err = copy_num (&cipher->b, b);
   if (err == GOLLE_OK) {
     err = copy_num (&cipher->a, a);
@@ -143,6 +164,12 @@ golle_error golle_eg_decrypt (golle_key_t *key,
 			      const golle_eg_t *cipher,
 			      golle_num_t m)
 {
+  /*
+   * To decrypt we find m =  b / (a^x).
+   * Or alternatively, m = inverse(a^x) * b.
+   * x must be constructed from the array of xi.
+   * x is simply the product of xi mod q.
+   */
   BN_CTX *ctx;
   BIGNUM *x, *ax;
   golle_error err = GOLLE_OK;
@@ -175,12 +202,14 @@ golle_error golle_eg_decrypt (golle_key_t *key,
     goto out;
   }
 
-  /* TODO: Montgomery multiplication */
+  /* TODO: Montgomery multiplication might make this faster. */
   for (size_t i = 0; i < len; i++) {
+    /* Get a^xi mod q ... */
     if (!BN_mod_exp (x, cipher->a, TOBN (xi[i]), TOBN(key->q), ctx)) {
       err = GOLLE_ECRYPTO;
       goto out;
     }
+    /* ... then accumulate the product to get a^x mod q */
     if (!BN_mod_mul (ax, ax, x, TOBN(key->q), ctx)) {
       err = GOLLE_ECRYPTO;
       goto out;
@@ -198,7 +227,7 @@ golle_error golle_eg_decrypt (golle_key_t *key,
     err = GOLLE_ECRYPTO;
     goto out;
   }
-
+  /* Now m is the plaintext */
  out:
   BN_CTX_end (ctx);
   BN_CTX_free (ctx);

@@ -23,8 +23,7 @@ enum {
     return err;\
   } } while (0)
 
-
-/* Get h = g^x */
+/* Get h = g^x mod p */
 static golle_num_t get_h (const golle_num_t x,
 			  const golle_num_t p,
 			  const golle_num_t g)
@@ -37,13 +36,11 @@ static golle_num_t get_h (const golle_num_t x,
     goto out;
   }
   
-
   if (!BN_mod_exp (h, g, x, p, ctx)) {
     BN_free (h);
     h = NULL;
   }
 
-  
  out:
   BN_CTX_free (ctx);
   return h;
@@ -58,6 +55,7 @@ static golle_num_t get_q (const golle_num_t p)
       BN_free (q);
       q = NULL;
     }
+    /* Right shift by one is a quicker integer divide by 2 */
     else if (!BN_rshift1 (q, q)) {
       BN_free (q);
       q = NULL;
@@ -66,7 +64,6 @@ static golle_num_t get_q (const golle_num_t p)
 
   return q;
 }
-
 
 golle_error golle_key_gen_public (golle_key_t *key,
 				  int bits,
@@ -87,6 +84,7 @@ golle_error golle_key_gen_public (golle_key_t *key,
     goto error;
   }
 
+  /* Get q = (p - 1) / 2 */
   key->q = get_q (key->p);
   if (!key->q) {
     err = GOLLE_EMEM;
@@ -145,9 +143,9 @@ golle_error golle_key_set_public (golle_key_t *key,
   if (BN_is_one ((BIGNUM*)g)) {
     err = GOLLE_ECRYPTO;
   }
-  
 
   if (err == GOLLE_OK) {
+    /* Copy over the number data */
     if (!(key->p = BN_dup (p))) {
       err = GOLLE_EMEM;
     }
@@ -156,23 +154,21 @@ golle_error golle_key_set_public (golle_key_t *key,
     }
   }
 
-
   if (err != GOLLE_OK) {
+    /* Make everything squeaky clean on failure */
     golle_key_cleanup (key);
   }
   return err;
 }
 
-
-
 golle_error golle_key_gen_private (golle_key_t *key) {
   GOLLE_ASSERT (key, GOLLE_ERROR);
 
-
+  /* Always seed first. It won't actually do anything
+   * if seeding isn't required. */
   golle_error err = golle_random_seed ();
   GOLLE_ASSERT (err == GOLLE_OK, err);
   
-
   BIGNUM* r = BN_new ();
   GOLLE_ASSERT (r, GOLLE_EMEM);
 
@@ -208,7 +204,6 @@ golle_error golle_key_gen_private (golle_key_t *key) {
   }
   return err;
 }
-
 
 golle_error golle_key_accum_h (golle_key_t *key,
 			       const golle_num_t h)

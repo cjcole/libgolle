@@ -38,13 +38,16 @@ static golle_error for_each_peer (golle_peer_set_t *set,
 				  void *state,
 				  each_peer_t cb) 
 {
+  /* Iterate over the whole set of peers */
   golle_set_iterator_t *iter;
   golle_error err = golle_set_iterator (set->peers, &iter);
 
   while (err == GOLLE_OK) {
+    /* Get the next item as a binary buffer */
     const golle_bin_t *bin;
     err = golle_set_iterator_next (iter, &bin);
     if (err == GOLLE_OK) {
+      /* Cast to a peer object then call the callback */
       golle_peer_impl_t *p = (golle_peer_impl_t *)bin->bin;
       cb (p, state);
     }
@@ -83,6 +86,7 @@ static golle_peer_impl_t *find_peer (golle_peer_t peer,
   pred.id = peer;
   err = golle_set_find (set, &pred, sizeof (pred), &found);
   if (err == GOLLE_OK) {
+    /* It's just a simple cast. */
     return (golle_peer_impl_t *)found->bin;
   }
   return NULL;
@@ -101,6 +105,7 @@ static void clear_single_peer_h (golle_peer_impl_t *p, void *unused) {
  * Clear the h value of all peers.
  */
 static golle_error clear_peer_h (golle_peer_set_t *set) {
+  /* Use the for_each and callback technique */
   return for_each_peer (set, NULL, &clear_single_peer_h);
 }
 
@@ -108,13 +113,10 @@ static golle_error clear_peer_h (golle_peer_set_t *set) {
  * Free memory associated with a peer.
  */
 static void clear_peer (golle_peer_impl_t *p, void *unused) {
+  /* Clear all of the buffers and numbers. */
   GOLLE_UNUSED (unused);
   golle_num_delete (p->h);
-  golle_bin_delete (p->commit.rsend);
-  golle_bin_delete (p->commit.rkeep);
-  golle_bin_delete (p->commit.hash);
-  golle_bin_delete (p->commit.secret);
-  memset (&p->commit, 0, sizeof (p->commit));
+  golle_commit_clear (&p->commit);
   p->h = NULL;
 }
 
@@ -122,6 +124,7 @@ static void clear_peer (golle_peer_impl_t *p, void *unused) {
  * Free memory associated with all peers.
  */
 static void clear_peers (golle_peer_set_t *set) {
+  /* Use the for_each and callback technique */
   for_each_peer (set, NULL, &clear_peer);
 }
 
@@ -163,8 +166,13 @@ static void peer_ready (golle_peer_impl_t *p, void *r) {
  * set is ready.
  */
 static golle_error set_ready (golle_peer_set_t *set) {
+  /* Use the for_each and callback to count
+   * how many peers are ready
+   */
   size_t ready = 0;
   golle_error err = for_each_peer (set, &ready, &peer_ready);
+
+  /* Every peer must be ready for the key to be ready */
   if (err == GOLLE_OK) {
     if (ready == golle_peers_size (set)) {
       set->state = GOLLE_KEY_READY;
@@ -177,6 +185,7 @@ static golle_error set_ready (golle_peer_set_t *set) {
 }
 
 golle_peer_set_t *golle_peers_new (void) {
+  /* Allocate a new peer struct and a new set of peers */
   golle_peer_set_t *set = malloc (sizeof (*set));
   GOLLE_ASSERT (set, NULL);
   memset (set, 0, sizeof (*set));
@@ -218,6 +227,10 @@ golle_error golle_peers_add (golle_peer_set_t *set,
   golle_peer_impl_t p;
   memset (&p, 0, sizeof (p));
 
+  /* Get the next incremental id.
+   * IDs don't have to be sequential, and
+   * there can be gaps. There just can't be
+   * duplicates. */
   p.id = set->next_id++;
   golle_error err = golle_set_insert (set->peers,
 				      &p,
@@ -313,6 +326,7 @@ golle_peer_key_state golle_peers_get_state (golle_peer_set_t *set) {
 int golle_peers_check_key (golle_peer_set_t *set,
 			   golle_peer_t peer) 
 {
+  /* Peer must exist and have a valid h value */
   GOLLE_ASSERT (set, 0);
   golle_peer_impl_t *p = find_peer (peer, set->peers);
   GOLLE_ASSERT (p, 0);

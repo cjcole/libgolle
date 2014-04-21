@@ -40,8 +40,7 @@ GOLLE_BEGIN_C
  * of the group.
  *
  * Decryption is not needed by the Golle protocol, although we include it here
- * for verification and completeness. For more information on how ElGamal
- * is used in the Golle protocol, see @ref golle.
+ * for verification and completeness.
  */
 
 /*!

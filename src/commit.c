@@ -11,11 +11,16 @@
 #include <limits.h>
 
 enum {
+  /* Number of bits in a random commitment, rounded up
+   * to the nearest multiple of n bits, where n is the
+   * number of bits in a byte. */
   RANDOM_BITS = (COMMIT_RANDOM_BITS + CHAR_BIT - 1) & ~(CHAR_BIT -1),
+  /* The number of random bytes used in a commitment. */
   RANDOM_BYTES = (RANDOM_BITS + CHAR_BIT - 1) / CHAR_BIT
 };
 
-
+/* Check that every member of a commitment object
+ * is defined. */
 #define ASSERT_FULL_COMMIT(commitment)\
   GOLLE_ASSERT (commitment, GOLLE_ERROR);\
   GOLLE_ASSERT (commitment->secret, GOLLE_ERROR);\
@@ -27,13 +32,13 @@ enum {
   GOLLE_ASSERT (commitment->rkeep->bin, GOLLE_ERROR);\
   GOLLE_ASSERT (commitment->hash->bin, GOLLE_ERROR);
 
-
 /*
  * Create a random buffer
  */
 static golle_bin_t *random_buffer (void) {
   golle_bin_t *rand = golle_bin_new (RANDOM_BYTES);
   if (rand) {
+    /* This call will take care of any seeding required. */
     golle_error err = golle_random_generate (rand);
     if (err != GOLLE_OK) {
       golle_bin_delete (rand);
@@ -84,7 +89,6 @@ static golle_bin_t *get_hash (const golle_bin_t *rsend,
     return hash;
 }
 
-
 golle_commit_t *golle_commit_new (const golle_bin_t *secret) {
   GOLLE_ASSERT (secret, NULL);
   GOLLE_ASSERT (secret->bin, NULL);
@@ -113,8 +117,8 @@ golle_commit_t *golle_commit_new (const golle_bin_t *secret) {
   if (!rkeep) {
     goto error;
   }
-
   
+  /* Hash the secret and the random buffers */
   hash = get_hash (rsend, rkeep, secret_copy);
   if (!hash) {
     goto error;
@@ -124,7 +128,6 @@ golle_commit_t *golle_commit_new (const golle_bin_t *secret) {
   if (!commit) {
     goto error;
   }
-
 
   commit->secret = secret_copy;
   commit->rsend = rsend;
@@ -144,26 +147,23 @@ golle_commit_t *golle_commit_new (const golle_bin_t *secret) {
 
 void golle_commit_delete (golle_commit_t *commitment) {
   if (commitment) {
-    golle_bin_delete (commitment->secret);
-    golle_bin_delete (commitment->rsend);
-    golle_bin_delete (commitment->rkeep);
-    golle_bin_delete (commitment->hash);
+    golle_commit_clear (commitment);
     free (commitment);
   }
 }
 
-
 golle_error golle_commit_verify (const golle_commit_t *commitment) {
   ASSERT_FULL_COMMIT (commitment);
 
+  /* Get the hash of the current values. */
   golle_bin_t *check = get_hash (commitment->rsend,
 				 commitment->rkeep,
 				 commitment->secret);
 
   GOLLE_ASSERT (check, GOLLE_ECRYPTO);
 
+  /* Compare it to the hash that was sent previously. */
   golle_error err = GOLLE_COMMIT_PASSED;
-  
   if (check->size != commitment->hash->size) {
     err = GOLLE_ECRYPTO;
   }
@@ -179,19 +179,23 @@ golle_error golle_commit_verify (const golle_commit_t *commitment) {
   return err;
 }
 
-
 golle_error golle_commit_copy (golle_commit_t *dest,
 			       const golle_commit_t *src)
 {
   GOLLE_ASSERT (dest, GOLLE_ERROR);
   GOLLE_ASSERT (src, GOLLE_ERROR);
 
+  /* Copy in a reversable way. i.e. make an independent
+   * copy of each buffer, and if any allocation fails,
+   * then just clean up and abort. Only copy the buffers
+   * to the destination when everything has succeeded. */
+
   golle_bin_t 
     *rkeep = 0, 
     *rsend = 0, 
     *hash = 0, 
     *secret = 0;
-  
+
   if (src->rkeep) {
     if (!(rkeep = golle_bin_copy (src->rkeep))) {
       goto error;

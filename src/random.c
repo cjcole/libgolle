@@ -62,6 +62,7 @@ static void load_hardware_engine () {
 golle_error golle_random_seed (void) {
   LOAD_HARDWARE_ENGINE;
     
+  /* Only seed when needed */
   if (!RAND_status ()) {
     RAND_poll ();
   }
@@ -71,6 +72,8 @@ golle_error golle_random_seed (void) {
 golle_error golle_random_generate (golle_bin_t *buffer) {
   GOLLE_ASSERT (buffer, GOLLE_ERROR);
 
+  /* Always seed first. Call will only do something
+   * if seeding is required. */
   golle_error err = golle_random_seed ();
   GOLLE_ASSERT (err == GOLLE_OK, err);
   
