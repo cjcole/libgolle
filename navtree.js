@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "libgolle", "index.html", [
+  [ "LibGolle", "index.html", [
     [ "Golle", "index.html", null ],
     [ "ChangeLog", "md_ChangeLog.html", null ],
     [ "Authors", "md_AUTHORS.html", null ],
@@ -32,7 +32,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"platform_8h_source.html"
+"set_8h.html#ga47d60a1cfe14d63004f3d9ab974f5586"
 ];
 
 var navTreeSubIndices = new Array();

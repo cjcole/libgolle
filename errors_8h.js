@@ -1,6 +1,7 @@
 var errors_8h =
 [
     [ "GOLLE_ASSERT", "errors_8h.html#af4b5d81462e99e7e348d8c0c9b1a8e53", null ],
+    [ "GOLLE_UNUSED", "errors_8h.html#a6d3df5e7b202591a15310b6e44de2d8d", null ],
     [ "golle_error", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748", [
       [ "GOLLE_OK", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661", null ],
       [ "GOLLE_ERROR", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307", null ],
@@ -14,6 +15,7 @@ var errors_8h =
       [ "GOLLE_ENOTPRIME", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748aba5f121b848da29c8356eaf44bbad222", null ],
       [ "GOLLE_ENOCOMMIT", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748afad5629e3d61e52043a4df0aa0e13ff4", null ],
       [ "GOLLE_ECRYPTO", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07", null ],
+      [ "GOLLE_EABORT", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748a6b86eecc932c1f6198e27646eccdc44e", null ],
       [ "GOLLE_END", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748a015f4d438a8a427831454e918090e42f", null ],
       [ "GOLLE_COMMIT_PASSED", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748a3750f6e670c971c8f2d58853e774537f", null ],
       [ "GOLLE_COMMIT_FAILED", "errors_8h.html#ad89bfc18c1698005d61cc709e5626748ab1aae2bf5cbd05dd7c0dba36055c5abc", null ],

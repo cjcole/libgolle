@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>libgolle: ElGamal</title>
+<title>LibGolle: ElGamal</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">libgolle
+   <div id="projectname">LibGolle
    &#160;<span id="projectnumber">0.0.0</span>
    </div>
    <div id="projectbrief">Phillipe Golle&#39;s protocol for Mental Poker</div>
@@ -124,7 +124,7 @@ Functions</h2></td></tr>
 <p>Given a <a class="el" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> struct properly generated so that the user has part of the private key in <code>x</code>, this module allows the user to partially decrypt a message that was encrypted by another group member, as above.</p>
 <p>To encrypt a message <img class="formulaInl" alt="$m \in \mathbb{G}$" src="form_19.png"/> using ElGamal, we select <img class="formulaInl" alt="$r \xleftarrow{R} \{\mathbb{Z}^{*}_{q}\}$" src="form_20.png"/>, then calculate the ciphertext <img class="formulaInl" alt="$c = (g^{r}, mh^{r})$" src="form_21.png"/>.</p>
 <p>To decrypt a ciphertext <img class="formulaInl" alt="$(a, b)$" src="form_22.png"/>, we calculate <img class="formulaInl" alt="$b/a^{x}$" src="form_23.png"/>, where <img class="formulaInl" alt="$a^{x} = \prod_{i=1}^{k}a^{x_{i}}$" src="form_24.png"/> for each of the <img class="formulaInl" alt="$k$" src="form_25.png"/> members of the group.</p>
-<p>Decryption is not needed by the Golle protocol, although we include it here for verification and completeness. For more information on how ElGamal is used in the Golle protocol, see <a class="el" href="group__golle.html">Golle state functions</a>. </p>
+<p>Decryption is not needed by the Golle protocol, although we include it here for verification and completeness. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga5f638172acd6292dd82fd0154e3e634a"></a>
 <div class="memitem">
@@ -264,7 +264,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 20 2014 01:38:51 for libgolle by
+    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

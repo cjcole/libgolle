@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>libgolle: Bit Commitment</title>
+<title>LibGolle: Bit Commitment</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">libgolle
+   <div id="projectname">LibGolle
    &#160;<span id="projectnumber">0.0.0</span>
    </div>
    <div id="projectbrief">Phillipe Golle&#39;s protocol for Mental Poker</div>
@@ -118,6 +118,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaa787f45ce8647105dd9ab614f8fc8675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free resources allocated by a call to <a class="el" href="group__commit.html#ga3dc309585c5daa18d5bd3c1477d8a7fc" title="Generate a new bit commitment to a value.">golle_commit_new</a>.  <a href="#gaa787f45ce8647105dd9ab614f8fc8675"></a><br/></td></tr>
 <tr class="memitem:ga01a00c7019fb42882a53a993ab9fc508"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__commit.html#ga01a00c7019fb42882a53a993ab9fc508">golle_commit_verify</a> (const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *commitment)</td></tr>
 <tr class="memdesc:ga01a00c7019fb42882a53a993ab9fc508"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify a commmitment.  <a href="#ga01a00c7019fb42882a53a993ab9fc508"></a><br/></td></tr>
+<tr class="memitem:gad7d50a79c5f2cdb6fcc6d319d9b1c697"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a22aa8f08d7b06ebc8d08e23227d1c5e8">GOLLE_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__commit.html#gad7d50a79c5f2cdb6fcc6d319d9b1c697">golle_commit_clear</a> (<a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *commit)</td></tr>
+<tr class="memdesc:gad7d50a79c5f2cdb6fcc6d319d9b1c697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release the buffers associated with a commit without freeing the commit structure itself.  <a href="#gad7d50a79c5f2cdb6fcc6d319d9b1c697"></a><br/></td></tr>
+<tr class="memitem:gab4b5f5a856fd12225fad6db970c2e670"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__commit.html#gab4b5f5a856fd12225fad6db970c2e670">golle_commit_copy</a> (<a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *dest, const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *src)</td></tr>
+<tr class="memdesc:gab4b5f5a856fd12225fad6db970c2e670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy a commit structure, bin for bin.  <a href="#gab4b5f5a856fd12225fad6db970c2e670"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>The protocol for bit commitment scheme is as such:</p>
@@ -130,6 +134,66 @@ Functions</h2></td></tr>
 <li>The external parties can verify that the <code>secret</code> has not changed by checking the hash (see <a class="el" href="group__commit.html#ga01a00c7019fb42882a53a993ab9fc508" title="Verify a commmitment.">golle_commit_verify</a>). </li>
 </ul>
 <h2>Function Documentation</h2>
+<a class="anchor" id="gad7d50a79c5f2cdb6fcc6d319d9b1c697"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a22aa8f08d7b06ebc8d08e23227d1c5e8">GOLLE_INLINE</a> void golle_commit_clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *&#160;</td>
+          <td class="paramname"><em>commit</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Release the buffers associated with a commit without freeing the commit structure itself. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">commit</td><td>The commit structure whose buffers should be freed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gab4b5f5a856fd12225fad6db970c2e670"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_commit_copy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgolle__commit__t.html">golle_commit_t</a> *&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy a commit structure, bin for bin. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">dest</td><td>Will have each member set to copied buffer. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">src</td><td>Contains the buffers to copy from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if OK, :GOLLE_ERROR if either param is <code>NULL</code>, <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory failed. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaa787f45ce8647105dd9ab614f8fc8675"></a>
 <div class="memitem">
 <div class="memproto">
@@ -211,7 +275,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 20 2014 01:38:50 for libgolle by
+    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

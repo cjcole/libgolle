@@ -29,18 +29,13 @@
 \form#28:$r \in \mathbb{Z}^{*}_{q}$
 \form#29:$m >= {q}$
 \form#30:$ m = g^{n} \mod q$
-\form#31:$C = \prod_{i}g^{r_{i}}$
-\form#32:$c$
-\form#33:$m_{i}$
-\form#34:$r_{i}$
-\form#35:$i$
-\form#36:$\sum_{i}r_{i} \mod d$
-\form#37:$d$
-\form#38:$prime \mod div = 1$
-\form#39:$\mathbb{Z}^{*}_{p}$
-\form#40:$h \in \mathbb{Z}^{*}_{p}$
-\form#41:$g = h^{(p-1)/q} \mod p$
-\form#42:$g \neq 1$
-\form#43:$m = g^n \mod q$
-\form#44:$m$
-\form#45:$n$
+\form#31:$prime \mod div = 1$
+\form#32:$\mathbb{Z}^{*}_{p}$
+\form#33:$h \in \mathbb{Z}^{*}_{p}$
+\form#34:$g = h^{(p-1)/q} \mod p$
+\form#35:$g \neq 1$
+\form#36:$m = g^n \mod q$
+\form#37:$m$
+\form#38:$n$
+\form#39:$i$
+\form#40:$i \in \{0, ..., 51\}$

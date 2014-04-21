@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>libgolle: Data Structures</title>
+<title>LibGolle: Data Structures</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">libgolle
+   <div id="projectname">LibGolle
    &#160;<span id="projectnumber">0.0.0</span>
    </div>
    <div id="projectbrief">Phillipe Golle&#39;s protocol for Mental Poker</div>
@@ -116,11 +116,10 @@ $(document).ready(function(){initNavTree('annotated.html','');});
 <tr id="row_3_"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__key__t.html" target="_self">golle_key_t</a></td><td class="desc">A peer's key. Contains the peer's portion of the private key and the public key elements</td></tr>
 <tr id="row_4_" class="even"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__list__iterator__t.html" target="_self">golle_list_iterator_t</a></td><td class="desc">A type used for iterating through all the items in a list</td></tr>
 <tr id="row_5_"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__list__t.html" target="_self">golle_list_t</a></td><td class="desc">An opaque pointer to a singly-linked list</td></tr>
-<tr id="row_6_" class="even"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__peer__set__t.html" target="_self">golle_peer_set_t</a></td><td class="desc">An abstraction over the <a class="el" href="structgolle__set__t.html" title="An opaque pointer to a set of objects.">golle_set_t</a> type, made specifically for handling a set of <a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd" title="Represents a peer within a set of peers.">golle_peer_t</a>. Allows for adding and removing peers, storing and verifying commitments (see <a class="el" href="group__commit.html">Bit Commitment</a>) from peers, and building a distributed key (see <a class="el" href="group__distribute.html">Key Generation and Distribution</a>)</td></tr>
-<tr id="row_7_"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__rand__t.html" target="_self">golle_rand_t</a></td><td class="desc">Represents a randomly-selected element. Always send the commitment first, then the selection. Each peer should verify the commitment</td></tr>
+<tr id="row_6_" class="even"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__peer__set__t.html" target="_self">golle_peer_set_t</a></td><td class="desc">An abstraction over the <a class="el" href="structgolle__set__t.html" title="An opaque pointer to a set of objects.">golle_set_t</a> type, made specifically for handling a set of <a class="el" href="group__peer.html#gab40ba7a268c97b56771307ba6e266ecd" title="Represents a peer within a set of peers.">golle_peer_t</a>. Allows for adding and removing peers, storing and verifying commitments (see <a class="el" href="group__commit.html">Bit Commitment</a>) from peers, and building a distributed key (see <a class="el" href="group__distribute.html">Key Generation and Distribution</a>)</td></tr>
+<tr id="row_7_"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__select__t.html" target="_self">golle_select_t</a></td><td class="desc">An opaque structure that manages a peer's participation in the Golle protocol</td></tr>
 <tr id="row_8_" class="even"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__set__iterator__t.html" target="_self">golle_set_iterator_t</a></td><td class="desc">A type used for iterating through all of the items in a set</td></tr>
-<tr id="row_9_"><td class="entry"><img src="ftv2node.png" alt="o" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__set__t.html" target="_self">golle_set_t</a></td><td class="desc">An opaque pointer to a set of objects</td></tr>
-<tr id="row_10_" class="even"><td class="entry"><img src="ftv2lastnode.png" alt="\" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__t.html" target="_self">golle_t</a></td><td class="desc">An opaque pointer, represents a Golle state</td></tr>
+<tr id="row_9_"><td class="entry"><img src="ftv2lastnode.png" alt="\" width="16" height="22" /><img src="ftv2cl.png" alt="C" width="24" height="22" /><a class="el" href="structgolle__set__t.html" target="_self">golle_set_t</a></td><td class="desc">An opaque pointer to a set of objects</td></tr>
 </table>
 </div><!-- directory -->
 </div><!-- contents -->
@@ -128,7 +127,7 @@ $(document).ready(function(){initNavTree('annotated.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 20 2014 01:38:51 for libgolle by
+    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

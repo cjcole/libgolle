@@ -2,6 +2,7 @@ var searchData=
 [
   ['golle_5fcommit_5ffailed',['GOLLE_COMMIT_FAILED',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748ab1aae2bf5cbd05dd7c0dba36055c5abc',1,'errors.h']]],
   ['golle_5fcommit_5fpassed',['GOLLE_COMMIT_PASSED',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748a3750f6e670c971c8f2d58853e774537f',1,'errors.h']]],
+  ['golle_5feabort',['GOLLE_EABORT',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748a6b86eecc932c1f6198e27646eccdc44e',1,'errors.h']]],
   ['golle_5fecrypto',['GOLLE_ECRYPTO',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07',1,'errors.h']]],
   ['golle_5feempty',['GOLLE_EEMPTY',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9',1,'errors.h']]],
   ['golle_5feexists',['GOLLE_EEXISTS',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748a37b2abef86119e7735bade24971b0862',1,'errors.h']]],

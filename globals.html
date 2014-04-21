@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>libgolle: Globals</title>
+<title>LibGolle: Globals</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">libgolle
+   <div id="projectname">LibGolle
    &#160;<span id="projectnumber">0.0.0</span>
    </div>
    <div id="projectbrief">Phillipe Golle&#39;s protocol for Mental Poker</div>
@@ -148,6 +148,12 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>golle_bin_to_num()
 : <a class="el" href="group__numbers.html#ga6ba639c5b021f8ce4339bfc9908c5172">numbers.h</a>
 </li>
+<li>golle_commit_clear()
+: <a class="el" href="group__commit.html#gad7d50a79c5f2cdb6fcc6d319d9b1c697">commit.h</a>
+</li>
+<li>golle_commit_copy()
+: <a class="el" href="group__commit.html#gab4b5f5a856fd12225fad6db970c2e670">commit.h</a>
+</li>
 <li>golle_commit_delete()
 : <a class="el" href="group__commit.html#gaa787f45ce8647105dd9ab614f8fc8675">commit.h</a>
 </li>
@@ -160,20 +166,11 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>GOLLE_COMMIT_PASSED
 : <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a3750f6e670c971c8f2d58853e774537f">errors.h</a>
 </li>
-<li>golle_commit_peer_key()
-: <a class="el" href="group__golle.html#gacd504b356c50199e9619250e748cbc02">golle.h</a>
-</li>
 <li>golle_commit_verify()
 : <a class="el" href="group__commit.html#ga01a00c7019fb42882a53a993ab9fc508">commit.h</a>
 </li>
-<li>golle_commitment_store()
-: <a class="el" href="group__golle.html#ga4e8978d36a578b4e3c2e258633675e63">golle.h</a>
-</li>
-<li>golle_comp_t
-: <a class="el" href="group__golle.html#ga8337d871e02487da233b1f13105aadaa">golle.h</a>
-</li>
-<li>golle_delete()
-: <a class="el" href="group__golle.html#gac5af426dd9982151ce0c6c9419a56595">golle.h</a>
+<li>GOLLE_EABORT
+: <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a6b86eecc932c1f6198e27646eccdc44e">errors.h</a>
 </li>
 <li>GOLLE_ECRYPTO
 : <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">errors.h</a>
@@ -195,9 +192,6 @@ $(document).ready(function(){initNavTree('globals.html','');});
 </li>
 <li>GOLLE_EINVALID
 : <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">errors.h</a>
-</li>
-<li>golle_elements_set()
-: <a class="el" href="group__golle.html#ga937fff0230530521fbff29e71aea8379">golle.h</a>
 </li>
 <li>GOLLE_EMEM
 : <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">errors.h</a>
@@ -237,9 +231,6 @@ $(document).ready(function(){initNavTree('globals.html','');});
 </li>
 <li>golle_generate_prime()
 : <a class="el" href="group__numbers.html#ga01f0cd75c898c920c7d1458c364e58fc">numbers.h</a>
-</li>
-<li>golle_get_key_commitment()
-: <a class="el" href="group__golle.html#ga1c733590a3426fe670cbee589a56ba42">golle.h</a>
 </li>
 <li>GOLLE_INLINE
 : <a class="el" href="platform_8h.html#a22aa8f08d7b06ebc8d08e23227d1c5e8">platform.h</a>
@@ -319,9 +310,6 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>golle_list_top()
 : <a class="el" href="group__list.html#ga073acfd1a96ce78f6da329985b8c2026">list.h</a>
 </li>
-<li>golle_new()
-: <a class="el" href="group__golle.html#gac2fdee031e9f36f020ff576dba4501e2">golle.h</a>
-</li>
 <li>GOLLE_NOT_PRIME
 : <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a19c251607c97661e2f55ae00f695a48d">errors.h</a>
 </li>
@@ -352,17 +340,11 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>GOLLE_OK
 : <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">errors.h</a>
 </li>
-<li>golle_peer_add()
-: <a class="el" href="group__golle.html#gacc191949e24fc0f9329073ac9e96bb2f">golle.h</a>
-</li>
 <li>golle_peer_key_state
 : <a class="el" href="group__peer.html#ga65564903e00955b4782c2a62c448ed3b">peer.h</a>
 </li>
-<li>golle_peer_remove()
-: <a class="el" href="group__golle.html#ga0e69c363130b798c656a235b782127e5">golle.h</a>
-</li>
 <li>golle_peer_t
-: <a class="el" href="group__golle.html#gab40ba7a268c97b56771307ba6e266ecd">golle.h</a>
+: <a class="el" href="group__peer.html#gab40ba7a268c97b56771307ba6e266ecd">peer.h</a>
 </li>
 <li>golle_peers_add()
 : <a class="el" href="group__peer.html#ga29857c643c2b60b571bbaf84b64fcf7c">peer.h</a>
@@ -412,23 +394,32 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>golle_random_seed()
 : <a class="el" href="group__random.html#ga9840d69092df9392ecb78fadb3d20e06">random.h</a>
 </li>
-<li>golle_round_begin()
-: <a class="el" href="group__golle.html#gaeb7ae8d1aab55f13ec7fd0aabc385ad0">golle.h</a>
+<li>golle_select_callback_t
+: <a class="el" href="group__select.html#gac8c1d85c174d8ac993ac1d81d3d4abbd">select.h</a>
 </li>
-<li>golle_round_end()
-: <a class="el" href="group__golle.html#gac59c103ce1f4949e30e8e3b5abfa20e5">golle.h</a>
+<li>golle_select_delete()
+: <a class="el" href="group__select.html#ga728a891f4c66606beca7120bdf2b4cbb">select.h</a>
 </li>
-<li>golle_select()
-: <a class="el" href="group__golle.html#gaaf05afe205221a7d68b4df9e621e3df5">golle.h</a>
+<li>golle_select_new()
+: <a class="el" href="group__select.html#gabfe31babb9d7c18f361a19b28e7d0f3b">select.h</a>
 </li>
-<li>golle_selection_decrypt()
-: <a class="el" href="group__golle.html#ga6657de4e5f2c11c84b84537c8f20c835">golle.h</a>
+<li>golle_select_next_round()
+: <a class="el" href="group__select.html#ga665bce4086f8d25d88ff42a858e6044e">select.h</a>
 </li>
-<li>golle_selection_get()
-: <a class="el" href="group__golle.html#ga0990c527231bcd3f2f1f700833ffed99">golle.h</a>
+<li>golle_select_object()
+: <a class="el" href="group__select.html#gaead170b94d605f8d7c717243ca451e92">select.h</a>
 </li>
-<li>golle_selection_store()
-: <a class="el" href="group__golle.html#ga56ffc883e66da466bc86e1a7572ca0c1">golle.h</a>
+<li>golle_select_peer_commit()
+: <a class="el" href="group__select.html#gab41e53831588c277c4e17b31a4cd1dbe">select.h</a>
+</li>
+<li>golle_select_peer_verify()
+: <a class="el" href="group__select.html#ga66b86b85e04dd6a6024ca663e825e62f">select.h</a>
+</li>
+<li>golle_select_reset()
+: <a class="el" href="group__select.html#gaa7beb070f774af57f63b6445016e63d5">select.h</a>
+</li>
+<li>golle_select_reveal()
+: <a class="el" href="group__select.html#ga47edbb485a3e3154c615290c4cf2aa38">select.h</a>
 </li>
 <li>golle_set_clear()
 : <a class="el" href="group__set.html#ga46b7bbb64c4dd538cbf11ec4e9b4fd5b">set.h</a>
@@ -463,17 +454,14 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>golle_set_new()
 : <a class="el" href="group__set.html#ga47d928fa82ddfb49f7bcaf5514fd422c">set.h</a>
 </li>
-<li>golle_set_peer_key()
-: <a class="el" href="group__golle.html#ga1721f94d8a7e29df3621ed936f0e8421">golle.h</a>
-</li>
-<li>golle_set_session_key()
-: <a class="el" href="group__golle.html#gaf45d915f4824f7f09bbbe6ffd1db3c66">golle.h</a>
-</li>
 <li>golle_set_size()
 : <a class="el" href="group__set.html#gaf8f94b0253cb800a064dcf11091aa1b5">set.h</a>
 </li>
 <li>golle_test_prime()
 : <a class="el" href="group__numbers.html#ga174b5b5188dbab0345cd4c1aff33f76e">numbers.h</a>
+</li>
+<li>GOLLE_UNUSED
+: <a class="el" href="errors_8h.html#a6d3df5e7b202591a15310b6e44de2d8d">errors.h</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -481,7 +469,7 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 20 2014 01:38:51 for libgolle by
+    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

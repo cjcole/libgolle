@@ -1,6 +1,7 @@
 var group__peer =
 [
     [ "golle_peer_set_t", "structgolle__peer__set__t.html", null ],
+    [ "golle_peer_t", "group__peer.html#gab40ba7a268c97b56771307ba6e266ecd", null ],
     [ "golle_peer_key_state", "group__peer.html#ga65564903e00955b4782c2a62c448ed3b", [
       [ "GOLLE_KEY_UNDEFINED", "group__peer.html#gga65564903e00955b4782c2a62c448ed3babb0119f0c223e5dd12db237d4d108483", null ],
       [ "GOLLE_KEY_EMPTY", "group__peer.html#gga65564903e00955b4782c2a62c448ed3ba7672a8d51d9558edf89094fc61404265", null ],
