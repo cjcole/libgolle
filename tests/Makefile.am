@@ -63,16 +63,12 @@ p2p_CPPFLAGS = $(TEST_INC)
 p2p_LDADD = $(TEST_LIB)
 
 
-TESTS = list\
-	elgamal\
-	keygen\
-	distribution\
-	commitment\
-	randomness\
-	buffer\
-	p2p\
-	set
-
-if HAVE_FUN
-TESTS_ENVIRONMENT = $(SHELL) $(top_srcdir)/tests/runtest
-endif
+TESTS = ./list\
+	./elgamal\
+	./keygen\
+	./distribution\
+	./commitment\
+	./randomness\
+	./buffer\
+	./p2p\
+	./set
