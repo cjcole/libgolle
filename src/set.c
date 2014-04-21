@@ -400,25 +400,8 @@ static void golle_set_erase_node (golle_set_t *set, set_node_t *node) {
 static void golle_set_insert_a (golle_set_t *set, set_node_t *node);
 
 /*
- * Insert case 2.
- */
-static void golle_set_insert_b (golle_set_t *set, set_node_t *node);
-
-/*
- * Insert case 3
- */
-static void golle_set_insert_c (golle_set_t *set, set_node_t *node);
-
-/*
- * Insert case 4
- */
-static void golle_set_insert_d (golle_set_t *set, set_node_t *node);
-
-/*
  * Insert case 5
  */
-static void golle_set_insert_e (golle_set_t *set, set_node_t *node);
-
 static void golle_set_insert_e (golle_set_t *set, set_node_t *node) {
   set_node_t *g = node_gparent (node);
   node->parent->colour = NODE_BLACK;
@@ -433,6 +416,9 @@ static void golle_set_insert_e (golle_set_t *set, set_node_t *node) {
   }
 }
 
+/*
+ * Insert case 4
+ */
 static void golle_set_insert_d (golle_set_t *set, set_node_t *node) {
   if (!is_left (node) && is_left (node->parent)) 
     {
@@ -449,6 +435,9 @@ static void golle_set_insert_d (golle_set_t *set, set_node_t *node) {
   golle_set_insert_e (set, node);
 }
 
+/*
+ * Insert case 3
+ */
 static void golle_set_insert_c (golle_set_t *set, set_node_t *node) {
   set_node_t *u = node_uncle (node);
 
@@ -464,6 +453,9 @@ static void golle_set_insert_c (golle_set_t *set, set_node_t *node) {
   }
 }
 
+/*
+ * Insert case 2.
+ */
 static void golle_set_insert_b (golle_set_t *set, set_node_t *node) {
   if (node_colour (node->parent) == NODE_BLACK) {
     return;
@@ -473,6 +465,9 @@ static void golle_set_insert_b (golle_set_t *set, set_node_t *node) {
   }
 }
 
+/*
+ * Insert case 1.
+ */
 static void golle_set_insert_a (golle_set_t *set, set_node_t *node) {
   if (!node->parent) {
     node->colour = NODE_BLACK;

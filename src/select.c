@@ -14,6 +14,9 @@
 #include <string.h>
 #endif
 
+/* Defines an invalid number */
+#define INVALID_NUMBER 0xffffffffL
+
 struct golle_select_t {
   /* Number of objects in the set */
   size_t n;
@@ -99,7 +102,7 @@ static golle_error enc_gr (golle_eg_t *cipher,
     goto out;
   }
 
-  err = golle_eg_encrypt (key, e, cipher, rand);
+  err = golle_eg_encrypt (key, e, cipher, &rand);
  out:
   BN_CTX_end (ctx);
   return err;
@@ -313,8 +316,7 @@ static golle_error accumulate_encryption (golle_eg_t *product,
     golle_num_delete (b);
   }
   return err;
-}
-					  
+}				  
 
 /* Commit to the number r */
 static golle_error commit_to_enc (const golle_eg_t *enc,
@@ -408,10 +410,37 @@ static golle_error assign_numeric (golle_select_t *s,
   return GOLLE_OK;
 }
 
+/* Do an action for each item in the set */
+static golle_error for_each_item (golle_set_t *set,
+				  void *param,
+				  void (*cb) (void *, const golle_bin_t *))
+{
+  
+  golle_set_iterator_t *iter;
+  golle_error err = golle_set_iterator (set, &iter);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+
+  do {
+    const golle_bin_t *item;
+    err = golle_set_iterator_next (iter, &item);
+    if (err == GOLLE_OK) {
+      cb (param, item);
+    }
+  } while (err == GOLLE_OK);
+
+  golle_set_iterator_free (iter);
+
+  GOLLE_ASSERT (err == GOLLE_END, err);
+
+  return golle_set_clear (set);
+}
+
 /* Free all values from a set using a callback. */
 static golle_error free_set_items (golle_set_t *set,
 				   void (*cb) (const golle_bin_t *))
 {
+
+  
   golle_set_iterator_t *iter;
   golle_error err = golle_set_iterator (set, &iter);
   GOLLE_ASSERT (err == GOLLE_OK, err);
@@ -506,6 +535,31 @@ static golle_error find_commitment (golle_select_t *select,
   return err;
 }
 
+/* Increment if the peer has revealed r */
+static void increment_if_revealed (void *param, const golle_bin_t *bin) {
+  size_t *s = (size_t *)param;
+  peer_t *p = (peer_t *)bin->bin;
+
+  if (p->r) {
+    (*s)++;
+  }
+}					  
+
+/* Check that all peers have revealed their plaintext */
+static golle_error check_all_revealed (golle_select_t *select) {
+  size_t revealed = 0;
+  golle_error err = for_each_item (select->commitments, 
+				   &revealed,
+				   &increment_if_revealed);
+
+  if (err == GOLLE_OK) {
+    if (revealed < select->k) {
+      /* Not all have been revealed yet. */
+      err = GOLLE_EEMPTY;
+    }
+  }
+  return err;
+}
 
 golle_error golle_select_new (golle_select_t **select,
 			      golle_peer_set_t *peers,
@@ -641,7 +695,7 @@ golle_error golle_select_peer_commit (golle_select_t *select,
   c.peer = peer;
 
   /* Attempt to insert the commitment into the set. */
-  /* Returns EEXISTS for us */
+  /* Returns EEXISTS for us. */
   err = golle_set_insert (select->commitments, &c, sizeof(c));
 
  out:
@@ -762,11 +816,65 @@ golle_error golle_select_reveal (golle_select_t *select,
   err = verify_enc (&c->cipher, nr, nrand, key);
   GOLLE_ASSERT (err == GOLLE_OK, err);
  
+  /* Add to the sum of r */
+  size_t rnative = BN_get_word (nr);
+  if (rnative == INVALID_NUMBER) {
+    err = GOLLE_EINVALID;
+    goto out;
+  }
+  select->c += rnative;
  out:
   if (err != GOLLE_OK) {
     golle_num_delete (nr);
     golle_num_delete (nrand);
   }
+  return err;
+}
+
+golle_error golle_extract_value (golle_select_t *select,
+				 golle_eg_t *egc,
+				 size_t *selection)
+{
+  GOLLE_ASSERT (select, GOLLE_ERROR);
+  GOLLE_ASSERT (selection, GOLLE_ERROR);
+  GOLLE_ASSERT (egc, GOLLE_ERROR);
+
+  /* make sure the key's valid */
+  golle_key_t *key = golle_peers_get_key (select->peers);
+  GOLLE_ASSERT (key, GOLLE_ERROR);
+
+  /* Check that all peers have revealed r */
+  golle_error err = check_all_revealed (select);
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+  
+  /* Reduce the sum, module n */
+  size_t mod = select->c % select->n;
+
+  /* Calculate encryption of g^c */
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+  BN_CTX_start (ctx);
+
+  BIGNUM *bnmod;
+  if (!(bnmod = BN_CTX_get (ctx))) {
+    err = GOLLE_EMEM;
+  }
+  else {
+    if (!BN_set_word (bnmod, mod)) {
+      err = GOLLE_EMEM;
+    }
+    else {
+      err = enc_gr (egc, bnmod, key, NULL, ctx);
+    }
+  }
+
+  /* Encryption complete. */
+  if (err == GOLLE_OK) {
+    /* Selection is the index */
+    *selection = mod;
+  }
+  BN_CTX_end (ctx);
+  BN_CTX_free (ctx);
   return err;
 }
 
@@ -778,6 +886,9 @@ golle_error golle_select_next_round (golle_select_t *select) {
   if (err != GOLLE_OK) {
     golle_set_delete (select->commitments);
     err = golle_set_new (&select->commitments, &peer_cmp);
+  }
+  if (err == GOLLE_OK) {
+    select->c = 0;
   }
   return err;
 }

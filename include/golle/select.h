@@ -9,6 +9,7 @@
 #include "peer.h"
 #include "types.h"
 #include "errors.h"
+#include "elgamal.h"
 
 GOLLE_BEGIN_C
 
@@ -97,6 +98,11 @@ typedef golle_error (*golle_select_callback_t) (const golle_select_t *,
  * golle_peers_get_key (set) returns `NULL`. ::GOLLE_EEMPTY if
  * `n` is zero or if there are no peers in the set. 
  * ::GOLLE_EMEM if memory couldn't be allocated.
+ * \warning Internally, the value `0xffffffff` is used to denote
+ * an invalid value. Therefore `0xffffffff` should not be used
+ * as a value for `n`. This shouldn't be a problem, though, because
+ * if you need that many objects then maybe you should rethink your
+ * protocol.
  */
 GOLLE_EXTERN golle_error golle_select_new (golle_select_t **select,
 					   golle_peer_set_t *peers,
@@ -189,6 +195,25 @@ GOLLE_EXTERN golle_error golle_select_reveal (golle_select_t *select,
 					      golle_peer_t peer,
 					      golle_bin_t *r,
 					      golle_bin_t *rand);
+
+/*!
+ * \brief Determine the selected object index based on reveals for this round.
+ * Computes \f$c = \sum_{i}r_{i} \mod 52\f$.
+ * \param select The select structure.
+ * \param[out] egc Receives the ElGamal encryption of \f$g^{c}\f$.
+ * \param[out] selection Upon success, will be the selected object index.
+ * \return ::GOLLE_ERROR if any parameter is `NULL`.
+ * ::GOLLE_EEMPTY if \f$\sum_{i}r_{i}\f$ hasn't yet been calculated.
+ * ::GOLLE_EMEM for memory errors.
+ * ::GOLLE_OK for success.
+ * \note If the function returns ::GOLLE_EEMPTY, not all reveals have been
+ * received from every peer for this round.
+ * \note The value of `egc`, upon success, should be forwarded to the
+ * `DISPEP` protocol for verification.
+ */
+GOLLE_EXTERN golle_error golle_extract_value (golle_select_t *select,
+					      golle_eg_t *egc,
+					      size_t *selection);
 
 /*!
  * \brief Begin the next round. Clears all commitments.
