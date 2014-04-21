@@ -3,8 +3,7 @@
  */
 
 #include <golle/set.h>
-#include "align.h"
-#include "types.h"
+#include <golle/types.h>
 #include <string.h>
 #include <assert.h>
 #include <golle/bin.h>
