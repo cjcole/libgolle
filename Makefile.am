@@ -1,7 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src tools tests
 
-
 ## --------------------------------- ##
 ## Format-independent Doxygen rules. ##
 ## --------------------------------- ##
@@ -90,14 +89,12 @@ endif DX_COND_pdf
 DX_CLEAN_LATEX = @DX_DOCDIR@/latex/*
 #endif DX_COND_latex
 
-
 .PHONY: doc doxygen-run doxygen-doc $(DX_PS_GOAL) $(DX_PDF_GOAL)
 .INTERMEDIATE: doxygen-run $(DX_PS_GOAL) $(DX_PDF_GOAL)
 doxygen-run: @DX_DOCDIR@/@PACKAGE@.tag
 doxygen-doc: doxygen-run $(DX_PS_GOAL) $(DX_PDF_GOAL)
 @DX_DOCDIR@/@PACKAGE@.tag: $(DX_CONFIG) $(pkginclude_HEADERS)
 	$(DX_ENV) $(DX_DOXYGEN) $(srcdir)/$(DX_CONFIG)
-
 
 # EXTRA MARKDOWN PAGES
 INDEX_PAGE=$(top_srcdir)/mainpage.md
@@ -108,13 +105,11 @@ DXMDSOURCES=\
 	$(top_srcdir)/NEWS.md \
 	$(top_srcdir)/AUTHORS.md
 
-
 $(INDEX_PAGE): $(top_srcdir)/README.md
 	sed '1 s/^Golle/Golle   {#mainpage}/' < $^ > $@
 
 %.md : %
 	$(LN_S) $^ $@
-
 
 doc: $(DXMDSOURCES) doxygen-doc
 
@@ -134,7 +129,6 @@ DX_CLEANFILES = \
 
 endif DX_COND_doc
 
-
 EXTRA_DIST = \
 	$(top_srcdir)/README.md $(top_srcdir)/ChangeLog \
 	$(top_srcdir)/COPYING $(top_srcdir)/NEWS \
@@ -142,6 +136,5 @@ EXTRA_DIST = \
 	$(top_srcdir)/bootstrap $(top_srcdir)/cleanup \
 	$(top_srcdir)/aclocal \
 	$(DX_CONFIG)
-
 
 MOSTLYCLEANFILES = $(DX_CLEANFILES)
