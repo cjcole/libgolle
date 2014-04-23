@@ -62,7 +62,7 @@ p2p_SOURCES = p2p.c
 p2p_CPPFLAGS = $(TEST_INC)
 p2p_LDADD = $(TEST_LIB)
 
-
+# Run all test programs
 TESTS = ./list\
 	./elgamal\
 	./keygen\
