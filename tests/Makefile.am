@@ -68,6 +68,7 @@ pep_SOURCES = pep_test.c
 pep_CPPFLAGS = $(TEST_INC)
 pep_LDADD = $(TEST_LIB)
 
+# Run all test programs
 TESTS = ./list\
 	./elgamal\
 	./keygen\
