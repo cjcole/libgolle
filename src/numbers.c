@@ -47,6 +47,38 @@ golle_num_t golle_num_new_int (size_t i) {
   return n;
 }
 
+golle_error golle_num_generate_rand (golle_num_t r, 
+				     const golle_num_t n)
+{
+  GOLLE_ASSERT (r, GOLLE_ERROR);
+  GOLLE_ASSERT (n, GOLLE_ERROR);
+
+  /* Always seed the RNG. */
+  golle_error err = golle_random_seed ();
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+
+  /* A random number */
+  if (!BN_rand_range (r, n)) {
+    return GOLLE_EMEM;
+  }
+  return GOLLE_OK;
+}
+
+golle_num_t golle_num_rand (const golle_num_t n) {
+  /* Get a new number r */
+  golle_num_t r = golle_num_new ();
+
+  /* A random number */
+  if (r) {
+    golle_error err = golle_num_generate_rand (r, n);
+    if (err != GOLLE_OK) {
+      golle_num_delete (r);
+      r = NULL;
+    }
+  }
+  return r;
+}
+
 int golle_num_cmp (const golle_num_t n1, const golle_num_t n2) {
   return BN_cmp (n1, n2);
 }
@@ -58,6 +90,7 @@ golle_num_t golle_generate_prime (int bits,
   BIGNUM* num = BN_new ();
   GOLLE_ASSERT (num, NULL);
 
+  /* Always seed the RNG. */
   golle_error err = golle_random_seed ();
   GOLLE_ASSERT (err == GOLLE_OK, NULL);
 
@@ -248,4 +281,34 @@ golle_error golle_num_print (FILE *file, const golle_num_t num) {
 
   golle_bin_release (&buff);
   return err;
+}
+
+golle_error golle_num_xor (golle_num_t out,
+			   const golle_num_t x1,
+			   const golle_num_t x2)
+{
+  GOLLE_ASSERT (out, GOLLE_ERROR);
+  GOLLE_ASSERT (x1, GOLLE_ERROR);
+  GOLLE_ASSERT (x2, GOLLE_ERROR);
+
+  /* Hooking into the guts of BIGNUM */
+  BIGNUM *a = AS_BN (x1), *b = AS_BN (x2);
+  
+  /* Find the biggest number, and the
+     maximum number of words to xor. */
+  BIGNUM *c = a;
+  size_t max = b->top;
+  if (b->top > a->top) {
+    c = b;
+    max = a->top;
+  }
+  if (!BN_copy (out, c)) {
+    return GOLLE_EMEM;
+  }
+
+  /* XOR */
+  for (int i = 0; i < max; i++) {
+    c->d[i] = a->d[i] ^ b->d[i];
+  }
+  return GOLLE_OK;
 }

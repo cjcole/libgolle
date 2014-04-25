@@ -59,6 +59,24 @@ GOLLE_EXTERN void golle_num_delete (golle_num_t n);
 GOLLE_EXTERN golle_num_t golle_num_new_int (size_t i);
 
 /*!
+ * \brief Generate a new random number in the
+ * range [0, n).
+ * \param r The number to store the random value.
+ * \param n The upper range of random values.
+ * \return ::GOLLE_ERROR, ::GOLLE_EMEM, or ::GOLLE_OK.
+ */
+GOLLE_EXTERN golle_error golle_num_generate_rand (golle_num_t r,
+						  const golle_num_t n);
+
+/*!
+ * \brief Generate a new random number in the
+ * range [0, n).
+ * \param n The upper range of random values.
+ * \return A newly-allocated random number, or `NULL` if failed.
+ */
+GOLLE_EXTERN golle_num_t golle_num_rand (const golle_num_t n);
+
+/*!
  * \brief Compare two numbers.
  * \param n1 The first number (left-hand side).
  * \param n2 The second number (right-hand side).
@@ -105,7 +123,7 @@ GOLLE_EXTERN golle_error golle_test_prime (const golle_num_t p);
  * `q` divides `p`.
  * \note A generator is calculated by taking a random number
  *  \f$h \in \mathbb{Z}^{*}_{p}\f$ and computing \f$g = h^{(p-1)/q} \mod q\f$.
- * If \f$g \neq 1\f$ then \f$g\f$ is a generator.
+ * If \f$g \neq 1 \f$ then \f$g\f$ is a generator.
  * This technique is described in H. Delfs and H. Knebl, *Introduction to
  * Cryptography: Principles and Applications*, 2007, pp. 303-304.
  */
@@ -113,7 +131,6 @@ GOLLE_EXTERN golle_error golle_find_generator (golle_num_t g,
 					       const golle_num_t p,
 					       const golle_num_t q,
 					       int n);
-
 
 /*!
  * \brief Write the big-endian binary representation of a number into the given
@@ -137,7 +154,7 @@ GOLLE_EXTERN golle_error golle_bin_to_num (const golle_bin_t *bin,
 					   golle_num_t n);
 
 /*!
- * \brief Calculate \f$m = g^n \mod q\f$
+ * \brief Calculate \f$m = g^{n} \mod q\f$
  * \param out \f$m\f$
  * \param base \f$g\f$
  * \param exp \f$n\f$
@@ -160,6 +177,18 @@ GOLLE_EXTERN golle_error golle_num_mod_exp (golle_num_t out,
  * ::GOLLE_EMEM if the buffer allocation failed. ::GOLLE_OK otherwise.
  */
 GOLLE_EXTERN golle_error golle_num_print (FILE *file, const golle_num_t num);
+
+/*!
+ * \brief XOR two numbers. Increases the size of a number if
+ * required.
+ * \param[out] out The result of `x1 ^ x2`
+ * \param x1 The first number.
+ * \param x2 The second number.
+ * \return ::GOLLE_OK, or ::GOLLE_EMEM, or ::GOLLE_ERROR.
+ */
+GOLLE_EXTERN golle_error golle_num_xor (golle_num_t out,
+					const golle_num_t x1,
+					const golle_num_t x2);
 
 /*!
  * @}

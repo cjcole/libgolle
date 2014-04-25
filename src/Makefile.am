@@ -20,4 +20,5 @@ libgolle_la_SOURCES =\
 	peer.c \
 	select.c \
 	schnorr.c \
-	pep.c
+	pep.c \
+	disj.c

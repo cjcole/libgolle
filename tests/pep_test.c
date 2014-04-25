@@ -14,7 +14,7 @@
 #include <openssl/bn.h>
 
 enum {
-  NUM_BITS = 16
+  NUM_BITS = 512
 };
 
 int main (void) {
@@ -48,9 +48,8 @@ int main (void) {
   assert (golle_schnorr_commit (&sk, r, t) == GOLLE_OK);
 
   /* Verifier responds with challenge */
-  golle_num_t c = golle_num_new_int (rand ());
+  golle_num_t c = golle_num_rand (sk.q);
   assert (c);
-  assert (golle_num_mod_exp (c, sk.G, c, sk.q) == GOLLE_OK);
 
   /* Prover outputs proof */
   golle_num_t s = golle_num_new ();

@@ -1,13 +1,12 @@
 /*
  * Copyright (C) Anthony Arnold 2014
  */
-#include <golle/schnorr.h>
-#include <golle/random.h>
-#include <openssl/bn.h>
+#include "schnorr.h"
 
-golle_error golle_schnorr_commit (const golle_schnorr_t *key,
-				  golle_num_t r,
-				  golle_num_t t)
+golle_error golle_schnorr_commit_impl (const golle_schnorr_t *key,
+				       golle_num_t r,
+				       golle_num_t t,
+				       BN_CTX *ctx)
 {
   GOLLE_ASSERT (key, GOLLE_ERROR);
   GOLLE_ASSERT (r, GOLLE_ERROR);
@@ -16,22 +15,25 @@ golle_error golle_schnorr_commit (const golle_schnorr_t *key,
   GOLLE_ASSERT (key->q, GOLLE_ERROR);
 
   /* Always seed the RNG. */
-  golle_error err = golle_random_seed ();
+  golle_error err = golle_num_generate_rand (r, key->q);
   GOLLE_ASSERT (err == GOLLE_OK, err);
-
-  /* A random number */
-  if (!BN_rand_range (r, key->q)) {
-    return GOLLE_EMEM;
-  }
-
-  /* A context for exponents. */
-  BN_CTX *ctx = BN_CTX_new ();
-  GOLLE_ASSERT (ctx, GOLLE_EMEM);
 
   /* Get t = g^r */
   if (!BN_mod_exp (t, key->G, r, key->q, ctx)) {
     err = GOLLE_EMEM;
   }
+  return err;
+}
+
+golle_error golle_schnorr_commit (const golle_schnorr_t *key,
+				  golle_num_t r,
+				  golle_num_t t)
+{
+  /* A context for exponents. */
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+
+  golle_error err = golle_schnorr_commit_impl (key, r, t, ctx);
 
   BN_CTX_free (ctx);
   return err;

@@ -67,7 +67,7 @@ GOLLE_EXTERN golle_error golle_schnorr_commit (const golle_schnorr_t *key,
 					       golle_num_t r,
 					       golle_num_t t);
 /*!
- * \brief Calculate \f$s = r + cx \f$
+ * \brief Calculate \f$s = r + cx\f$
  * \param key A key containing q, and private key x.
  * \param[out] s \f$s\f$
  * \param r \f$r\f$
@@ -79,11 +79,10 @@ GOLLE_EXTERN golle_error golle_schnorr_prove (const golle_schnorr_t *key,
 					      const golle_num_t r,
 					      const golle_num_t c);
 /*!
- * \brief Verify \$fg^{s} = ty^{c}\f$
+ * \brief Verify \f$g^{s} = ty^{c}\f$
  * \param key A key containing g, h, and q.
  * \param s \f$s\f$
  * \param t \f$t\f$
- * \param y \f$t\f$
  * \param c \f$c\f$
  * \return ::GOLLE_OK, ::GOLLE_ERROR for `NULL`, or ::GOLLE_EMEM.
  * If the verification fails, returns ::GOLLE_ECRYPTO.
