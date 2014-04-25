@@ -1,6 +1,8 @@
 var searchData=
 [
   ['singly_2dlinked_20lists',['Singly-linked lists',['../group__list.html',1,'']]],
+  ['schnorr_20identification_20algorithm',['Schnorr Identification Algorithm',['../group__schnorr.html',1,'']]],
+  ['schnorr_2eh',['schnorr.h',['../schnorr_8h.html',1,'']]],
   ['secret',['secret',['../structgolle__commit__t.html#ab921e4d2765e9971931c65c5e3e2b33e',1,'golle_commit_t']]],
   ['select_2eh',['select.h',['../select_8h.html',1,'']]],
   ['set_20functions',['Set functions',['../group__set.html',1,'']]],

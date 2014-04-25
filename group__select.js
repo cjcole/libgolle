@@ -2,6 +2,7 @@ var group__select =
 [
     [ "golle_select_t", "structgolle__select__t.html", null ],
     [ "golle_select_callback_t", "group__select.html#gac8c1d85c174d8ac993ac1d81d3d4abbd", null ],
+    [ "golle_extract_value", "group__select.html#ga77d6c24866d8e65ccfb5ceb99db3d835", null ],
     [ "golle_select_delete", "group__select.html#ga728a891f4c66606beca7120bdf2b4cbb", null ],
     [ "golle_select_new", "group__select.html#gabfe31babb9d7c18f361a19b28e7d0f3b", null ],
     [ "golle_select_next_round", "group__select.html#ga665bce4086f8d25d88ff42a858e6044e", null ],

@@ -225,7 +225,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if a generator was found. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if <code>p</code> or <code>g</code> is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory failed to allocate. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if the crypto library fails. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aef7fb63f1eceb72704f1bf9080ea7f37">GOLLE_ENOTFOUND</a> if a generator could not be found in n attempts. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function assumes that <code>p</code> and <code>q</code> are valid primes, and that <code>q</code> divides <code>p</code>. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>A generator is calculated by taking a random number <img class="formulaInl" alt="$h \in \mathbb{Z}^{*}_{p}$" src="form_33.png"/> and computing <img class="formulaInl" alt="$g = h^{(p-1)/q} \mod p$" src="form_34.png"/>. If <img class="formulaInl" alt="$g \neq 1$" src="form_35.png"/> then <img class="formulaInl" alt="$g$" src="form_2.png"/> is a generator. This technique is described in H. Delfs and H. Knebl, <em>Introduction to Cryptography: Principles and Applications</em>, 2007, pp. 303-304. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>A generator is calculated by taking a random number <img class="formulaInl" alt="$h \in \mathbb{Z}^{*}_{p}$" src="form_33.png"/> and computing <img class="formulaInl" alt="$g = h^{(p-1)/q} \mod q$" src="form_41.png"/>. If <img class="formulaInl" alt="$g \neq 1$" src="form_35.png"/> then <img class="formulaInl" alt="$g$" src="form_2.png"/> is a generator. This technique is described in H. Delfs and H. Knebl, <em>Introduction to Cryptography: Principles and Applications</em>, 2007, pp. 303-304. </dd></dl>
 
 </div>
 </div>
@@ -505,7 +505,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
+    <li class="footer">Generated on Fri Apr 25 2014 23:06:11 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

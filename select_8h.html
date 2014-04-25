@@ -117,6 +117,7 @@ $(document).ready(function(){initNavTree('select_8h.html','');});
 <code>#include &quot;<a class="el" href="peer_8h_source.html">peer.h</a>&quot;</code><br/>
 <code>#include &quot;types.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="errors_8h_source.html">errors.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="elgamal_8h_source.html">elgamal.h</a>&quot;</code><br/>
 </div>
 <p><a href="select_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -139,6 +140,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga66b86b85e04dd6a6024ca663e825e62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify a commitment from a peer. The <code>secret</code> is stored for later revelation.  <a href="group__select.html#ga66b86b85e04dd6a6024ca663e825e62f"></a><br/></td></tr>
 <tr class="memitem:ga47edbb485a3e3154c615290c4cf2aa38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#ga47edbb485a3e3154c615290c4cf2aa38">golle_select_reveal</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select, <a class="el" href="group__peer.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a> peer, <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *r, <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *rand)</td></tr>
 <tr class="memdesc:ga47edbb485a3e3154c615290c4cf2aa38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept a reveal from a peer. The reveal goes toward the calculation of the final object.  <a href="group__select.html#ga47edbb485a3e3154c615290c4cf2aa38"></a><br/></td></tr>
+<tr class="memitem:ga77d6c24866d8e65ccfb5ceb99db3d835"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#ga77d6c24866d8e65ccfb5ceb99db3d835">golle_extract_value</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select, <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *egc, size_t *selection)</td></tr>
+<tr class="memdesc:ga77d6c24866d8e65ccfb5ceb99db3d835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the selected object index based on reveals for this round. Computes <img class="formulaInl" alt="$c = \sum_{i}r_{i} \mod 52$" src="form_60.png"/>.  <a href="group__select.html#ga77d6c24866d8e65ccfb5ceb99db3d835"></a><br/></td></tr>
 <tr class="memitem:ga665bce4086f8d25d88ff42a858e6044e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#ga665bce4086f8d25d88ff42a858e6044e">golle_select_next_round</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select)</td></tr>
 <tr class="memdesc:ga665bce4086f8d25d88ff42a858e6044e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin the next round. Clears all commitments.  <a href="group__select.html#ga665bce4086f8d25d88ff42a858e6044e"></a><br/></td></tr>
 <tr class="memitem:gaa7beb070f774af57f63b6445016e63d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#gaa7beb070f774af57f63b6445016e63d5">golle_select_reset</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select)</td></tr>
@@ -155,7 +158,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_10a438a595fd497cefe5c0ebdc0216f5.html">golle</a></li><li class="navelem"><a class="el" href="select_8h.html">select.h</a></li>
-    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
+    <li class="footer">Generated on Fri Apr 25 2014 23:06:11 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

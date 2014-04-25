@@ -130,6 +130,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga66b86b85e04dd6a6024ca663e825e62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify a commitment from a peer. The <code>secret</code> is stored for later revelation.  <a href="#ga66b86b85e04dd6a6024ca663e825e62f"></a><br/></td></tr>
 <tr class="memitem:ga47edbb485a3e3154c615290c4cf2aa38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#ga47edbb485a3e3154c615290c4cf2aa38">golle_select_reveal</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select, <a class="el" href="group__peer.html#gab40ba7a268c97b56771307ba6e266ecd">golle_peer_t</a> peer, <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *r, <a class="el" href="structgolle__bin__t.html">golle_bin_t</a> *rand)</td></tr>
 <tr class="memdesc:ga47edbb485a3e3154c615290c4cf2aa38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept a reveal from a peer. The reveal goes toward the calculation of the final object.  <a href="#ga47edbb485a3e3154c615290c4cf2aa38"></a><br/></td></tr>
+<tr class="memitem:ga77d6c24866d8e65ccfb5ceb99db3d835"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#ga77d6c24866d8e65ccfb5ceb99db3d835">golle_extract_value</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select, <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *egc, size_t *selection)</td></tr>
+<tr class="memdesc:ga77d6c24866d8e65ccfb5ceb99db3d835"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the selected object index based on reveals for this round. Computes <img class="formulaInl" alt="$c = \sum_{i}r_{i} \mod 52$" src="form_60.png"/>.  <a href="#ga77d6c24866d8e65ccfb5ceb99db3d835"></a><br/></td></tr>
 <tr class="memitem:ga665bce4086f8d25d88ff42a858e6044e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#ga665bce4086f8d25d88ff42a858e6044e">golle_select_next_round</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select)</td></tr>
 <tr class="memdesc:ga665bce4086f8d25d88ff42a858e6044e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin the next round. Clears all commitments.  <a href="#ga665bce4086f8d25d88ff42a858e6044e"></a><br/></td></tr>
 <tr class="memitem:gaa7beb070f774af57f63b6445016e63d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__select.html#gaa7beb070f774af57f63b6445016e63d5">golle_select_reset</a> (<a class="el" href="structgolle__select__t.html">golle_select_t</a> *select)</td></tr>
@@ -161,6 +163,52 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2>Function Documentation</h2>
+<a class="anchor" id="ga77d6c24866d8e65ccfb5ceb99db3d835"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_extract_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgolle__select__t.html">golle_select_t</a> *&#160;</td>
+          <td class="paramname"><em>select</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *&#160;</td>
+          <td class="paramname"><em>egc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t *&#160;</td>
+          <td class="paramname"><em>selection</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determine the selected object index based on reveals for this round. Computes <img class="formulaInl" alt="$c = \sum_{i}r_{i} \mod 52$" src="form_60.png"/>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">select</td><td>The select structure. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">egc</td><td>Receives the ElGamal encryption of <img class="formulaInl" alt="$g^{c}$" src="form_61.png"/>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">selection</td><td>Upon success, will be the selected object index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a> if <img class="formulaInl" alt="$\sum_{i}r_{i}$" src="form_62.png"/> hasn't yet been calculated. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> for memory errors. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> for success. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If the function returns <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a>, not all reveals have been received from every peer for this round. </dd>
+<dd>
+The value of <code>egc</code>, upon success, should be forwarded to the <code>DISPEP</code> protocol for verification. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga728a891f4c66606beca7120bdf2b4cbb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -226,6 +274,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if everything went OK. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is NULL. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a1a6517e887cd5caa87f045e29c01f48a">GOLLE_EINVALID</a> if the calling golle_peers_get_key (set) returns <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9">GOLLE_EEMPTY</a> if <code>n</code> is zero or if there are no peers in the set. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory couldn't be allocated. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Internally, the value <code>0xffffffff</code> is used to denote an invalid value. Therefore <code>0xffffffff</code> should not be used as a value for <code>n</code>. This shouldn't be a problem, though, because if you need that many objects then maybe you should rethink your protocol. </dd></dl>
 
 </div>
 </div>
@@ -477,7 +526,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aef7fb63f1eceb72704f1bf9080ea7f37">GOLLE_ENOTFOUND</a> if the peer is not valid or has not verified its commitment yet. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a37b2abef86119e7735bade24971b0862">GOLLE_EEXISTS</a> if values for the peer have already been received. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a6b86eecc932c1f6198e27646eccdc44e">GOLLE_EABORT</a> if the encryption value does not match the one set by the peer previously. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> for memory errors. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> for success. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aef7fb63f1eceb72704f1bf9080ea7f37">GOLLE_ENOTFOUND</a> if the peer is not valid or has not verified its commitment yet. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a37b2abef86119e7735bade24971b0862">GOLLE_EEXISTS</a> if values for the peer have already been received. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a5c181218a4fb29ec6c0ec4141fd4d8a6">GOLLE_EOUTOFRANGE</a> if the r value is not in the range [0, n). <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a6b86eecc932c1f6198e27646eccdc44e">GOLLE_EABORT</a> if the encryption value does not match the one set by the peer previously. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> for memory errors. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> for success. </dd></dl>
 
 </div>
 </div>
@@ -486,7 +535,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Apr 21 2014 16:02:03 for LibGolle by
+    <li class="footer">Generated on Fri Apr 25 2014 23:06:11 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

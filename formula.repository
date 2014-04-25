@@ -39,3 +39,25 @@
 \form#38:$n$
 \form#39:$i$
 \form#40:$i \in \{0, ..., 51\}$
+\form#41:$g = h^{(p-1)/q} \mod q$
+\form#42:$(a,b)$
+\form#43:$(c,d)$
+\form#44:$(a/c, b/d)$
+\form#45:$1$
+\form#46:$(G, Y)$
+\form#47:$e_{1}$
+\form#48:$e_{2}$
+\form#49:$x = log_{g}y$
+\form#50:$t = g^{r}$
+\form#51:$r \in \mathbb{Z}_{q}$
+\form#52:$t$
+\form#53:$c \in \mathbb{Z}_{q}$
+\form#54:$s = cx + r$
+\form#55:$g^{s} = ty^{c}$
+\form#56:$r$
+\form#57:$s = r + cx $
+\form#58:$s$
+\form#59:$c$
+\form#60:$c = \sum_{i}r_{i} \mod 52$
+\form#61:$g^{c}$
+\form#62:$\sum_{i}r_{i}$
