@@ -23,7 +23,6 @@ GOLLE_BEGIN_C
 /*!
  * \defgroup select Object Selection
  * @{
- *
  * Once a key has been correctly set up and
  * peers have been verified (see @ref peer) the resulting
  * ::golle_peer_set_t can be used to create a ::golle_select_t

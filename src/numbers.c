@@ -150,7 +150,7 @@ golle_error golle_find_generator (golle_num_t g,
      }
 
      /* Set g = h^((p-1)/q) */
-     if (!BN_mod_exp (test, h, j, p, ctx)) {
+     if (!BN_mod_exp (test, h, j, q, ctx)) {
        err = GOLLE_EMEM;
        break;
      }

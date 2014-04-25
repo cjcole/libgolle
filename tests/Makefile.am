@@ -15,7 +15,8 @@ check_PROGRAMS = \
 	keygen\
 	distribution\
 	elgamal \
-	p2p
+	p2p \
+	pep
 
 #Make list test
 list_SOURCES = list.c
@@ -62,6 +63,10 @@ p2p_SOURCES = p2p.c
 p2p_CPPFLAGS = $(TEST_INC)
 p2p_LDADD = $(TEST_LIB)
 
+#Make schnorr identification test
+pep_SOURCES = pep_test.c
+pep_CPPFLAGS = $(TEST_INC)
+pep_LDADD = $(TEST_LIB)
 
 TESTS = ./list\
 	./elgamal\
@@ -70,5 +75,6 @@ TESTS = ./list\
 	./commitment\
 	./randomness\
 	./buffer\
-	./p2p\
+	./p2p \
+	./pep \
 	./set

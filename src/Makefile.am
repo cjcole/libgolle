@@ -18,4 +18,6 @@ libgolle_la_SOURCES =\
 	distribute.c \
 	elgamal.c \
 	peer.c \
-	select.c
+	select.c \
+	schnorr.c \
+	pep.c

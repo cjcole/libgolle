@@ -104,7 +104,7 @@ GOLLE_EXTERN golle_error golle_test_prime (const golle_num_t p);
  * \warning This function assumes that `p` and `q` are valid primes, and that
  * `q` divides `p`.
  * \note A generator is calculated by taking a random number
- *  \f$h \in \mathbb{Z}^{*}_{p}\f$ and computing \f$g = h^{(p-1)/q} \mod p\f$.
+ *  \f$h \in \mathbb{Z}^{*}_{p}\f$ and computing \f$g = h^{(p-1)/q} \mod q\f$.
  * If \f$g \neq 1\f$ then \f$g\f$ is a generator.
  * This technique is described in H. Delfs and H. Knebl, *Introduction to
  * Cryptography: Principles and Applications*, 2007, pp. 303-304.
