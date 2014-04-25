@@ -61,3 +61,6 @@
 \form#60:$c = \sum_{i}r_{i} \mod 52$
 \form#61:$g^{c}$
 \form#62:$\sum_{i}r_{i}$
+\form#63:$m = g^{n} \mod q$
+\form#64:$s = r + cx$
+\form#65:$g \neq 1 $

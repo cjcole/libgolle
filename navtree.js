@@ -32,7 +32,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"platform_8h_source.html"
+"peer_8h.html#gga65564903e00955b4782c2a62c448ed3babb0119f0c223e5dd12db237d4d108483"
 ];
 
 var navTreeSubIndices = new Array();
