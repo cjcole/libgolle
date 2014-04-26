@@ -267,6 +267,11 @@ golle_error golle_num_print (FILE *file, const golle_num_t num) {
   GOLLE_ASSERT (num, GOLLE_ERROR);
   golle_error err = GOLLE_OK;
 
+  if (BN_is_zero (AS_BN (num))) {
+    fprintf (file, "00");
+    return GOLLE_OK;
+  }
+
   golle_bin_t buff;
   if (golle_bin_init (&buff, BN_num_bytes (AS_BN(num))) != GOLLE_OK) {
     return GOLLE_EMEM;

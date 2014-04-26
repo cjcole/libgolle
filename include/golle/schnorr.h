@@ -39,7 +39,8 @@ typedef struct golle_schnorr_t {
   golle_num_t G; /*!< The value G, in the algorithm. */
   golle_num_t Y; /*!< The value Y, in the algorithm. */
   golle_num_t x; /*!< The private key. */
-  golle_num_t q; /*!< The q value, of the cyclic group. */
+  golle_num_t p; /*!< The p value, a large prime. */
+  golle_num_t q; /*!< The q value, the group order. */
 } golle_schnorr_t;
 
 /*!
@@ -50,6 +51,7 @@ GOLLE_INLINE void golle_schnorr_clear (golle_schnorr_t *key) {
   if (key) {
     golle_num_delete (key->G); key->G = NULL;
     golle_num_delete (key->Y); key->Y = NULL;
+    golle_num_delete (key->p); key->p = NULL;
     golle_num_delete (key->q); key->q = NULL;
     golle_num_delete (key->x); key->x = NULL;
   }

@@ -12,14 +12,14 @@ golle_error golle_schnorr_commit_impl (const golle_schnorr_t *key,
   GOLLE_ASSERT (r, GOLLE_ERROR);
   GOLLE_ASSERT (t, GOLLE_ERROR);
   GOLLE_ASSERT (key->G, GOLLE_ERROR);
-  GOLLE_ASSERT (key->q, GOLLE_ERROR);
+  GOLLE_ASSERT (key->p, GOLLE_ERROR);
 
   /* Always seed the RNG. */
   golle_error err = golle_num_generate_rand (r, key->q);
   GOLLE_ASSERT (err == GOLLE_OK, err);
 
   /* Get t = g^r */
-  if (!BN_mod_exp (t, key->G, r, key->q, ctx)) {
+  if (!BN_mod_exp (t, key->G, r, key->p, ctx)) {
     err = GOLLE_EMEM;
   }
   return err;
@@ -80,7 +80,7 @@ golle_error golle_schnorr_verify (const golle_schnorr_t *key,
 				  const golle_num_t c)
 {
   GOLLE_ASSERT (key, GOLLE_ERROR);
-  GOLLE_ASSERT (key->q, GOLLE_ERROR);
+  GOLLE_ASSERT (key->p, GOLLE_ERROR);
   GOLLE_ASSERT (key->G, GOLLE_ERROR);
   GOLLE_ASSERT (key->Y, GOLLE_ERROR);
   GOLLE_ASSERT (s, GOLLE_ERROR);
@@ -103,11 +103,11 @@ golle_error golle_schnorr_verify (const golle_schnorr_t *key,
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_mod_exp (yc, key->Y, c, key->q, ctx)) {
+  if (!BN_mod_exp (yc, key->Y, c, key->p, ctx)) {
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_mod_mul (tyc, yc, t, key->q, ctx)) {
+  if (!BN_mod_mul (tyc, yc, t, key->p, ctx)) {
     err = GOLLE_EMEM;
     goto out;
   }
@@ -118,7 +118,7 @@ golle_error golle_schnorr_verify (const golle_schnorr_t *key,
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_mod_exp (gs, key->G, s, key->q, ctx)) {
+  if (!BN_mod_exp (gs, key->G, s, key->p, ctx)) {
     err = GOLLE_EMEM;
     goto out;
   }

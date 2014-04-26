@@ -36,18 +36,20 @@ golle_error golle_pep_set (const golle_key_t *egKey,
     err = GOLLE_EMEM;
     goto out;
   }
-  /* Y = a1 / a2 */
-  if (!BN_div (Y, NULL, e1->a, e2->a, ctx)) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
-  /* G = b1 / b2 */
-  if (!BN_div (G, NULL, e1->b, e2->b, ctx)) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
   /* x = r2 - r1 */
   if (!BN_mod_sub (x, r2, r1, egKey->q, ctx)) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  /* G = a1 / a2 = g^x */
+  if (!BN_mod_exp (G, egKey->g, x, egKey->q, ctx)) {
+  /*if (!BN_div (Y, NULL, e1->b, e2->b, ctx)) {*/
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  /* Y = b1 / b2 = y^x */
+  if (!BN_mod_exp (Y, egKey->h_product, x, egKey->q, ctx)) {
+  /*if (!BN_div (G, NULL, e1->a, e2->a, ctx)) {*/
     err = GOLLE_EMEM;
     goto out;
   }

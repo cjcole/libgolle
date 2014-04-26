@@ -16,7 +16,8 @@ check_PROGRAMS = \
 	distribution\
 	elgamal \
 	p2p \
-	pep
+	pep \
+	schnorr
 
 #Make list test
 list_SOURCES = list.c
@@ -64,6 +65,11 @@ p2p_CPPFLAGS = $(TEST_INC)
 p2p_LDADD = $(TEST_LIB)
 
 #Make schnorr identification test
+schnorr_SOURCES = schnorr.c
+schnorr_CPPFLAGS = $(TEST_INC)
+schnorr_LDADD = $(TEST_LIB)
+
+#Make the PEP test
 pep_SOURCES = pep_test.c
 pep_CPPFLAGS = $(TEST_INC)
 pep_LDADD = $(TEST_LIB)
@@ -78,4 +84,5 @@ TESTS = ./list\
 	./buffer\
 	./p2p \
 	./pep \
+	./schnorr \
 	./set

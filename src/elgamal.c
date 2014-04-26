@@ -103,7 +103,7 @@ golle_error golle_eg_encrypt (golle_key_t *key,
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_mod_exp (a, TOBN (key->g), r, TOBN (key->q), ctx)) {
+  if (!BN_mod_exp (a, TOBN (key->g), r, TOBN (key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
@@ -119,12 +119,12 @@ golle_error golle_eg_encrypt (golle_key_t *key,
   }
 
   /* Get h^r first */
-  if (!BN_mod_exp(mh, (key->h_product), r, TOBN (key->q), ctx)) {
+  if (!BN_mod_exp(mh, (key->h_product), r, TOBN (key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
   /* Multiply by m */
-  if (!BN_mod_mul(b, mh, m, TOBN (key->q), ctx)) {
+  if (!BN_mod_mul(b, mh, m, TOBN (key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
@@ -205,25 +205,25 @@ golle_error golle_eg_decrypt (golle_key_t *key,
   /* TODO: Montgomery multiplication might make this faster. */
   for (size_t i = 0; i < len; i++) {
     /* Get a^xi mod q ... */
-    if (!BN_mod_exp (x, cipher->a, TOBN (xi[i]), TOBN(key->q), ctx)) {
+    if (!BN_mod_exp (x, cipher->a, TOBN (xi[i]), TOBN(key->p), ctx)) {
       err = GOLLE_ECRYPTO;
       goto out;
     }
     /* ... then accumulate the product to get a^x mod q */
-    if (!BN_mod_mul (ax, ax, x, TOBN(key->q), ctx)) {
+    if (!BN_mod_mul (ax, ax, x, TOBN(key->p), ctx)) {
       err = GOLLE_ECRYPTO;
       goto out;
     }
   }
 
   /* Invert a^x */
-  if (!BN_mod_inverse (ax, ax, TOBN(key->q), ctx)) {
+  if (!BN_mod_inverse (ax, ax, TOBN(key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
 
   /* Multiply by b */
-  if (!BN_mod_mul (m, ax, cipher->b, TOBN(key->q), ctx)) {
+  if (!BN_mod_mul (m, ax, cipher->b, TOBN(key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
