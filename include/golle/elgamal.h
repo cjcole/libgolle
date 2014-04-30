@@ -67,7 +67,7 @@ GOLLE_INLINE void golle_eg_clear (golle_eg_t *cipher) {
  * \brief Encrypt a number \f$m \in \mathbb{G}_{q}\f$.
  * \param key The ElGamal public key to use during encryption.
  * \param m The number to encrypt. \f$msg \in \mathbb{G}_{q}\f$
- * \param cipher A non-`NULL` ::golle_eg_t structure.
+ * \param[out] cipher A non-`NULL` ::golle_eg_t structure.
  * \param rand If the value pointed to is not `NULL`, it will be used as the
  * random value \f$r \in \mathbb{Z}^{*}_{q}\f$. Otherwise, a random
  * value will be collected and returned as new number, via golle_num_new().
@@ -80,11 +80,30 @@ GOLLE_INLINE void golle_eg_clear (golle_eg_t *cipher) {
  * \note It is assumed that \f$m \in \mathbb{G}_{q}\f$ by computing
  * \f$ m = g^{n} \mod q\f$ prior to encrypting.
  */
-GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
-					   golle_num_t m,
+GOLLE_EXTERN golle_error golle_eg_encrypt (const golle_key_t *key,
+					   const golle_num_t m,
 					   golle_eg_t *cipher,
 					   golle_num_t *rand);
-
+/*!
+ * \brief Re-encrypt a message (as in the @ref pep and @ref dispep).
+ * The resulting ciphertext, for a random \f$r \in \mathbb{Z}_{q}\f$
+ * will be \f$(ag^{t}, bh^{r})\f$.
+ * \param key The ElGamal public key used to encrypt the first ciphertext.
+ * \param e1 The first ciphertext, already encrypted.
+ * \param[out] e2 A non-`NULL` ::golle_eg_t structure.
+ * \param rand If the value pointed to is not `NULL`, it will be used as the
+ * random value \f$r \in \mathbb{Z}^{*}_{q}\f$. Otherwise, a random
+ * value will be collected and returned as new number, via golle_num_new().
+ * If the argument itself is `NULL`, then a random value will be generated
+ * but not returned.
+ * \return ::GOLLE_ERROR if any parameter is `NULL`. ::GOLLE_ECRYPTO if
+ * an error happens during cryptography. ::GOLLE_EMEM if memory allocation
+ * fails. ::GOLLE_OK if successful.
+ */
+GOLLE_EXTERN golle_error golle_eg_reencrypt (const golle_key_t *key,
+					     const golle_eg_t *e1,
+					     golle_eg_t *e2,
+					     golle_num_t *rand);
 /*!
  * \brief Decrypt a message.
  * \param key The key containing the primes used for modulus operations.
@@ -101,8 +120,8 @@ GOLLE_EXTERN golle_error golle_eg_encrypt (golle_key_t *key,
  * cryptosystem if encryption is asymmetric, with one encryptor and one
  * decryptor.
  */
-GOLLE_EXTERN golle_error golle_eg_decrypt (golle_key_t *key,
-					   golle_num_t *xi,
+GOLLE_EXTERN golle_error golle_eg_decrypt (const golle_key_t *key,
+					   const golle_num_t *xi,
 					   size_t len,
 					   const golle_eg_t *cipher,
 					   golle_num_t m);

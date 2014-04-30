@@ -284,7 +284,7 @@ golle_error golle_disj_verify (const golle_schnorr_t *k1,
   /* Show that G^s * t == Y^c for each key */
   golle_error err = check_key (k1, d->c1, d->s1, d->t1);
   if (err == GOLLE_OK) {
-    err = check_key (k1, d->c1, d->s1, d->t1);
+    err = check_key (k2, d->c2, d->s2, d->t2);
   }
   return err;
 }

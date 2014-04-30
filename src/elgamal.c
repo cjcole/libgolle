@@ -7,6 +7,7 @@
 #include <golle/random.h>
 #include <limits.h>
 
+#define TOCBN(g) ((const BIGNUM*)(g))
 #define TOBN(g) ((BIGNUM*)(g))
 
 /*
@@ -30,8 +31,119 @@ static golle_error copy_num (golle_num_t *num,
   return GOLLE_OK;
 }
 
-golle_error golle_eg_encrypt (golle_key_t *key,
-			      golle_num_t m,
+/* Calculate a * b ^ c mod p */
+static golle_error mod_mul_exp (golle_num_t res,
+				const golle_num_t a,
+				const golle_num_t b,
+				const golle_num_t c,
+				const golle_num_t p,
+				BN_CTX *ctx)
+{
+  BIGNUM *t;
+  golle_error err = GOLLE_OK;
+  BN_CTX_start (ctx);
+
+  if (!(t = BN_CTX_get (ctx))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  /* Get t = b ^ c */
+  if (!BN_mod_exp (t, TOCBN (b), TOCBN (c), TOCBN (p), ctx)) {
+    err = GOLLE_ECRYPTO;
+    goto out;
+  }
+  /* res = t * a */
+  if (!BN_mod_mul (TOBN (res), t, TOCBN (a), TOCBN (p), ctx)) {
+    err = GOLLE_ECRYPTO;
+    goto out;
+  }
+
+ out:
+  BN_CTX_end (ctx);
+  return err;
+}
+
+/* Calculate the sum of x mod p */
+static golle_error mod_sum (golle_num_t r,
+			    const golle_num_t *x,
+			    size_t len,
+			    const golle_num_t p,
+			    BN_CTX *ctx)
+{
+  golle_error err = GOLLE_OK;
+  GOLLE_ASSERT (BN_zero (r), GOLLE_ECRYPTO);
+
+  /* Compute the sum. 
+     TODO: Consider BN_mod_mul_reciprocal() for speed */
+  for (size_t i = 0; i < len; i++) {
+    /* Get the product */
+    if (!BN_mod_add (TOBN (r), TOCBN (r), TOCBN (x[i]), TOCBN (p), ctx)) {
+      err = GOLLE_ECRYPTO;
+      break;
+    }
+  }
+  return err;
+}
+
+/* Calculate product_i (a ^ x_i) mod p */
+static golle_error mod_prod_exp (golle_num_t r,
+				const golle_num_t a,
+				const golle_num_t *xi,
+				size_t len,
+				const golle_num_t p,
+				BN_CTX *ctx)
+{
+  BIGNUM *x;
+  golle_error err = GOLLE_OK;
+  BN_CTX_start (ctx);
+  
+  if (!(x = BN_CTX_get (ctx))) {
+    BN_CTX_end (ctx);
+    return GOLLE_EMEM;
+  }
+  /* Get the sum of the exponents */
+  if ((err = mod_sum (x, xi, len, p, ctx)) == GOLLE_OK) {
+    /* Exponentitate */
+    if (!BN_mod_exp (r, a, x, TOCBN (p), ctx)) {
+      err = GOLLE_ECRYPTO;
+    }
+  }
+  BN_CTX_end (ctx);
+  return err;
+}
+
+/* Get a random r in Zq */
+static golle_num_t r_in_Zq (golle_num_t *rand,
+			    const golle_num_t q)
+{
+  BIGNUM *r;
+  if (!rand || !*rand) {
+    r = golle_num_new ();
+    GOLLE_ASSERT (r, NULL);
+
+    do {
+      golle_error err = golle_num_generate_rand (r, q);
+      if (err != GOLLE_OK) {
+	golle_num_delete (r);
+	return NULL;
+      }
+      /* We don't want zero. */
+    } while (BN_is_zero (TOCBN (r)));
+
+    if (rand) {
+      /* Return the chosen random number if required. */
+      *rand = r;
+    }
+  }
+  else {
+    r = *rand;
+  }
+
+  return r;
+}
+
+golle_error golle_eg_encrypt (const golle_key_t *key,
+			      const golle_num_t m,
 			      golle_eg_t *cipher,
 			      golle_num_t *rand)
 {
@@ -42,13 +154,16 @@ golle_error golle_eg_encrypt (golle_key_t *key,
    * a = g^r and b = mh^r.
    */
   golle_error err = GOLLE_OK;
-  BIGNUM *mh, *r = NULL, *rn = NULL, *a, *b;
+  BIGNUM *r = NULL, *a, *b;
   BN_CTX *ctx;
   GOLLE_ASSERT (key, GOLLE_ERROR);
   GOLLE_ASSERT (m, GOLLE_ERROR);
   GOLLE_ASSERT (cipher, GOLLE_ERROR);
   GOLLE_ASSERT (key->q, GOLLE_ERROR);
+  GOLLE_ASSERT (key->p, GOLLE_ERROR);
   GOLLE_ASSERT (key->h_product, GOLLE_ERROR);
+
+  int rand_supplied = (rand && *rand);
 
   ctx = BN_CTX_new ();
   GOLLE_ASSERT (ctx, GOLLE_EMEM);
@@ -65,37 +180,9 @@ golle_error golle_eg_encrypt (golle_key_t *key,
   }
 
   /* Get random r in Z*q */
-  if (!rand || !*rand) {
-    if (!(rn = golle_num_new ())) {
-      err = GOLLE_EMEM;
-      goto out;
-    }
-    r = rn;
-
-    /* Make sure seeded.
-     * PRNG won't actually seed if it's not needed.
-     */
-    err = golle_random_seed ();
-    if (err != GOLLE_OK) {
-      err = GOLLE_ECRYPTO;
-      goto out;
-    }
-
-    do {
-      if (!BN_rand_range (r, TOBN(key->q))) {
-	err = GOLLE_ECRYPTO;
-	goto out;
-      }
-      /* We don't want zero. */
-    } while (BN_is_zero (r));
-
-    if (rand) {
-      /* Return the chosen random number if required. */
-      *rand = r;
-    }
-  }
-  else {
-    r = *rand;
+  if (!(r = r_in_Zq (rand, key->q))) {
+    err = GOLLE_EMEM;
+    goto out;
   }
 
   /* Calculate g^r */
@@ -103,29 +190,18 @@ golle_error golle_eg_encrypt (golle_key_t *key,
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_mod_exp (a, TOBN (key->g), r, TOBN (key->p), ctx)) {
+  if (!BN_mod_exp (a, TOCBN (key->g), r, TOCBN (key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
 
   /* Calculate mh^r */
-  if (!(mh = BN_CTX_get (ctx))) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
   if (!(b = BN_CTX_get (ctx))) {
     err = GOLLE_EMEM;
     goto out;
   }
-
-  /* Get h^r first */
-  if (!BN_mod_exp(mh, (key->h_product), r, TOBN (key->p), ctx)) {
-    err = GOLLE_ECRYPTO;
-    goto out;
-  }
-  /* Multiply by m */
-  if (!BN_mod_mul(b, mh, m, TOBN (key->p), ctx)) {
-    err = GOLLE_ECRYPTO;
+  err = mod_mul_exp (b, m, key->h_product, r, key->p, ctx);
+  if (err != GOLLE_OK) {
     goto out;
   }
 
@@ -137,19 +213,13 @@ golle_error golle_eg_encrypt (golle_key_t *key,
   }
  out:
   if (err != GOLLE_OK) {
-    if (r) {
-      BN_free (r);
+    if (!rand_supplied) {
+      golle_num_delete (r);
       if (rand) {
 	*rand = NULL;
       }
     }
-    if (cipher->a) {
-      golle_num_delete (cipher->a);
-      cipher->a = NULL;
-    }
-    if (cipher->b) {
-      golle_num_delete (cipher->b);
-    }
+    golle_eg_clear (cipher);
   }
       
   BN_CTX_end (ctx);
@@ -158,8 +228,76 @@ golle_error golle_eg_encrypt (golle_key_t *key,
   return err;
 }
 
-golle_error golle_eg_decrypt (golle_key_t *key,
-			      golle_num_t *xi,
+golle_error golle_eg_reencrypt (const golle_key_t *key,
+				const golle_eg_t *e1,
+				golle_eg_t *e2,
+				golle_num_t *rand)
+{
+  golle_error err = GOLLE_OK;
+  BIGNUM *r = NULL, *a, *b;
+  BN_CTX *ctx;
+  GOLLE_ASSERT (key, GOLLE_ERROR);
+  GOLLE_ASSERT (e1, GOLLE_ERROR);
+  GOLLE_ASSERT (e2, GOLLE_ERROR);
+  GOLLE_ASSERT (key->p, GOLLE_ERROR);
+  GOLLE_ASSERT (key->q, GOLLE_ERROR);
+  GOLLE_ASSERT (key->h_product, GOLLE_ERROR);
+  
+  int rand_supplied = (rand && *rand);
+
+  ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+  BN_CTX_start (ctx);
+
+  /* Get random r in Z*q */
+  if (!(r = r_in_Zq (rand, key->q))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  /* Allocate numbers */
+  if (!(a = BN_CTX_get (ctx)) ||
+      !(b = BN_CTX_get (ctx))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+
+  /* Calculate ag^r */
+  err = mod_mul_exp (a, e1->a, key->g, r, key->p, ctx);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+
+  /* Calculate bh^r */
+  err = mod_mul_exp (b, e1->b, key->h_product, r, key->p, ctx);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+
+  /* Store the results (a, b) in cipher.
+   * (a, b) is the ciphertext */
+  err = copy_num (&e2->b, b);
+  if (err == GOLLE_OK) {
+    err = copy_num (&e2->a, a);
+  }
+ out:
+  if (err != GOLLE_OK) {
+    if (!rand_supplied) {
+      golle_num_delete (r);
+      if (rand) {
+	*rand = NULL;
+      }
+    }
+    golle_eg_clear (e2);
+  }
+  
+  BN_CTX_end (ctx);
+  BN_CTX_free (ctx);
+  
+  return err; 
+}
+
+golle_error golle_eg_decrypt (const golle_key_t *key,
+			      const golle_num_t *xi,
 			      size_t len,
 			      const golle_eg_t *cipher,
 			      golle_num_t m)
@@ -171,7 +309,7 @@ golle_error golle_eg_decrypt (golle_key_t *key,
    * x is simply the product of xi mod q.
    */
   BN_CTX *ctx;
-  BIGNUM *x, *ax;
+  BIGNUM *ax;
   golle_error err = GOLLE_OK;
 
   GOLLE_ASSERT (key, GOLLE_ERROR);
@@ -181,6 +319,7 @@ golle_error golle_eg_decrypt (golle_key_t *key,
   GOLLE_ASSERT (cipher->b, GOLLE_ERROR);
   GOLLE_ASSERT (cipher->a, GOLLE_ERROR);
   GOLLE_ASSERT (m, GOLLE_ERROR);
+  GOLLE_ASSERT (key->p, GOLLE_ERROR);
   GOLLE_ASSERT (key->q, GOLLE_ERROR);
 
   /* Get a context for temporaries. */
@@ -189,39 +328,21 @@ golle_error golle_eg_decrypt (golle_key_t *key,
   BN_CTX_start (ctx);
 
   /* Calculate a^x */
-  if (!(x = BN_CTX_get (ctx))) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
   if (!(ax = BN_CTX_get (ctx))) {
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_one (ax)) {
-    err = GOLLE_EMEM;
+
+  /* Get product of a ^ x for all x. */
+  err = mod_prod_exp (ax, cipher->a, xi, len, key->p, ctx);
+  if (err != GOLLE_OK) {
     goto out;
   }
-
-  /* TODO: Montgomery multiplication might make this faster. */
-  for (size_t i = 0; i < len; i++) {
-    /* Get a^xi mod q ... */
-    if (!BN_mod_exp (x, cipher->a, TOBN (xi[i]), TOBN(key->p), ctx)) {
-      err = GOLLE_ECRYPTO;
-      goto out;
-    }
-    /* ... then accumulate the product to get a^x mod q */
-    if (!BN_mod_mul (ax, ax, x, TOBN(key->p), ctx)) {
-      err = GOLLE_ECRYPTO;
-      goto out;
-    }
-  }
-
   /* Invert a^x */
   if (!BN_mod_inverse (ax, ax, TOBN(key->p), ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }
-
   /* Multiply by b */
   if (!BN_mod_mul (m, ax, cipher->b, TOBN(key->p), ctx)) {
     err = GOLLE_ECRYPTO;

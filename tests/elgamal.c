@@ -11,7 +11,7 @@
 
 enum {
   MSG_SIZE = 8,
-  NUM_BITS = 128 /* Doing smaller key for speed */
+  NUM_BITS = 16 /* Doing smaller key for speed */
 };
 
 int main (void) {

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Run the test multiple times 
+# "Pedantic" because the test usually involves random numbers and we want 
+# to increase our confidence.
+f=0
+x=$2
+echo "Performing $2 rounds of $1"
+while [ $x -gt 0 ]
+do
+    # Run the test once
+    $1 > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        # Count up the number of errors
+	if [ $f -eq 0 ]
+	then
+	    echo "Failing"
+	fi
+	f=$((f+1))
+    fi
+    x=$((x-1))
+done
+
+# The error code is just the number of failures.
+exit $f

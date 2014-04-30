@@ -86,21 +86,6 @@ int main (void) {
   assert (golle_set_iterator_next (it, &item) == GOLLE_END);
 
   golle_set_iterator_free (it);
-
-
-  /* Add heaps more items and check that it works. */
-  for (int i = HIGH_ITEMS; i < HIGH_ITEMS * 100; i++) {
-    err = golle_set_insert (set, &i, ITEM_SIZE);
-    assert (err == GOLLE_OK);
-    assert (golle_set_check (set) == GOLLE_OK);
-
-    const golle_bin_t *search;
-    err = golle_set_find (set, &i, ITEM_SIZE, &search);
-    assert (err == GOLLE_OK);
-    assert (search);
-    assert (*(int*)search->bin == i);
-  }
-
   golle_set_delete (set);
 
   /* Errors */
@@ -119,7 +104,6 @@ int main (void) {
   int i = 0;
   assert (golle_set_insert (set, &i, sizeof(i)) == GOLLE_OK);
   assert (golle_set_insert (set, &i, sizeof(i)) == GOLLE_EEXISTS);
-  
 
   /* NULL to erase */
   assert (golle_set_erase (NULL, NULL, sizeof (i)) == GOLLE_ERROR);
@@ -149,7 +133,6 @@ int main (void) {
 
   /* NULL to iterator reset */
   assert (golle_set_iterator_reset (NULL) == GOLLE_ERROR);
-
 
   golle_set_iterator_free (it);
   golle_set_delete (set);

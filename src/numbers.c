@@ -183,7 +183,7 @@ golle_error golle_find_generator (golle_num_t g,
      }
 
      /* Set g = h^((p-1)/q) */
-     if (!BN_mod_exp (test, h, j, q, ctx)) {
+     if (!BN_mod_exp (test, h, j, p, ctx)) {
        err = GOLLE_EMEM;
        break;
      }
@@ -312,7 +312,7 @@ golle_error golle_num_xor (golle_num_t out,
   }
 
   /* XOR */
-  for (int i = 0; i < max; i++) {
+  for (size_t i = 0; i < max; i++) {
     c->d[i] = a->d[i] ^ b->d[i];
   }
   return GOLLE_OK;
