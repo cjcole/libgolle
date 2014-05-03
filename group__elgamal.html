@@ -114,10 +114,12 @@ Data Structures</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ga5f638172acd6292dd82fd0154e3e634a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a22aa8f08d7b06ebc8d08e23227d1c5e8">GOLLE_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga5f638172acd6292dd82fd0154e3e634a">golle_eg_clear</a> (<a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher)</td></tr>
 <tr class="memdesc:ga5f638172acd6292dd82fd0154e3e634a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear memory allocated for the ciphertext.  <a href="#ga5f638172acd6292dd82fd0154e3e634a"></a><br/></td></tr>
-<tr class="memitem:ga625a017a80ac474a35568d6da1b4957d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga625a017a80ac474a35568d6da1b4957d">golle_eg_encrypt</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m, <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *rand)</td></tr>
-<tr class="memdesc:ga625a017a80ac474a35568d6da1b4957d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypt a number <img class="formulaInl" alt="$m \in \mathbb{G}_{q}$" src="form_26.png"/>.  <a href="#ga625a017a80ac474a35568d6da1b4957d"></a><br/></td></tr>
-<tr class="memitem:gaecf1acb355bc8c4cc6a397fc16466f60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#gaecf1acb355bc8c4cc6a397fc16466f60">golle_eg_decrypt</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *xi, size_t len, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m)</td></tr>
-<tr class="memdesc:gaecf1acb355bc8c4cc6a397fc16466f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypt a message.  <a href="#gaecf1acb355bc8c4cc6a397fc16466f60"></a><br/></td></tr>
+<tr class="memitem:gabc51023a2b4da74b85a20c19ef773337"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#gabc51023a2b4da74b85a20c19ef773337">golle_eg_encrypt</a> (const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m, <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *rand)</td></tr>
+<tr class="memdesc:gabc51023a2b4da74b85a20c19ef773337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypt a number <img class="formulaInl" alt="$m \in \mathbb{G}_{q}$" src="form_26.png"/>.  <a href="#gabc51023a2b4da74b85a20c19ef773337"></a><br/></td></tr>
+<tr class="memitem:ga77c78e711aca27abe9d45ae8367fe57c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga77c78e711aca27abe9d45ae8367fe57c">golle_eg_reencrypt</a> (const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *e1, <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *e2, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *rand)</td></tr>
+<tr class="memdesc:ga77c78e711aca27abe9d45ae8367fe57c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-encrypt a message (as in the <a class="el" href="group__pep.html">Plaintext Equivalence Proof</a>). The resulting ciphertext, for a random <img class="formulaInl" alt="$r \in \mathbb{Z}_{q}$" src="form_51.png"/> will be <img class="formulaInl" alt="$(ag^{t}, bh^{r})$" src="form_66.png"/>.  <a href="#ga77c78e711aca27abe9d45ae8367fe57c"></a><br/></td></tr>
+<tr class="memitem:ga1ac8e1a180e14755fffa4a87e2e01e3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__elgamal.html#ga1ac8e1a180e14755fffa4a87e2e01e3b">golle_eg_decrypt</a> (const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *xi, size_t len, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *cipher, <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> m)</td></tr>
+<tr class="memdesc:ga1ac8e1a180e14755fffa4a87e2e01e3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypt a message.  <a href="#ga1ac8e1a180e14755fffa4a87e2e01e3b"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>Given a <a class="el" href="structgolle__key__t.html" title="A peer&#39;s key. Contains the peer&#39;s portion of the private key and the public key elements.">golle_key_t</a> structure properly generated so that the user has a the full public key in <code>h_product</code>, this module allows the user to encrypt a message that the group can then work together to decrypt.</p>
@@ -150,20 +152,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaecf1acb355bc8c4cc6a397fc16466f60"></a>
+<a class="anchor" id="ga1ac8e1a180e14755fffa4a87e2e01e3b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_eg_decrypt </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structgolle__key__t.html">golle_key_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *&#160;</td>
           <td class="paramname"><em>key</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *&#160;</td>
           <td class="paramname"><em>xi</em>, </td>
         </tr>
         <tr>
@@ -198,7 +200,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">key</td><td>The key containing the primes used for modulus operations. </td></tr>
     <tr><td class="paramname">xi</td><td>An array of private key values, for each member of the group. </td></tr>
     <tr><td class="paramname">len</td><td>The number of keys in <code>xi</code>. </td></tr>
-    <tr><td class="paramname">cipher</td><td>A non-<code>NULL</code> ciphertext value from <a class="el" href="group__elgamal.html#ga625a017a80ac474a35568d6da1b4957d" title="Encrypt a number .">golle_eg_encrypt()</a>. </td></tr>
+    <tr><td class="paramname">cipher</td><td>A non-<code>NULL</code> ciphertext value from <a class="el" href="group__elgamal.html#gabc51023a2b4da74b85a20c19ef773337" title="Encrypt a number .">golle_eg_encrypt()</a>. </td></tr>
     <tr><td class="paramname">m</td><td>The decrypted number. </td></tr>
   </table>
   </dd>
@@ -208,20 +210,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga625a017a80ac474a35568d6da1b4957d"></a>
+<a class="anchor" id="gabc51023a2b4da74b85a20c19ef773337"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_eg_encrypt </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structgolle__key__t.html">golle_key_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *&#160;</td>
           <td class="paramname"><em>key</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td>
           <td class="paramname"><em>m</em>, </td>
         </tr>
         <tr>
@@ -247,10 +249,10 @@ Functions</h2></td></tr>
 <p>Encrypt a number <img class="formulaInl" alt="$m \in \mathbb{G}_{q}$" src="form_26.png"/>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>The ElGamal public key to use during encryption. </td></tr>
-    <tr><td class="paramname">m</td><td>The number to encrypt. <img class="formulaInl" alt="$msg \in \mathbb{G}_{q}$" src="form_27.png"/> </td></tr>
-    <tr><td class="paramname">cipher</td><td>A non-<code>NULL</code> <a class="el" href="structgolle__eg__t.html" title="ElGamal ciphertex.">golle_eg_t</a> structure. </td></tr>
-    <tr><td class="paramname">rand</td><td>If the value pointed to is not <code>NULL</code>, it will be used as the random value <img class="formulaInl" alt="$r \in \mathbb{Z}^{*}_{q}$" src="form_28.png"/>. Otherwise, a random value will be collected and returned as new number, via <a class="el" href="group__numbers.html#gaa83f0cbd6388011b68c9a27b340af36f" title="Create a new number.">golle_num_new()</a>. If the argument itself is <code>NULL</code>, then a random value will be generated but not returned. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">key</td><td>The ElGamal public key to use during encryption. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">m</td><td>The number to encrypt. <img class="formulaInl" alt="$msg \in \mathbb{G}_{q}$" src="form_27.png"/> </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cipher</td><td>A non-<code>NULL</code> <a class="el" href="structgolle__eg__t.html" title="ElGamal ciphertex.">golle_eg_t</a> structure. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">rand</td><td>If the value pointed to is not <code>NULL</code>, it will be used as the random value <img class="formulaInl" alt="$r \in \mathbb{Z}^{*}_{q}$" src="form_28.png"/>. Otherwise, a random value will be collected and returned as new number, via <a class="el" href="group__numbers.html#gaa83f0cbd6388011b68c9a27b340af36f" title="Create a new number.">golle_num_new()</a>. If the argument itself is <code>NULL</code>, then a random value will be generated but not returned. </td></tr>
   </table>
   </dd>
 </dl>
@@ -259,12 +261,62 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga77c78e711aca27abe9d45ae8367fe57c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_eg_reencrypt </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *&#160;</td>
+          <td class="paramname"><em>e1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *&#160;</td>
+          <td class="paramname"><em>e2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> *&#160;</td>
+          <td class="paramname"><em>rand</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Re-encrypt a message (as in the <a class="el" href="group__pep.html">Plaintext Equivalence Proof</a>). The resulting ciphertext, for a random <img class="formulaInl" alt="$r \in \mathbb{Z}_{q}$" src="form_51.png"/> will be <img class="formulaInl" alt="$(ag^{t}, bh^{r})$" src="form_66.png"/>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">key</td><td>The ElGamal public key used to encrypt the first ciphertext. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">e1</td><td>The first ciphertext, already encrypted. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">e2</td><td>A non-<code>NULL</code> <a class="el" href="structgolle__eg__t.html" title="ElGamal ciphertex.">golle_eg_t</a> structure. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">rand</td><td>If the value pointed to is not <code>NULL</code>, it will be used as the random value <img class="formulaInl" alt="$r \in \mathbb{Z}^{*}_{q}$" src="form_28.png"/>. Otherwise, a random value will be collected and returned as new number, via <a class="el" href="group__numbers.html#gaa83f0cbd6388011b68c9a27b340af36f" title="Create a new number.">golle_num_new()</a>. If the argument itself is <code>NULL</code>, then a random value will be generated but not returned. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if an error happens during cryptography. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory allocation fails. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 26 2014 02:17:06 for LibGolle by
+    <li class="footer">Generated on Sat May 3 2014 19:26:23 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

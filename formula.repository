@@ -64,3 +64,5 @@
 \form#63:$m = g^{n} \mod q$
 \form#64:$s = r + cx$
 \form#65:$g \neq 1 $
+\form#66:$(ag^{t}, bh^{r})$
+\form#67:$\mathbb{Z}_{q}$

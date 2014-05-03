@@ -114,10 +114,10 @@ Data Structures</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:gadf51d2239dd8c6cf9421bcd7a62448fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a22aa8f08d7b06ebc8d08e23227d1c5e8">GOLLE_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__disj.html#gadf51d2239dd8c6cf9421bcd7a62448fe">golle_disj_clear</a> (<a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *d)</td></tr>
 <tr class="memdesc:gadf51d2239dd8c6cf9421bcd7a62448fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all numbers out of a disjuntive schnorr structure.  <a href="#gadf51d2239dd8c6cf9421bcd7a62448fe"></a><br/></td></tr>
-<tr class="memitem:gaf508bdef17da7e22318436a4ab80980f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__disj.html#gaf508bdef17da7e22318436a4ab80980f">golle_disj_commit</a> (const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *key, <a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *d, size_t k)</td></tr>
-<tr class="memdesc:gaf508bdef17da7e22318436a4ab80980f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the commitments <code>t1</code> and <code>s2</code> to be sent to the verifier.  <a href="#gaf508bdef17da7e22318436a4ab80980f"></a><br/></td></tr>
-<tr class="memitem:ga73a9fe1ec7348018074522be2c12df2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__disj.html#ga73a9fe1ec7348018074522be2c12df2b">golle_disj_prove</a> (const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *key, const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *real, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> c, <a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *d)</td></tr>
-<tr class="memdesc:ga73a9fe1ec7348018074522be2c12df2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output the proof that <code>x</code> is known. <code>s1</code>, <code>s2</code>, <code>c1</code>, and <code>c2</code> are sent to the verifier.  <a href="#ga73a9fe1ec7348018074522be2c12df2b"></a><br/></td></tr>
+<tr class="memitem:ga43992679b7f1959c6945f8e597a52dec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__disj.html#ga43992679b7f1959c6945f8e597a52dec">golle_disj_commit</a> (const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *unknown, const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *known, <a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *d)</td></tr>
+<tr class="memdesc:ga43992679b7f1959c6945f8e597a52dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the commitments <code>t1</code> and <code>s2</code> to be sent to the verifier.  <a href="#ga43992679b7f1959c6945f8e597a52dec"></a><br/></td></tr>
+<tr class="memitem:ga77148ebb4a9b4bf4ed0a444e904be032"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__disj.html#ga77148ebb4a9b4bf4ed0a444e904be032">golle_disj_prove</a> (const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *unknown, const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *known, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> c, <a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *d)</td></tr>
+<tr class="memdesc:ga77148ebb4a9b4bf4ed0a444e904be032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output the proof that <code>x</code> is known. <code>s1</code>, <code>s2</code>, <code>c1</code>, and <code>c2</code> are sent to the verifier.  <a href="#ga77148ebb4a9b4bf4ed0a444e904be032"></a><br/></td></tr>
 <tr class="memitem:gaca9e066300f28df746ee9d9cfae17eaa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__disj.html#gaca9e066300f28df746ee9d9cfae17eaa">golle_disj_verify</a> (const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *k1, const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *k2, const <a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *d)</td></tr>
 <tr class="memdesc:gaca9e066300f28df746ee9d9cfae17eaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify a proof sent by a prover.  <a href="#gaca9e066300f28df746ee9d9cfae17eaa"></a><br/></td></tr>
 </table>
@@ -148,7 +148,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaf508bdef17da7e22318436a4ab80980f"></a>
+<a class="anchor" id="ga43992679b7f1959c6945f8e597a52dec"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -156,19 +156,19 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_disj_commit </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
+          <td class="paramname"><em>unknown</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *&#160;</td>
+          <td class="paramname"><em>known</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structgolle__disj__t.html">golle_disj_t</a> *&#160;</td>
-          <td class="paramname"><em>d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>k</em>&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -181,9 +181,9 @@ Functions</h2></td></tr>
 <p>Generate the commitments <code>t1</code> and <code>s2</code> to be sent to the verifier. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>The Schnorr key, containing the <code>G</code> and <code>Y</code> values, that the secret key is <em>not</em> associated with. </td></tr>
+    <tr><td class="paramname">unknown</td><td>The Schnorr key, containing the <code>G</code> and <code>Y</code> values, that the secret key is <em>not</em> associated with. </td></tr>
+    <tr><td class="paramname">known</td><td>The schnorr key, containing the <code>G</code> and <code>Y</code> values, </td></tr>
     <tr><td class="paramname">d</td><td>The disjunct structure that will receive the <code>t1</code>, <code>r1</code>, <code>t2</code>, <code>c2</code>, and <code>s2</code> values. </td></tr>
-    <tr><td class="paramname">k</td><td>The number of bits that <code>c2</code> should be. </td></tr>
   </table>
   </dd>
 </dl>
@@ -191,7 +191,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga73a9fe1ec7348018074522be2c12df2b"></a>
+<a class="anchor" id="ga77148ebb4a9b4bf4ed0a444e904be032"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -199,13 +199,13 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_disj_prove </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
+          <td class="paramname"><em>unknown</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *&#160;</td>
-          <td class="paramname"><em>real</em>, </td>
+          <td class="paramname"><em>known</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -230,8 +230,8 @@ Functions</h2></td></tr>
 <p>Output the proof that <code>x</code> is known. <code>s1</code>, <code>s2</code>, <code>c1</code>, and <code>c2</code> are sent to the verifier. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>The schnorr key, containing the <code>G</code>, and <code>Y</code> values, that the secret key is <em>not</em> associated with; the same key used with <a class="el" href="group__disj.html#gaf508bdef17da7e22318436a4ab80980f" title="Generate the commitments t1 and s2 to be sent to the verifier.">golle_disj_commit()</a>. </td></tr>
-    <tr><td class="paramname">real</td><td>The schnorr key, containing the <code>G</code> and <code>Y</code> values, and the secrete key value <code>x</code> that is associated with them. </td></tr>
+    <tr><td class="paramname">unknown</td><td>The schnorr key, containing the <code>G</code>, and <code>Y</code> values, that the secret key is <em>not</em> associated with; the same key used with <a class="el" href="group__disj.html#ga43992679b7f1959c6945f8e597a52dec" title="Generate the commitments t1 and s2 to be sent to the verifier.">golle_disj_commit()</a>. </td></tr>
+    <tr><td class="paramname">known</td><td>The schnorr key, containing the <code>G</code> and <code>Y</code> values, and the secrete key value <code>x</code> that is associated with them. </td></tr>
     <tr><td class="paramname">c</td><td>The random c value sent by the verifier. </td></tr>
     <tr><td class="paramname">d</td><td>The disjunct structure that will receive values <code>c1</code> and <code>s1</code>. ` </td></tr>
   </table>
@@ -289,7 +289,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 26 2014 02:17:06 for LibGolle by
+    <li class="footer">Generated on Sat May 3 2014 19:26:23 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

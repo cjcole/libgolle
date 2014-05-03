@@ -113,16 +113,18 @@ $(document).ready(function(){initNavTree('pep_8h.html','');});
 <p>PEP protocol.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="platform_8h_source.html">platform.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="elgamal_8h_source.html">elgamal.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="distribute_8h_source.html">distribute.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="schnorr_8h_source.html">schnorr.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="elgamal_8h_source.html">elgamal.h</a>&quot;</code><br/>
 </div>
 <p><a href="pep_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gadb20842237347629ea70854cfb52d9bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pep.html#gadb20842237347629ea70854cfb52d9bb">golle_pep_set</a> (const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *egKey, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *e1, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> r1, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *e2, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> r2, <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *key)</td></tr>
-<tr class="memdesc:gadb20842237347629ea70854cfb52d9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a Schnorr public key, <img class="formulaInl" alt="$(G, Y)$" src="form_46.png"/> out of the two ciphertexts, <img class="formulaInl" alt="$e_{1}$" src="form_47.png"/> and <img class="formulaInl" alt="$e_{2}$" src="form_48.png"/>.  <a href="group__pep.html#gadb20842237347629ea70854cfb52d9bb"></a><br/></td></tr>
+<tr class="memitem:gaa7d855f73e9ea37a523844a62720c3b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pep.html#gaa7d855f73e9ea37a523844a62720c3b6">golle_pep_prover</a> (const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *egKey, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> k, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> z, <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *key)</td></tr>
+<tr class="memdesc:gaa7d855f73e9ea37a523844a62720c3b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a Schnorr public key, <img class="formulaInl" alt="$(G, Y)$" src="form_46.png"/> out of the ElGamal public key and store the private key.  <a href="group__pep.html#gaa7d855f73e9ea37a523844a62720c3b6"></a><br/></td></tr>
+<tr class="memitem:gae2bcb25aa0d0e62f90c454f55560ce0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pep.html#gae2bcb25aa0d0e62f90c454f55560ce0d">golle_pep_verifier</a> (const <a class="el" href="structgolle__key__t.html">golle_key_t</a> *egKey, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> z, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *e1, const <a class="el" href="structgolle__eg__t.html">golle_eg_t</a> *e2, <a class="el" href="structgolle__schnorr__t.html">golle_schnorr_t</a> *key)</td></tr>
+<tr class="memdesc:gae2bcb25aa0d0e62f90c454f55560ce0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a Schnorr public key, <img class="formulaInl" alt="$(G, Y)$" src="form_46.png"/> from two ciphertexts. The private key (i.e. the reencryption factor) is not known. This function is used by the verifier to check if the two ciphertexts are the same.  <a href="group__pep.html#gae2bcb25aa0d0e62f90c454f55560ce0d"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>PEP protocol. </p>
@@ -135,7 +137,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_10a438a595fd497cefe5c0ebdc0216f5.html">golle</a></li><li class="navelem"><a class="el" href="pep_8h.html">pep.h</a></li>
-    <li class="footer">Generated on Sat Apr 26 2014 02:17:06 for LibGolle by
+    <li class="footer">Generated on Sat May 3 2014 19:26:23 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>
