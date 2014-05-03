@@ -13,12 +13,8 @@
 #include <golle/elgamal.h>
 #include <openssl/bn.h>
 
-#include <stdio.h>
-#define STR(N) #N
-#define PRN(N) printf("%s = ", STR(N)); golle_num_print (stdout, N); printf("\n")
-
 enum {
-  NUM_BITS = 16
+  NUM_BITS = 160
 };
 
 int main (void) {
@@ -41,14 +37,16 @@ int main (void) {
   assert (golle_eg_encrypt (&key, v, &e1, NULL) == GOLLE_OK);
   assert (golle_eg_reencrypt (&key, &e1, &e2, &k) == GOLLE_OK);
   
+  /* Verifier picks a random number z */
+  golle_num_t z = golle_num_rand (key.q);
+  assert (z);
+  assert (golle_num_mod_exp (z, key.g, z, key.q) == GOLLE_OK);
+
   /* Compute the Schnorr key (Y, G) */
   golle_schnorr_t skp = { 0 }, skv = { 0 };
-  assert (golle_pep_prover (&key, k, &skp) == GOLLE_OK);
-  PRN(skp.G);
-  PRN(skp.Y);
-  assert (golle_pep_verifier (&key, &e1, &e2, &skv) == GOLLE_OK);
-  PRN(skv.G);
-  PRN(skv.Y);
+  /*  assert (golle_pep_verifier (&key, z, &e1, &e2, &skp) == GOLLE_OK);*/
+  assert (golle_pep_prover (&key, k, z, &skp) == GOLLE_OK); 
+  assert (golle_pep_verifier (&key, z, &e1, &e2, &skv) == GOLLE_OK);
 
   /* Commit to proving that we know x.
      That is, we're proving that the two encryptions are
@@ -71,6 +69,7 @@ int main (void) {
   /* Verifier checks the proof */
   assert (golle_schnorr_verify (&skv, s, t, c) == GOLLE_OK);
 
+  golle_num_delete (z);
   golle_num_delete (v);
   golle_num_delete (r);
   golle_num_delete (t);

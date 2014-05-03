@@ -75,7 +75,6 @@ pep_CPPFLAGS = $(TEST_INC)
 pep_LDADD = $(TEST_LIB)
 
 # Run all test programs
-XFAIL_TESTS = ./pep
 TESTS = ./list\
 	./elgamal\
 	./keygen\
