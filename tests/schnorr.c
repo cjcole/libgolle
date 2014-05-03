@@ -6,8 +6,6 @@
 #include <golle/schnorr.h>
 #include <golle/distribute.h>
 #include <limits.h>
-#include <stdlib.h>
-#include <time.h>
 #include <golle/random.h>
 #include <golle/elgamal.h>
 #include <stdio.h>
@@ -18,8 +16,6 @@ enum {
 };
 
 int main (void) {
-  srand (time (0));
-
   /* Generate an ElGamal key */
   golle_key_t key = { 0 };
   assert (golle_key_gen_public (&key, NUM_BITS, INT_MAX) == GOLLE_OK);

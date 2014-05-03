@@ -36,6 +36,14 @@ void golle_num_delete (golle_num_t n) {
   }
 }
 
+golle_num_t golle_num_dup (const golle_num_t i) {
+  golle_num_t n = NULL;
+  if (i) {
+    n = BN_dup (i);
+  }
+  return n;
+}
+
 golle_num_t golle_num_new_int (size_t i) {
   golle_num_t n = golle_num_new ();
   if (n) {
@@ -77,6 +85,20 @@ golle_num_t golle_num_rand (const golle_num_t n) {
     }
   }
   return r;
+}
+
+golle_error golle_num_rand_bits (golle_num_t r, int bits) {
+  GOLLE_ASSERT (r, GOLLE_ERROR);
+
+  /* Always seed the RNG. */
+  golle_error err = golle_random_seed ();
+  GOLLE_ASSERT (err == GOLLE_OK, err);
+
+  /* A random number */
+  if (!BN_rand (r, bits, 0, 0)) {
+    return GOLLE_ECRYPTO;
+  }
+  return GOLLE_OK;
 }
 
 int golle_num_cmp (const golle_num_t n1, const golle_num_t n2) {
@@ -313,7 +335,7 @@ golle_error golle_num_xor (golle_num_t out,
 
   /* XOR */
   for (size_t i = 0; i < max; i++) {
-    c->d[i] = a->d[i] ^ b->d[i];
+    AS_BN(out)->d[i] = a->d[i] ^ b->d[i];
   }
   return GOLLE_OK;
 }

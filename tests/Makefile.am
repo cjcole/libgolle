@@ -17,7 +17,8 @@ check_PROGRAMS = \
 	elgamal \
 	p2p \
 	pep \
-	schnorr
+	schnorr \
+	disj
 
 #Make list test
 list_SOURCES = list.c
@@ -74,8 +75,14 @@ pep_SOURCES = pep.c
 pep_CPPFLAGS = $(TEST_INC)
 pep_LDADD = $(TEST_LIB)
 
+#Make the test for disjunctive schnorr
+disj_SOURCES = disj.c
+disj_CPPFLAGS = $(TEST_INC)
+disj_LDADD = $(TEST_LIB)
+
 # Run all test programs
 TESTS = ./list\
+	./set \
 	./elgamal\
 	./keygen\
 	./distribution\
@@ -85,4 +92,4 @@ TESTS = ./list\
 	./p2p \
 	./pep \
 	./schnorr \
-	./set
+	./disj

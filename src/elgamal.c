@@ -221,6 +221,9 @@ golle_error golle_eg_encrypt (const golle_key_t *key,
     }
     golle_eg_clear (cipher);
   }
+  else if (!rand) {
+    golle_num_delete (r);
+  }
       
   BN_CTX_end (ctx);
   BN_CTX_free (ctx);

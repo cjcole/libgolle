@@ -7,8 +7,6 @@
 #include <golle/distribute.h>
 #include <golle/pep.h>
 #include <limits.h>
-#include <stdlib.h>
-#include <time.h>
 #include <golle/random.h>
 #include <golle/elgamal.h>
 #include <openssl/bn.h>
@@ -18,7 +16,6 @@ enum {
 };
 
 int main (void) {
-  srand (time (0));
 
   /* Generate an ElGamal key */
   golle_key_t key = { 0 };

@@ -85,7 +85,7 @@ GOLLE_EXTERN golle_error golle_eg_encrypt (const golle_key_t *key,
 					   golle_eg_t *cipher,
 					   golle_num_t *rand);
 /*!
- * \brief Re-encrypt a message (as in the @ref pep and @ref dispep).
+ * \brief Re-encrypt a message (as in the @ref pep).
  * The resulting ciphertext, for a random \f$r \in \mathbb{Z}_{q}\f$
  * will be \f$(ag^{t}, bh^{r})\f$.
  * \param key The ElGamal public key used to encrypt the first ciphertext.

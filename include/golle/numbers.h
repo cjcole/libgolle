@@ -52,6 +52,13 @@ GOLLE_EXTERN golle_num_t golle_num_new (void);
 GOLLE_EXTERN void golle_num_delete (golle_num_t n);
 
 /*!
+ * \brief Make a copy of the input.
+ * \param i The input number to copy.
+ * \return A copy of `i`, or `NULL` if allocation fails or `i` is `NULL`.
+ */
+GOLLE_EXTERN golle_num_t golle_num_dup (const golle_num_t i);
+
+/*!
  * \brief Create a new number from a given native integer.
  * \param i The value to set the newly allocated number.
  * \return A newly-allocated number, or `NULL` if failed.
@@ -75,6 +82,14 @@ GOLLE_EXTERN golle_error golle_num_generate_rand (golle_num_t r,
  * \return A newly-allocated random number, or `NULL` if failed.
  */
 GOLLE_EXTERN golle_num_t golle_num_rand (const golle_num_t n);
+
+/*!
+ * \brief Generate a new random number of the given size.
+ * \param r The number to store the bits in.
+ * \param bits The number of bits of randomness to generate.
+ * \return ::GOLLE_ERROR, ::GOLLE_ECRYPTO, or ::GOLLE_OK.
+ */
+GOLLE_EXTERN golle_error golle_num_rand_bits (golle_num_t r, int bits);
 
 /*!
  * \brief Compare two numbers.

@@ -59,31 +59,31 @@ GOLLE_INLINE void golle_disj_clear (golle_disj_t *d) {
 /*!
  * \brief Generate the commitments `t1` and `s2` to be sent
  * to the verifier.
- * \param key The Schnorr key, containing the `G` and `Y` values,
+ * \param unknown The Schnorr key, containing the `G` and `Y` values,
  * that the secret key is *not* associated with.
+ * \param known The schnorr key, containing the `G` and `Y` values,
  * \param d The disjunct structure that will receive the 
  * `t1`, `r1`, `t2`, `c2`, and `s2` values.
- * \param k The number of bits that `c2` should be.
  * \return ::GOLLE_ERROR, ::GOLLE_OK, or ::GOLLE_EMEM.
  */
-GOLLE_EXTERN golle_error golle_disj_commit (const golle_schnorr_t *key,
-					    golle_disj_t *d,
-					    size_t k);
+GOLLE_EXTERN golle_error golle_disj_commit (const golle_schnorr_t *unknown,
+					    const golle_schnorr_t *known,
+					    golle_disj_t *d);
 /*!
  * \brief Output the proof that `x` is known. `s1`, `s2`, `c1`, and `c2` are
  * sent to the verifier.
- * \param key The schnorr key, containing the `G`, and `Y` values,
+ * \param unknown The schnorr key, containing the `G`, and `Y` values,
  * that the secret key is *not* associated with; the same key used
  * with golle_disj_commit().
- * \param real The schnorr key, containing the `G` and `Y` values,
+ * \param known The schnorr key, containing the `G` and `Y` values,
  * and the secrete key value `x` that is associated with them.
  * \param c The random c value sent by the verifier.
  * \param d The disjunct structure that will receive
  * values `c1` and `s1`. `
  * \return ::GOLLE_ERROR, ::GOLLE_OK, or ::GOLLE_EMEM.
  */
-GOLLE_EXTERN golle_error golle_disj_prove (const golle_schnorr_t *key,
-					   const golle_schnorr_t *real,
+GOLLE_EXTERN golle_error golle_disj_prove (const golle_schnorr_t *unknown,
+					   const golle_schnorr_t *known,
 					   const golle_num_t c,
 					   golle_disj_t *d);
 /*!

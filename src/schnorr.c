@@ -95,20 +95,14 @@ golle_error golle_schnorr_verify (const golle_schnorr_t *key,
   /* Get ty^c */
   BIGNUM *tyc = NULL, *yc = NULL;
   golle_error err = GOLLE_OK;
-  if (!(yc = BN_CTX_get (ctx))) {
+  if (!(yc = BN_CTX_get (ctx)) ||
+      !(tyc = BN_CTX_get (ctx))) {
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!(tyc = BN_CTX_get (ctx))) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
-  if (!BN_mod_exp (yc, key->Y, c, key->p, ctx)) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
-  if (!BN_mod_mul (tyc, yc, t, key->p, ctx)) {
-    err = GOLLE_EMEM;
+  if (!BN_mod_exp (yc, key->Y, c, key->p, ctx) ||
+      !BN_mod_mul (tyc, yc, t, key->p, ctx)) {
+    err = GOLLE_ECRYPTO;
     goto out;
   }
 
