@@ -24,6 +24,7 @@ var searchData=
   ['golle_5fdisj_5fprove',['golle_disj_prove',['../group__disj.html#ga77148ebb4a9b4bf4ed0a444e904be032',1,'disj.h']]],
   ['golle_5fdisj_5ft',['golle_disj_t',['../structgolle__disj__t.html',1,'']]],
   ['golle_5fdisj_5fverify',['golle_disj_verify',['../group__disj.html#gaca9e066300f28df746ee9d9cfae17eaa',1,'disj.h']]],
+  ['golle_5fdispep_5fsetup',['golle_dispep_setup',['../group__dispep.html#gacad4913e0c6f5757e1d85393a8cfbad2',1,'dispep.h']]],
   ['golle_5feabort',['GOLLE_EABORT',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748a6b86eecc932c1f6198e27646eccdc44e',1,'errors.h']]],
   ['golle_5fecrypto',['GOLLE_ECRYPTO',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07',1,'errors.h']]],
   ['golle_5feempty',['GOLLE_EEMPTY',['../errors_8h.html#ad89bfc18c1698005d61cc709e5626748ac2448e0ace1eb8ae7f2e3386defe47c9',1,'errors.h']]],

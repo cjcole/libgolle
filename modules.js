@@ -3,6 +3,7 @@ var modules =
     [ "Binary buffers", "group__bin.html", "group__bin" ],
     [ "Bit Commitment", "group__commit.html", "group__commit" ],
     [ "Disjunctive Schnorr Identification", "group__disj.html", "group__disj" ],
+    [ "Disjunct Plaintext Equivalence Proof", "group__dispep.html", "group__dispep" ],
     [ "Key Generation and Distribution", "group__distribute.html", "group__distribute" ],
     [ "ElGamal", "group__elgamal.html", "group__elgamal" ],
     [ "Singly-linked lists", "group__list.html", "group__list" ],
