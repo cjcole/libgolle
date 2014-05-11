@@ -18,7 +18,8 @@ check_PROGRAMS = \
 	p2p \
 	pep \
 	schnorr \
-	disj
+	disj \
+	dispep
 
 #Make list test
 list_SOURCES = list.c
@@ -80,6 +81,11 @@ disj_SOURCES = disj.c
 disj_CPPFLAGS = $(TEST_INC)
 disj_LDADD = $(TEST_LIB)
 
+#Make the test for DISPEP
+dispep_SOURCES = dispep.c
+dispep_CPPFLAGS = $(TEST_INC)
+dispep_LDADD = $(TEST_LIB)
+
 # Run all test programs
 TESTS = ./list\
 	./set \
@@ -92,4 +98,5 @@ TESTS = ./list\
 	./p2p \
 	./pep \
 	./schnorr \
-	./disj
+	./disj \
+	./dispep

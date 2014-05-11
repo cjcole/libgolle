@@ -9,7 +9,7 @@
 #include <golle/random.h>
 
 enum {
-  NUM_BITS = 512
+  NUM_BITS = 160
 };
 
 static golle_key_t SHARED_KEY = { 0 };

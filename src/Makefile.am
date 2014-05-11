@@ -21,4 +21,5 @@ libgolle_la_SOURCES =\
 	select.c \
 	schnorr.c \
 	pep.c \
-	disj.c
+	disj.c \
+	dispep.c

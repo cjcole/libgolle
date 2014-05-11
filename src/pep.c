@@ -5,6 +5,7 @@
 #include <golle/pep.h>
 #include <golle/numbers.h>
 #include <openssl/bn.h>
+#include "numbers.h"
 #if HAVE_STRING_H
 #include <string.h>
 #endif
@@ -23,35 +24,6 @@ static BIGNUM *mod_exp (const BIGNUM *a,
     return NULL;
   }
   return n;
-}
-
-/* Calculate a/b mod p by inverse */
-static golle_error a_div_b (golle_num_t out,
-			    const golle_num_t a,
-			    const golle_num_t b,
-			    const golle_num_t p,
-			    BN_CTX *ctx)
-{
-  golle_error err = GOLLE_OK;
-  BIGNUM *bi;
-  /* Get b inverse */
-  BN_CTX_start (ctx);
-  if (!(bi = BN_CTX_get (ctx))) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
-  if (!BN_mod_inverse (bi, b, (const BIGNUM*)p, ctx)) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
-  /* Multiply by a */
-  if (!BN_mod_mul (out, a, bi, (const BIGNUM*)p, ctx)) {
-    err = GOLLE_EMEM;
-    goto out;
-  }
- out:
-  BN_CTX_end (ctx);
-  return err;
 }
 
 /* Get G = y ^ z * g */
@@ -183,8 +155,8 @@ golle_error golle_pep_verifier (const golle_key_t *egKey,
     err = GOLLE_EMEM;
     goto out;
   }
-  if ((err = a_div_b (a, e2->a, e1->a, egKey->p, ctx)) != GOLLE_OK ||
-      (err = a_div_b (b, e2->b, e1->b, egKey->p, ctx)) != GOLLE_OK) {
+  if ((err = golle_mod_div (a, e2->a, e1->a, egKey->p, ctx)) != GOLLE_OK ||
+      (err = golle_mod_div (b, e2->b, e1->b, egKey->p, ctx)) != GOLLE_OK) {
     goto out;
   }
   /* G = y^z * g, Y = b^z * a */

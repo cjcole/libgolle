@@ -6,6 +6,7 @@
 #include <golle/numbers.h>
 #include <golle/random.h>
 #include <golle/types.h>
+#include "numbers.h"
 
 #if HAVE_STRING_H
 #include <string.h>
@@ -338,4 +339,32 @@ golle_error golle_num_xor (golle_num_t out,
     AS_BN(out)->d[i] = a->d[i] ^ b->d[i];
   }
   return GOLLE_OK;
+}
+
+golle_error golle_mod_div (golle_num_t out,
+			   const golle_num_t a,
+			   const golle_num_t b,
+			   const golle_num_t p,
+			   BN_CTX *ctx)
+{
+  golle_error err = GOLLE_OK;
+  BIGNUM *bi;
+  /* Get b inverse */
+  BN_CTX_start (ctx);
+  if (!(bi = BN_CTX_get (ctx))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  if (!BN_mod_inverse (bi, b, (const BIGNUM*)p, ctx)) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  /* Multiply by a */
+  if (!BN_mod_mul (out, a, bi, (const BIGNUM*)p, ctx)) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+ out:
+  BN_CTX_end (ctx);
+  return err;
 }
