@@ -32,6 +32,7 @@ typedef enum golle_error {
   GOLLE_ENOCOMMIT = -10, /*!< The given commitment failed. */
   GOLLE_ECRYPTO = -11, /*!< An error occurred during cryptography. */
   GOLLE_EABORT = -12, /*!< The operation should abort. */
+  GOLLE_ECOLLISION = -13, /*!< A collision between two selections occured. */
 
   GOLLE_END = 1, /*!< An iterator has reached the end of a sequence. */
  

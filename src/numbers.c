@@ -33,7 +33,7 @@ golle_num_t golle_num_new (void) {
 
 void golle_num_delete (golle_num_t n) {
   if (n) {
-    BN_free (AS_BN (n));
+    BN_clear_free (AS_BN (n));
   }
 }
 
