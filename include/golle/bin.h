@@ -38,6 +38,11 @@
  * always check the size of the buffer before using it.
  */
 
+/*! 
+ * \brief An alias for golle_bin_release
+ */
+#define golle_bin_clear(b) golle_bin_release(b)
+
 /*!
  * \struct golle_bin_t
  * \brief Represents a binary buffer.

@@ -83,16 +83,22 @@ golle_error golle_bin_resize (golle_bin_t *buff, size_t size) {
   GOLLE_ASSERT (size, GOLLE_ERROR);
   /*
    * This function is essentially a 
-   * realloc for buffers.
+   * realloc for buffers but without copying old data.
    */
+  void *b = buff->bin;
 
   if (buff->bin == BIN_LOCAL (buff)) {
     /* force a malloc */
-    buff->bin = NULL;
+    b = NULL;
   }
 
-  void * newbin = realloc (buff->bin, size);
+  void * newbin = realloc (b, size);
   GOLLE_ASSERT (newbin, GOLLE_EMEM);
+
+  if (buff->bin == BIN_LOCAL (buff)) {
+    memcpy (newbin, buff->bin, buff->size);
+    memset (buff->bin, 0, buff->size);
+  }
 
   buff->bin = newbin;
   buff->size = size;

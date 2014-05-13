@@ -54,7 +54,7 @@ typedef golle_error (*golle_accept_commit_t) (size_t,
  * \typedef golle_accept_eg_t
  * \brief A callback for accepting ciphertext from a peer.
  */
-typedef golle_error (*golle_accept_eg_t) (size_t, golle_eg_t *);
+typedef golle_error (*golle_accept_eg_t) (size_t, golle_eg_t *, golle_bin_t *);
 /*!
  * \typedef golle_reveal_rand_t
  * \brief A callback for revealing a random number and
@@ -97,7 +97,11 @@ typedef struct golle_t {
   /*! The callback which will be invoked when the protocol requires
    * a ciphertext from a peer. The client should receive the ciphertext
    * from the peer indicated in the first parameter and return it
-   * by filling out the ciphertext struct in the second parameter.
+   * by filling out the ciphertext struct in the second parameter. The
+   * ciphertext corresponds to the `secret` member of a commitment and
+   * will be converted to a buffer.
+   * The third parameter corresponds to the `rkeep` buffer of a commitment.
+   * Thus the protocol will receive the full commitment for verification.
    */
   golle_accept_eg_t accept_eg;
   /*! The callback which will be invoked when the protocol needs
@@ -144,12 +148,13 @@ GOLLE_EXTERN void golle_clear (golle_t *golle);
  * \brief Participate in selecting a random element from the set.
  * The behaviour of the implementation will depend on the round number.
  * \param golle The golle structure.
- * \param round The round number.
+ * \param round The round number, zero-based.
  * \param peer The peer who is to receive the selected item. Set to SIZE_MAX
  * if the item is meant to be broadcast.
  * \return ::GOLLE_ERROR for any NULLs or if `peer` is too large, or if `round > 0`
  * and the first round hasn't been finished yet. ::GOLLE_ECRYPTO for internal
- * cryptographic errors. ::GOLLE_OK for success.
+ * cryptographic errors. ::GOLLE_ENOCOMMIT if a commitment from a peer is invalid.
+ * ::GOLLE_OK for success.
  * \note 
  */
 GOLLE_EXTERN golle_error golle_generate (golle_t *golle, 
@@ -160,7 +165,7 @@ GOLLE_EXTERN golle_error golle_generate (golle_t *golle,
  * \brief Based on random values received from all peers,
  * reduce the collection down to a selected item.
  * \param golle The golle structure.
- * \param r_values The revealed values. The must be the same number of values
+ * \param r_values The revealed values. There must be the same number of values
  * as the number of peers (so it must include the ones generated locally and
  * sent to the `reveal_rand` callback.
  * \param rands The random values associated with each revealed value.
