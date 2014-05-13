@@ -18,6 +18,7 @@ typedef struct peer_data_t {
   golle_commit_t commitment;
   golle_eg_t cipher;
   BIGNUM randomness;
+  size_t r;
 } peer_data_t;
 
 /* The reserved data */
@@ -191,6 +192,75 @@ static golle_commit_t *commit_to_cipher (const golle_eg_t *n) {
   return c;
 }
 
+/* Sum up selections to get the final choice */
+static size_t reveal_selection (const golle_t *golle) {
+  size_t s = 0;
+  golle_res_t *r = golle->reserved;
+  for (size_t i = 0; i < golle->num_items; i++) {
+    peer_data_t *p = r->peer_data + i;
+    s = (s + p->r) % golle->num_items;
+  }
+  return s;
+}
+
+/* Validate an encryption */
+static golle_error validate_encryption (const golle_key_t *key,
+					const golle_eg_t *cipher,
+					size_t m,
+					golle_num_t rand)
+{
+  BIGNUM msg;
+  BN_init (&msg);
+  if (!BN_set_word (&msg, m)) {
+    return GOLLE_EMEM;
+  }
+
+  golle_eg_t check = { 0 };
+  golle_error err = golle_eg_encrypt (key, &msg, &check, &rand);
+  if (err == GOLLE_OK) {
+    if (golle_num_cmp (check.a, cipher->a) != 0 ||
+	golle_num_cmp (check.b, cipher->b) != 0)
+      {
+	err = GOLLE_ECRYPTO;
+      }
+  }
+  golle_eg_clear (&check);
+  BN_clear (&msg);
+  return err;
+}
+
+/* Get r and rand values from each peer */
+static golle_error get_randoms (golle_t *golle) {
+  golle_error err = GOLLE_OK;
+  golle_res_t *r = golle->reserved;
+  for (size_t i = 0; i < golle->num_peers; i++) {    
+    peer_data_t *p = r->peer_data + i;
+
+    /* Accept from peer i */
+    BN_init (&p->randomness);
+    err = golle->accept_rand (i, &p->r, &p->randomness);
+    if (err != GOLLE_OK) {
+      break;
+    }
+
+    /* Check that r is in range */
+    if (p->r >= golle->num_items) {
+      err = GOLLE_EOUTOFRANGE;
+      break;
+    }
+
+    /* Check that the encryption is valid */
+    err = validate_encryption (golle->key,
+			       &p->cipher,
+			       p->r,
+			       &p->randomness);
+    if (err != GOLLE_OK) {
+      break;
+    }
+  }
+  return err;
+}
+
 /* Get commitments from each peer */
 static golle_error get_commitments (golle_t *golle) {
   golle_error err = GOLLE_OK;
@@ -332,6 +402,7 @@ static golle_error prod_ciphers (golle_t *golle) {
 }
 
 golle_error golle_initialise (golle_t *golle) {
+  golle_error err = GOLLE_OK;
   GOLLE_ASSERT (golle, GOLLE_ERROR);
   GOLLE_ASSERT (golle->key, GOLLE_ERROR);
   GOLLE_ASSERT (golle->num_peers, GOLLE_ERROR);
@@ -351,12 +422,11 @@ golle_error golle_initialise (golle_t *golle) {
   priv->peer_data = (peer_data_t *)(priv->items + golle->num_items);
 
   /* Pre-compute the item set. */
-  golle_error err = precompute_items (priv->items, 
+  err = precompute_items (priv->items, 
 				      golle->num_items, 
 				      golle->key);
   if (err != GOLLE_OK) {
-    free (priv);
-    return err;
+    goto out;
   }
 
   /* Pre-compute the S set. */
@@ -365,16 +435,22 @@ golle_error golle_initialise (golle_t *golle) {
 		      golle->num_items,  
 		      golle->key);
   if (err != GOLLE_OK) {
-    free (priv);
-    return err;
+    goto out;
   }
 
+ out:
+  if (err != GOLLE_OK) {
+    golle_clear (golle);
+  }
   return err;
 }
 
 void golle_clear (golle_t *golle) {
   if (golle && golle->reserved) {
     golle_res_t *r = golle->reserved;
+    if (!r) {
+      return;
+    }
 
     for (size_t i = 0; i < golle->num_peers; i++) {
       golle_eg_clear (r->S + i);
@@ -397,10 +473,12 @@ golle_error golle_generate (golle_t *golle,
   golle_commit_t *commit = NULL;
   golle_error err = GOLLE_OK;
   GOLLE_ASSERT (golle, GOLLE_ERROR);
-  GOLLE_ASSERT (peer < golle->num_peers, GOLLE_ERROR);
-  GOLLE_ASSERT (golle->bcast, GOLLE_ERROR);
+  GOLLE_ASSERT (peer < golle->num_peers || peer == SIZE_MAX, GOLLE_ERROR);
+  GOLLE_ASSERT (golle->bcast_commit, GOLLE_ERROR);
+  GOLLE_ASSERT (golle->bcast_secret, GOLLE_ERROR);
   GOLLE_ASSERT (golle->accept_commit, GOLLE_ERROR);
   GOLLE_ASSERT (golle->accept_eg, GOLLE_ERROR);
+  GOLLE_ASSERT (golle->reveal_rand, GOLLE_ERROR);
   GOLLE_UNUSED (round);
   
   /* A context for random numbers and exponents */
@@ -443,13 +521,19 @@ golle_error golle_generate (golle_t *golle,
   }
 
   /* Output the commitment */
-  err = golle->bcast (commit);
+  err = golle->bcast_commit (commit);
   if (err != GOLLE_OK) {
     goto out;
   }
 
   /* Accept the commitment from each peer */
   err = get_commitments (golle);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+
+  /* Output the ciphertext and rkeep buffers */
+  err = golle->bcast_secret (commit);
   if (err != GOLLE_OK) {
     goto out;
   }
@@ -472,9 +556,9 @@ golle_error golle_generate (golle_t *golle,
     goto out;
   }
 
-  /* Ready to reduce the card */
-  err = GOLLE_OK;
-  
+  /* Send the selection and random value to the correct peer(s) */
+  err = golle->reveal_rand (peer, BN_get_word (r), crand);
+
  out:
   BN_CTX_end (ctx);
   BN_CTX_free (ctx);
@@ -482,4 +566,37 @@ golle_error golle_generate (golle_t *golle,
   golle_commit_delete (commit);
   clear_peer_data (golle);
   return err;
+}
+
+golle_error golle_reveal_selection (golle_t *golle,
+				     size_t *selection)
+{
+  golle_error err = GOLLE_OK;
+  GOLLE_ASSERT (golle, GOLLE_ERROR);
+  GOLLE_ASSERT (selection, GOLLE_ERROR);
+  
+  /* Get all of the r and random values from other peers. */
+  err = get_randoms (golle);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+  
+  /* The selection is the sum of all r values */
+  *selection = reveal_selection (golle);
+ out:
+  return err;
+}
+golle_error golle_reduce_selection (golle_t *golle,
+				    size_t c)
+{
+  GOLLE_ASSERT (golle, GOLLE_ERROR);
+  GOLLE_UNUSED (c);
+  
+  /* TODO: Output E(c) and everyone tests for collision. */
+
+  /* TODO: Output a proof that selection is in [0, num_items) and
+   * has been decrypted properly.
+   */
+
+  return GOLLE_OK;
 }

@@ -93,4 +93,4 @@ TESTS = ./elgamal\
 	./pep \
 	./schnorr \
 	./disj \
-	./dispep
+	./dispep 

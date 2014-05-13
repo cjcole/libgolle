@@ -30,8 +30,9 @@ GOLLE_BEGIN_C
  * from the client or when data is required to be sent.
  *
  * Because this interface is basically the implementation of the protocol,
- * if all the client wants to do is "play Mental Poker", then this is the
- * only interface needed. All of the other interfaces are provided as a
+ * if all the client wants to do is "play Mental Poker", then this, and the
+ * key distribution module, are the
+ * only interfaces needed. All of the other interfaces are provided as a
  * handy reference implementation and as a description of how the inner
  * machinery of the Golle protocol works. However if the client wishes
  * more fine-grained control over the protocol then the headers for each
@@ -43,6 +44,11 @@ GOLLE_BEGIN_C
  * \brief A callback used to broadcast a commitment.
  */
 typedef golle_error (*golle_bcast_commit_t) (golle_commit_t *);
+/*!
+ * \typedef golle_bcast_secret_t
+ * \brief A callback for broadcasting the secret parts of a commitment.
+ */
+typedef golle_error (*golle_bcast_secret_t) (golle_commit_t *);
 /*!
  * \typedef golle_accept_commit_t
  * \brief A callback for accepting the commitment of a peer.
@@ -61,6 +67,12 @@ typedef golle_error (*golle_accept_eg_t) (size_t, golle_eg_t *, golle_bin_t *);
  * the randomness used to encrypt it in a previous operation.
  */
 typedef golle_error (*golle_reveal_rand_t)(size_t, size_t, golle_num_t);
+/*!
+ * \typedef golle_accept_rand_t
+ * \brief A callback for accepting a random number and
+ * the randomness used to encrypt it in a previous operation.
+ */
+typedef golle_error (*golle_accept_rand_t)(size_t, size_t*, golle_num_t);
 /*!
  * \struct golle_t
  * \brief The main Golle structure.
@@ -87,7 +99,10 @@ typedef struct golle_t {
   golle_key_t *key; 
   /*! The callback which will be invoked when a commitment should be
    * send to all peers. */
-  golle_bcast_commit_t bcast;
+  golle_bcast_commit_t bcast_commit;
+  /*! The callback which will be invoked when a commitment's secret values
+   * should be revealed to all peers. */
+  golle_bcast_secret_t bcast_secret;
   /*! The callback which will be invoked when the protocol requires
    * a commitment from a peer. The client should receive the commitment
    * from the designated peer in the first parameter and return it by
@@ -109,13 +124,20 @@ typedef struct golle_t {
    * encrypt it in a previous operation. The first parameter will indicate
    * the peer to send it to (or SIZE_MAX if it is to be broadcast). After being
    * sent, the local client should do one of two things:
-   *  1. If the peers that receive the values do no include the local client,
+   *  1. If the peers that reveal the value do not include the local client,
    *     then the local client should just return.
-   *  2. If the local client must receive the values, then the callback
-   *     should receive values from all other peers as well, and then
-   *     call golle_reduce_item().
+   *  2. If the local client must reveal the selection, then the callback
+   *     should call golle_reveal_selection(). If the local client is
+   *     the _only_ peer to reveal the selection, it must follow up with a
+   *     call to golle_reduce_selection().
    */
   golle_reveal_rand_t reveal_rand;
+  /*! The callback which will be invoked when the protocol needs
+   * to receive a random number and the randomness that was used to encrypt
+   * it in a previous operation. The first parameter will indicate
+   * the peer to receive it from.
+   */
+  golle_accept_rand_t accept_rand;
   /*! Reserved for private data used by the implementation.
    * Do not set. Do not clear. Just leave it alone. */
   void *reserved; 
@@ -162,22 +184,24 @@ GOLLE_EXTERN golle_error golle_generate (golle_t *golle,
 					 size_t peer);
 
 /*!
- * \brief Based on random values received from all peers,
- * reduce the collection down to a selected item.
+ * \brief Call this function after golle_generate() if the local
+ * peer is to reveal received random selections as an actual item in the set.
  * \param golle The golle structure.
- * \param r_values The revealed values. There must be the same number of values
- * as the number of peers (so it must include the ones generated locally and
- * sent to the `reveal_rand` callback.
- * \param rands The random values associated with each revealed value.
- * \param[out] selection Receives the reduced selection.
+ * \param[out] selection Receives the revealed selection.
  * \return ::GOLLE_EMEM for memory errors. ::GOLLE_ERROR for `NULL` errors.
  * ::GOLLE_ECRYPTO for cryptography errors. ::GOLLE_ECOLLISION if the
  * reduced item has already been 'dealt'. ::GOLLE_OK for success.
  */
-GOLLE_EXTERN golle_error golle_reduce_item (golle_t *golle,
-					    const size_t *r_values,
-					    const golle_num_t *rands,
-					    size_t *selection);
+GOLLE_EXTERN golle_error golle_reveal_selection (golle_t *golle,
+						 size_t *selection);
+/*!
+ * \brief Call this function after golle_reveal_selection() if the local
+ * peer is the only peer receiving a random selection. The peer must
+ * reduce the selection and output a proof that it has been done
+ * correctly.
+ */
+GOLLE_EXTERN golle_error golle_reduce_selection (golle_t *golle,
+						 size_t c);
 /*!
  * @}
  */
