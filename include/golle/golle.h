@@ -40,51 +40,6 @@ GOLLE_BEGIN_C
  * implementation for the protocol as a whole.
  */
 /*!
- * \typedef golle_bcast_commit_t
- * \brief A callback used to broadcast a commitment.
- */
-typedef golle_error (*golle_bcast_commit_t) (golle_commit_t *);
-/*!
- * \typedef golle_bcast_secret_t
- * \brief A callback for broadcasting the secret parts of a commitment.
- */
-typedef golle_error (*golle_bcast_secret_t) (golle_commit_t *);
-/*!
- * \typedef golle_accept_commit_t
- * \brief A callback for accepting the commitment of a peer.
- */
-typedef golle_error (*golle_accept_commit_t) (size_t, 
-					      golle_bin_t *, 
-					      golle_bin_t *);
-/*!
- * \typedef golle_accept_eg_t
- * \brief A callback for accepting ciphertext from a peer.
- */
-typedef golle_error (*golle_accept_eg_t) (size_t, golle_eg_t *, golle_bin_t *);
-/*!
- * \typedef golle_reveal_rand_t
- * \brief A callback for revealing a random number and
- * the randomness used to encrypt it in a previous operation.
- */
-typedef golle_error (*golle_reveal_rand_t)(size_t, size_t, golle_num_t);
-/*!
- * \typedef golle_accept_rand_t
- * \brief A callback for accepting a random number and
- * the randomness used to encrypt it in a previous operation.
- */
-typedef golle_error (*golle_accept_rand_t)(size_t, size_t*, golle_num_t);
-/*!
- * \typedef golle_accept_crypt_t
- * \brief A callback for accepting a encrypted selection
- * from a peer.
- */
-typedef golle_error (*golle_accept_crypt_t)(golle_eg_t *, size_t);
-/*!
- * \typedef golle_bcast_crypt_t
- * \brief A callback for broadcasting an encrypted selection.
- */
-typedef golle_error (*golle_bcast_crypt_t)(const golle_eg_t *);
-/*!
  * \struct golle_t
  * \brief The main Golle structure.
  * \note All of the callbacks must be filled out in order the the
@@ -98,7 +53,69 @@ typedef golle_error (*golle_bcast_crypt_t)(const golle_eg_t *);
  * the current "game" will be invalid and must be started from
  * the first round again.
  */
-typedef struct golle_t {
+typedef struct golle_t golle_t;
+
+/*!
+ * \typedef golle_bcast_commit_t
+ * \brief A callback used to broadcast a commitment.
+ */
+typedef golle_error (*golle_bcast_commit_t) (golle_t *, 
+					      golle_bin_t *, 
+					      golle_bin_t *);
+/*!
+ * \typedef golle_bcast_secret_t
+ * \brief A callback for broadcasting the secret parts of a commitment.
+ */
+typedef golle_error (*golle_bcast_secret_t) (golle_t *, 
+					      golle_eg_t *, 
+					      golle_bin_t *);
+/*!
+ * \typedef golle_accept_commit_t
+ * \brief A callback for accepting the commitment of a peer.
+ */
+typedef golle_error (*golle_accept_commit_t) (golle_t *, 
+					      size_t, 
+					      golle_bin_t *, 
+					      golle_bin_t *);
+/*!
+ * \typedef golle_accept_eg_t
+ * \brief A callback for accepting ciphertext from a peer.
+ */
+typedef golle_error (*golle_accept_eg_t) (golle_t *, 
+					  size_t, 
+					  golle_eg_t *, 
+					  golle_bin_t *);
+/*!
+ * \typedef golle_reveal_rand_t
+ * \brief A callback for revealing a random number and
+ * the randomness used to encrypt it in a previous operation.
+ */
+typedef golle_error (*golle_reveal_rand_t)(golle_t *, 
+					   size_t, 
+					   size_t, 
+					   golle_num_t);
+/*!
+ * \typedef golle_accept_rand_t
+ * \brief A callback for accepting a random number and
+ * the randomness used to encrypt it in a previous operation.
+ */
+typedef golle_error (*golle_accept_rand_t)(golle_t *, 
+					   size_t, 
+					   size_t*, 
+					   golle_num_t);
+/*!
+ * \typedef golle_accept_crypt_t
+ * \brief A callback for accepting a encrypted selection
+ * from a peer.
+ */
+typedef golle_error (*golle_accept_crypt_t)(golle_t *, golle_eg_t *, size_t);
+/*!
+ * \typedef golle_bcast_crypt_t
+ * \brief A callback for broadcasting an encrypted selection.
+ */
+typedef golle_error (*golle_bcast_crypt_t)(golle_t *, const golle_eg_t *);
+
+struct golle_t {
   /*! The number of peers connected to. */
   size_t num_peers; 
   /*! The number of distinct items in the set 
@@ -122,10 +139,9 @@ typedef struct golle_t {
   golle_accept_commit_t accept_commit;
   /*! The callback which will be invoked when the protocol requires
    * a ciphertext from a peer. The client should receive the ciphertext
-   * from the peer indicated in the first parameter and return it
-   * by filling out the ciphertext struct in the second parameter. The
-   * ciphertext corresponds to the `secret` member of a commitment and
-   * will be converted to a buffer.
+   * buffer from the peer indicated in the first parameter and return it
+   * in the second parameter. The
+   * ciphertext corresponds to the `secret` member of a commitment.
    * The third parameter corresponds to the `rkeep` buffer of a commitment.
    * Thus the protocol will receive the full commitment for verification.
    */
@@ -165,7 +181,7 @@ typedef struct golle_t {
   /*! Reserved for private data used by the implementation.
    * Do not set. Do not clear. Just leave it alone. */
   void *reserved; 
-} golle_t;
+};
 
 /*!
  * \brief Establish the group structure. This is the first step to perform
@@ -244,7 +260,7 @@ GOLLE_EXTERN golle_error golle_reduce_selection (golle_t *golle,
  * will accept proof from the other peer that the item was reduced
  * correctly and will check for collisions.
  * \param golle The golle structure.
- * \param c The peer from which to accept proof.
+ * \param peer The peer from which to accept proof.
  * \param collision If a collision occurs, will be populated with the
  * index of the found collision.
  * \return ::GOLLE_EMEM for memory errors. ::GOLLE_ERROR for `NULL` errors.

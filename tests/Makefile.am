@@ -84,6 +84,7 @@ dispep_SOURCES = dispep.c
 dispep_CPPFLAGS = $(TEST_INC)
 dispep_LDADD = $(TEST_LIB)
 
+
 # Run all test programs
 TESTS = ./elgamal\
 	./keygen\
@@ -96,3 +97,16 @@ TESTS = ./elgamal\
 	./disj \
 	./dispep  \
 	./list
+
+if have_pthread
+	check_PROGRAMS = $(check_PROGRAMS) golle
+
+#       Make the Golle protocol test
+	golle_SOURCES = golle.c
+	golle_CFLAGS = $(CFLAGS) $(PTHREAD_CFLAGS)
+	golle_CPPFLAGS = $(TEST_INC)
+	golle_LDFLAGS = $(PTHREAD_CFLAGS)
+	golle_LDADD = $(TEST_LIB) $(PTHREAD_LIBS)
+
+	TESTS = $(TESTS) ./golle
+endif

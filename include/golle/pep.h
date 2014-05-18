@@ -28,7 +28,7 @@ GOLLE_BEGIN_C
  *
  * Consider the El Gamal encryptions \f$(a,b)\f$ and \f$(c,d)\f$ for some 
  * plaintext \f$m\f$. PEP allows the prover to prove that both ciphertexts 
- * are encryptions of the same ciphertext, without revealing what the plaintext
+ * are encryptions of the same plaintext, without revealing what the plaintext
  * is.
  * 
  * First, it's easy to see due to the homomorphic property of El Gamal

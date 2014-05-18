@@ -20,7 +20,7 @@ GOLLE_BEGIN_C
  * \brief DISPEP protocol.
  */
 /*!
- * \defgroup dispep Disjunct Plaintext Equivalence Proof
+ * \defgroup dispep Disjunctive Plaintext Equivalence Proof
  * @{
  * The DISPEP protocol described in Jakobsson M. and Juels A., Millimix:
  * Mixing in Small Batches, DIMACS Technical Report 99-33, June 1999.

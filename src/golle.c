@@ -6,6 +6,7 @@
 #include <golle/numbers.h>
 #include <golle/elgamal.h>
 #include <golle/list.h>
+#include <golle/pep.h>
 #if HAVE_STRING_H
 #include <string.h>
 #endif
@@ -13,6 +14,7 @@
 #include <stdlib.h>
 #endif
 #include <openssl/bn.h>
+#include "numbers.h"
 
 /* Represents data sent by a peer */
 typedef struct peer_data_t {
@@ -47,14 +49,43 @@ static golle_error eg_copy (golle_eg_t *dest, const golle_eg_t *src) {
 }
 
 /* Use Schnorr to test for ciphertext equivalence. */
-static int collision_test (const golle_eg_t *e1, const golle_eg_t *e2) 
+static golle_error collision_test (const golle_t *golle,
+				   const golle_eg_t *e1, 
+				   const golle_eg_t *e2) 
 {
+  golle_error err = GOLLE_OK;
+  BN_CTX *ctx;
+  BIGNUM *b;
   if (!GOLLE_EG_FULL (e1) || !GOLLE_EG_FULL(e2)) {
     /* No collision, selection already discarded. */
-    return 0;
+    return GOLLE_OK;
   }
-  /* TODO */
-  return 0;
+  /* Context for div */
+  ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+  BN_CTX_start (ctx);
+  if (!(b = BN_CTX_get (ctx))) {
+    err = GOLLE_EMEM;
+    goto out;
+  }
+  
+  /* b = (m1 * h ^ r1) / (m2 * h ^ r2) */
+  if ((err = golle_mod_div (b, e1->b, e2->b, golle->key->p, ctx)) != GOLLE_OK)
+    {
+      goto out;
+    }
+  /* If b == h then D(e1 / e2) == 1 (so D(e1) == D(e2)) */
+  if (golle_num_cmp (b, golle->key->h_product) != 0) {
+    err = GOLLE_OK;
+  }
+  else {
+    /* Plaintexts are equal. This is a collision. */
+    err = GOLLE_ECOLLISION;
+  }
+
+ out:
+  BN_CTX_free (ctx);
+  return err;
 }
 
 /* Check the given encryption against existing selection
@@ -72,11 +103,15 @@ static golle_error check_for_collisions (golle_t *golle,
     void *item;
     size_t index = 0;
     while ( (err = golle_list_iterator_next (iter, &item)) == GOLLE_OK) {
-      if (collision_test (item, cipher)) {
+      err = collision_test (golle, item, cipher);
+      if (err == GOLLE_ECOLLISION) {
 	/* Collision found at index. Discard the existing item. */
 	golle_eg_clear (item);
 	*collision = index;
 	err = GOLLE_ECOLLISION;
+	break;
+      }
+      else if (err != GOLLE_OK) {
 	break;
       }
       index++;
@@ -265,7 +300,7 @@ static golle_commit_t *commit_to_cipher (const golle_eg_t *n) {
   if (err != GOLLE_OK) {
     return NULL;
   }
-  /* Get commitment to buffe r*/
+  /* Get commitment to buffer */
   golle_commit_t *c = golle_commit_new (&b);
   golle_bin_clear (&b);
   return c;
@@ -317,7 +352,7 @@ static golle_error get_randoms (golle_t *golle) {
 
     /* Accept from peer i */
     BN_init (&p->randomness);
-    err = golle->accept_rand (i, &p->r, &p->randomness);
+    err = golle->accept_rand (golle, i, &p->r, &p->randomness);
     if (err != GOLLE_OK) {
       break;
     }
@@ -350,7 +385,7 @@ static golle_error get_commitments (golle_t *golle) {
     peer_data_t *p = r->peer_data + i;
 
     /* Accept from peer i */
-    err = golle->accept_commit (i, &rsend, &hash);
+    err = golle->accept_commit (golle, i, &rsend, &hash);
     if (err != GOLLE_OK) break;
 
     /* Copy into storage. */
@@ -381,7 +416,7 @@ static golle_error get_ciphertexts (golle_t *golle) {
     peer_data_t *p = r->peer_data + i;
 
     /* Accept ciphertext and rkeep from peer i */
-    err = golle->accept_eg (i, &cipher, &rkeep);
+    err = golle->accept_eg (golle, i, &cipher, &rkeep);
     if (err != GOLLE_OK) break;
 
     /* Convert cipher to a buffer */
@@ -613,7 +648,7 @@ golle_error golle_generate (golle_t *golle,
   }
 
   /* Output the commitment */
-  err = golle->bcast_commit (commit);
+  err = golle->bcast_commit (golle, commit->hash, commit->rsend);
   if (err != GOLLE_OK) {
     goto out;
   }
@@ -625,7 +660,7 @@ golle_error golle_generate (golle_t *golle,
   }
 
   /* Output the ciphertext and rkeep buffers */
-  err = golle->bcast_secret (commit);
+  err = golle->bcast_secret (golle, &C, commit->rkeep);
   if (err != GOLLE_OK) {
     goto out;
   }
@@ -649,7 +684,7 @@ golle_error golle_generate (golle_t *golle,
   }
 
   /* Send the selection and random value to the correct peer(s) */
-  err = golle->reveal_rand (peer, BN_get_word (r), crand);
+  err = golle->reveal_rand (golle, peer, BN_get_word (r), crand);
 
  out:
   BN_CTX_end (ctx);
@@ -690,7 +725,7 @@ golle_error golle_reduce_selection (golle_t *golle,
    * has been decrypted properly.
    */
 
-  /* Output E(c) and everyone tests for collision. */
+  /* Output E(g^c) and everyone tests for collision. */
   golle_error err = GOLLE_OK;
   golle_eg_t crypt = { 0 };
   golle_num_t i = golle_num_new_int (c);
@@ -703,7 +738,7 @@ golle_error golle_reduce_selection (golle_t *golle,
   err = golle_eg_encrypt (golle->key, i, &crypt, NULL);
 
   if (err == GOLLE_OK) {
-    err = golle->bcast_crypt (&crypt);
+    err = golle->bcast_crypt (golle, &crypt);
   }
   if (err == GOLLE_OK) {
     /* Check for collision locally */
@@ -723,11 +758,11 @@ golle_error golle_check_selection (golle_t *golle,
   GOLLE_ASSERT (golle->accept_crypt, GOLLE_ERROR);
   GOLLE_ASSERT (collision, GOLLE_ERROR);
   
-  /* TODO: Accept proof from peer */
+  /* TODO: Accept and verify proof from peer */
   
   /* Accept E(c) and test for collision. */
   golle_eg_t crypt = { 0 };
-  golle_error err = golle->accept_crypt (&crypt, peer);
+  golle_error err = golle->accept_crypt (golle, &crypt, peer);
   if (err == GOLLE_OK) {
     err = check_for_collisions (golle, &crypt, collision);
   }

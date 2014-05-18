@@ -4,6 +4,7 @@
 *.lo
 *.so
 *.a
+test-driver
 stamp-h1
 Doxyfile
 doc

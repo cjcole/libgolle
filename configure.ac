@@ -1,7 +1,4 @@
-AC_INIT([LibGolle],
-	[0.0.0],
-	[anthony.arnold@uqconnect.edu.au],[libgolle],
-	[http://anthony-arnold.github.io/libgolle])
+AC_INIT([LibGolle],[0.0.0],[anthony.arnold@uqconnect.edu.au],[libgolle],[http://anthony-arnold.github.io/libgolle])
 AC_CONFIG_HEADERS([include/golle/config.h])
 AM_INIT_AUTOMAKE([foreign])
 AC_CANONICAL_HOST
@@ -47,6 +44,11 @@ AC_CHECK_LIB([crypto], [EVP_sha512], [], [AC_MSG_ERROR(Libcrypto does not contai
 dnl Test for libssl's cpuid setup call
 dnl If not available, then we can't use hardware random number generator
 AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
+
+dnl Check for pthreads
+dnl POSIX threads only required to build the golle test program
+AX_PTHREAD
+AM_CONDITIONAL(have_pthread, test "$ax_pthread_ok" = yes)
 
 dnl Set up documentation
 DX_PDF_FEATURE 

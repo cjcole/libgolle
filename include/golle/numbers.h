@@ -59,6 +59,15 @@ GOLLE_EXTERN void golle_num_delete (golle_num_t n);
 GOLLE_EXTERN golle_num_t golle_num_dup (const golle_num_t i);
 
 /*!
+ * \brief Make a copy of the input.
+ * \param src The input number to copy.
+ * \param dst The output number to copy to.
+ * \return ::GOLLE_OK if successful. ::GOLLE_ERROR if `src` or `dst` are
+ * `NULL`. ::GOLLE_EMEM if memory allocation failed.
+ */
+GOLLE_EXTERN golle_error golle_num_cpy (golle_num_t dst, const golle_num_t src);
+
+/*!
  * \brief Create a new number from a given native integer.
  * \param i The value to set the newly allocated number.
  * \return A newly-allocated number, or `NULL` if failed.

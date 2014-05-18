@@ -45,6 +45,15 @@ golle_num_t golle_num_dup (const golle_num_t i) {
   return n;
 }
 
+golle_error golle_num_cpy (golle_num_t dst, const golle_num_t src) {
+  GOLLE_ASSERT (dst, GOLLE_ERROR);
+  GOLLE_ASSERT (src, GOLLE_ERROR);
+  if (!BN_copy (AS_BN (dst), AS_BN (src))) {
+    return GOLLE_EMEM;
+  }
+  return GOLLE_OK;
+}
+
 golle_num_t golle_num_new_int (size_t i) {
   golle_num_t n = golle_num_new ();
   if (n) {
