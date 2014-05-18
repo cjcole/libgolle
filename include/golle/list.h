@@ -9,9 +9,7 @@
 #include "errors.h"
 #include "types.h"
 
-
 GOLLE_BEGIN_C
-
 
 /*!
  * \file golle/list.h
@@ -21,28 +19,23 @@ GOLLE_BEGIN_C
  * \brief Describes the structures and operations for working with singly-linked
  * lists.
  */
-
-
 /*!
  * \defgroup list Singly-linked lists
  * @{
  * Contains structures and functions for maintaining a
  * singly-linked list (or a LIFO queue).
  */
-
 /*!
  * \struct golle_list_t
  * \brief An opaque pointer to a singly-linked list.
  */
 typedef struct golle_list_t golle_list_t;
 
-
 /*!
  * \struct golle_list_iterator_t
  * \brief A type used for iterating through all the items in a list.
  */
 typedef struct golle_list_iterator_t golle_list_iterator_t;
-
 
 /*!
  * \brief Allocate a new list.
@@ -110,7 +103,6 @@ GOLLE_EXTERN golle_error golle_list_push_many (golle_list_t *list,
 					       const void *item,
 					       size_t size,
 					       size_t count);
-
 /*!
  * \brief Remove the first item in the list.
  * \param list The list to remove from.
@@ -119,7 +111,6 @@ GOLLE_EXTERN golle_error golle_list_push_many (golle_list_t *list,
  * ::GOLLE_ERROR if \p list is NULL.
  */
 GOLLE_EXTERN golle_error golle_list_pop (golle_list_t *list);
-
 
 /*!
  * \brief Remove the first count items from the front of the list.
@@ -130,7 +121,6 @@ GOLLE_EXTERN golle_error golle_list_pop (golle_list_t *list);
  * ::GOLLE_ERROR if \p list is NULL.
  */
 GOLLE_EXTERN golle_error golle_list_pop_many (golle_list_t *list, size_t count);
-
 
 /*!
  * \brief Remove all items from a list. The equivalent of
@@ -154,7 +144,6 @@ GOLLE_EXTERN golle_error golle_list_pop_all (golle_list_t *list);
  */
 GOLLE_EXTERN golle_error golle_list_iterator (golle_list_t *list,
 					      golle_list_iterator_t **iter);
-
 
 /*!
  * \brief Free any resources associated with an iterator.
@@ -203,7 +192,6 @@ GOLLE_EXTERN golle_error golle_list_iterator_reset (golle_list_iterator_t *iter)
 GOLLE_EXTERN golle_error golle_list_insert_at (golle_list_iterator_t *iter,
 					       const void *item,
 					       size_t size);
-
 /*!
  * \brief Erase the item at the given position. If the operation is successful,
  * a call to golle_list_iterator_next with the same iter parameter will return

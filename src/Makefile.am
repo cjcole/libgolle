@@ -9,6 +9,7 @@ libgolle_la_CPPFLAGS = $(GOLLE_INC)
 libgolle_la_LDFLAGS = -no-undefined -version-info 0:0:0
 
 libgolle_la_SOURCES =\
+	list.c \
 	random.c \
 	bin.c \
 	commit.c \

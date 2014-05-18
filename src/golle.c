@@ -5,6 +5,7 @@
 #include <golle/config.h>
 #include <golle/numbers.h>
 #include <golle/elgamal.h>
+#include <golle/list.h>
 #if HAVE_STRING_H
 #include <string.h>
 #endif
@@ -31,7 +32,85 @@ typedef struct golle_res_t {
   peer_data_t *peer_data;
   /* The product of all ciphertexts */
   golle_eg_t product;
+  /* A list of encrypted selections for checking collisions */
+  golle_list_t *selections;
 } golle_res_t;
+
+/* Copy an ElGamal ciphertext */
+static golle_error eg_copy (golle_eg_t *dest, const golle_eg_t *src) {
+  if (!(dest->a = golle_num_dup (src->a)) ||
+      !(dest->b = golle_num_dup (src->b)))
+    {
+      return GOLLE_EMEM;
+    }
+  return GOLLE_OK;
+}
+
+/* Use Schnorr to test for ciphertext equivalence. */
+static int collision_test (const golle_eg_t *e1, const golle_eg_t *e2) 
+{
+  if (!GOLLE_EG_FULL (e1) || !GOLLE_EG_FULL(e2)) {
+    /* No collision, selection already discarded. */
+    return 0;
+  }
+  /* TODO */
+  return 0;
+}
+
+/* Check the given encryption against existing selection
+ * ciphertexts. If a collision is found, the collision is
+ * discarded. Otherwise, the new ciphertext is added.
+ */
+static golle_error check_for_collisions (golle_t *golle,
+					 const golle_eg_t *cipher,
+					 size_t *collision)
+{
+  golle_list_iterator_t *iter;
+  golle_res_t *r = golle->reserved;
+  golle_error err = golle_list_iterator (r->selections, &iter);
+  if (err == GOLLE_OK) {
+    void *item;
+    size_t index = 0;
+    while ( (err = golle_list_iterator_next (iter, &item)) == GOLLE_OK) {
+      if (collision_test (item, cipher)) {
+	/* Collision found at index. Discard the existing item. */
+	golle_eg_clear (item);
+	*collision = index;
+	err = GOLLE_ECOLLISION;
+	break;
+      }
+      index++;
+    }
+    golle_list_iterator_free (iter);
+    if (err == GOLLE_END) {
+      err = GOLLE_OK;
+    }
+  }
+
+  if (err == GOLLE_OK) {
+    /* No collision. Insert the item. */
+    golle_eg_t copy = { 0 };
+    err = eg_copy (&copy, cipher);
+    if (err == GOLLE_OK) {
+      err = golle_list_push (r->selections, &copy, sizeof (copy));
+    }
+     golle_eg_clear (&copy);
+  }
+  return err;
+}
+
+/* Clear all of the items from the list. */
+static void clear_selections (golle_list_t *selections) {
+  golle_list_iterator_t *iter;
+  golle_error err = golle_list_iterator (selections, &iter);
+  if (err == GOLLE_OK) {
+    void *item;
+    while ( (err = golle_list_iterator_next (iter, &item)) == GOLLE_OK) {
+      golle_eg_clear (item);
+    }
+    golle_list_iterator_free (iter);
+  }
+}
 
 /* Compute the item set. This is g^n for each item number n. */
 static golle_error precompute_items (BIGNUM *items,
@@ -437,6 +516,11 @@ golle_error golle_initialise (golle_t *golle) {
   if (err != GOLLE_OK) {
     goto out;
   }
+  /* Allocate the list */
+  err = golle_list_new (&priv->selections);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
 
  out:
   if (err != GOLLE_OK) {
@@ -452,12 +536,16 @@ void golle_clear (golle_t *golle) {
       return;
     }
 
+
     for (size_t i = 0; i < golle->num_peers; i++) {
       golle_eg_clear (r->S + i);
     }
     for (size_t i = 0; i < golle->num_items; i++) {
       BN_clear(r->items + i);
     }
+    /* Clear the list */
+    clear_selections (r->selections);
+    golle_list_delete (r->selections);
     golle_eg_clear (&r->product);
     clear_peer_data (golle);
     free (r);
@@ -468,6 +556,10 @@ golle_error golle_generate (golle_t *golle,
 			    size_t round, 
 			    size_t peer)
 {
+  /* This is the main function for the protocol.
+   * In it, the crypto functions for (partially) selecting
+   * an item are performed and most of the callbacks are invoked.
+   */
   golle_eg_t C = { 0 };
   BIGNUM *r, *gr, *crand = NULL;
   golle_commit_t *commit = NULL;
@@ -587,16 +679,58 @@ golle_error golle_reveal_selection (golle_t *golle,
   return err;
 }
 golle_error golle_reduce_selection (golle_t *golle,
-				    size_t c)
+				    size_t c,
+				   size_t *collision)
 {
   GOLLE_ASSERT (golle, GOLLE_ERROR);
-  GOLLE_UNUSED (c);
+  GOLLE_ASSERT (golle->bcast_crypt, GOLLE_ERROR);
+  GOLLE_ASSERT (collision, GOLLE_ERROR);
   
-  /* TODO: Output E(c) and everyone tests for collision. */
-
   /* TODO: Output a proof that selection is in [0, num_items) and
    * has been decrypted properly.
    */
 
-  return GOLLE_OK;
+  /* Output E(c) and everyone tests for collision. */
+  golle_error err = GOLLE_OK;
+  golle_eg_t crypt = { 0 };
+  golle_num_t i = golle_num_new_int (c);
+  GOLLE_ASSERT (i, GOLLE_EMEM);
+  err = golle_num_mod_exp (i, golle->key->g, i, golle->key->p);
+  if (err != GOLLE_OK) {
+    goto out;
+  }
+
+  err = golle_eg_encrypt (golle->key, i, &crypt, NULL);
+
+  if (err == GOLLE_OK) {
+    err = golle->bcast_crypt (&crypt);
+  }
+  if (err == GOLLE_OK) {
+    /* Check for collision locally */
+    err = check_for_collisions (golle, &crypt, collision);
+  }
+
+ out:
+  golle_num_delete (i);
+  golle_eg_clear (&crypt);
+  return err;
+}
+golle_error golle_check_selection (golle_t *golle,
+				   size_t peer,
+				   size_t *collision)
+{
+  GOLLE_ASSERT (golle, GOLLE_ERROR);
+  GOLLE_ASSERT (golle->accept_crypt, GOLLE_ERROR);
+  GOLLE_ASSERT (collision, GOLLE_ERROR);
+  
+  /* TODO: Accept proof from peer */
+  
+  /* Accept E(c) and test for collision. */
+  golle_eg_t crypt = { 0 };
+  golle_error err = golle->accept_crypt (&crypt, peer);
+  if (err == GOLLE_OK) {
+    err = check_for_collisions (golle, &crypt, collision);
+  }
+  golle_eg_clear (&crypt);
+  return err;
 }

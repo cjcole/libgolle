@@ -7,6 +7,7 @@ EXTRA_DIST = runtest
 
 #These are the programs that will be tested
 check_PROGRAMS = \
+	list\
 	buffer\
 	randomness\
 	commitment\
@@ -19,9 +20,9 @@ check_PROGRAMS = \
 	dispep
 
 #Make list test
-#list_SOURCES = list.c
-#list_LDADD = $(TEST_LIB)
-#list_CPPFLAGS = $(TEST_INC)
+list_SOURCES = list.c
+list_LDADD = $(TEST_LIB)
+list_CPPFLAGS = $(TEST_INC)
 
 #Make set test
 #set_SOURCES = set.c
@@ -93,4 +94,5 @@ TESTS = ./elgamal\
 	./pep \
 	./schnorr \
 	./disj \
-	./dispep 
+	./dispep  \
+	./list

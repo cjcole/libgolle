@@ -74,6 +74,17 @@ typedef golle_error (*golle_reveal_rand_t)(size_t, size_t, golle_num_t);
  */
 typedef golle_error (*golle_accept_rand_t)(size_t, size_t*, golle_num_t);
 /*!
+ * \typedef golle_accept_crypt_t
+ * \brief A callback for accepting a encrypted selection
+ * from a peer.
+ */
+typedef golle_error (*golle_accept_crypt_t)(golle_eg_t *, size_t);
+/*!
+ * \typedef golle_bcast_crypt_t
+ * \brief A callback for broadcasting an encrypted selection.
+ */
+typedef golle_error (*golle_bcast_crypt_t)(const golle_eg_t *);
+/*!
  * \struct golle_t
  * \brief The main Golle structure.
  * \note All of the callbacks must be filled out in order the the
@@ -125,8 +136,8 @@ typedef struct golle_t {
    * the peer to send it to (or SIZE_MAX if it is to be broadcast). After being
    * sent, the local client should do one of two things:
    *  1. If the peers that reveal the value do not include the local client,
-   *     then the local client should just return.
-   *  2. If the local client must reveal the selection, then the callback
+   *     then the local client should call golle_check_selection().
+   *  2. If the local client must receive the selection, then the callback
    *     should call golle_reveal_selection(). If the local client is
    *     the _only_ peer to reveal the selection, it must follow up with a
    *     call to golle_reduce_selection().
@@ -138,6 +149,19 @@ typedef struct golle_t {
    * the peer to receive it from.
    */
   golle_accept_rand_t accept_rand;
+  /*! The callback which will be invoked when the protocol needs
+   * to receive an encrypted selection from another peer. This occurs when
+   * a selection has been revealed to one peer secretly (e.g. revealing a card
+   * face-down to one player). The callback should receive the ciphertext from
+   * the peer in paramter 2 and populate the argument in parameter 1.
+   */
+  golle_accept_crypt_t accept_crypt;
+  /*! The callback which will be invoked when the protocol needs
+   * to send an encrypted selection to every other peer. This occurs when
+   * a selection has been revealed to one peer secretly (e.g. revealing a card
+   * face-down to one player). The callback should broadcast the ciphertext 
+   * argument to all other peers. */
+  golle_bcast_crypt_t bcast_crypt;
   /*! Reserved for private data used by the implementation.
    * Do not set. Do not clear. Just leave it alone. */
   void *reserved; 
@@ -177,7 +201,9 @@ GOLLE_EXTERN void golle_clear (golle_t *golle);
  * and the first round hasn't been finished yet. ::GOLLE_ECRYPTO for internal
  * cryptographic errors. ::GOLLE_ENOCOMMIT if a commitment from a peer is invalid.
  * ::GOLLE_OK for success.
- * \note 
+ * \note Selections are indexed internally, starting at zero and incrementing.
+ * If a collision occurs, the collision will be discarded but the index will not
+ * be reused.
  */
 GOLLE_EXTERN golle_error golle_generate (golle_t *golle, 
 					 size_t round, 
@@ -189,8 +215,7 @@ GOLLE_EXTERN golle_error golle_generate (golle_t *golle,
  * \param golle The golle structure.
  * \param[out] selection Receives the revealed selection.
  * \return ::GOLLE_EMEM for memory errors. ::GOLLE_ERROR for `NULL` errors.
- * ::GOLLE_ECRYPTO for cryptography errors. ::GOLLE_ECOLLISION if the
- * reduced item has already been 'dealt'. ::GOLLE_OK for success.
+ * ::GOLLE_ECRYPTO for cryptography errors. ::GOLLE_OK for success.
  */
 GOLLE_EXTERN golle_error golle_reveal_selection (golle_t *golle,
 						 size_t *selection);
@@ -199,9 +224,39 @@ GOLLE_EXTERN golle_error golle_reveal_selection (golle_t *golle,
  * peer is the only peer receiving a random selection. The peer must
  * reduce the selection and output a proof that it has been done
  * correctly.
+ * \param golle The golle structure.
+ * \param c The reduced item, returned from golle_reveal_selection().
+ * \param collision If a collision occurs, will be populated with the
+ * index of the found collision.
+ * \return ::GOLLE_EMEM for memory errors. ::GOLLE_ERROR for `NULL` errors.
+ * ::GOLLE_ECRYPTO for cryptography errors. ::GOLLE_ECOLLISION if the
+ * reduced item has already been 'dealt'. ::GOLLE_OK for success.
+ * \note If a collision occurs, the selection inditicated by `collision`
+ * will be discarded and must be done again. The selection id will not
+ * be reused.
  */
 GOLLE_EXTERN golle_error golle_reduce_selection (golle_t *golle,
-						 size_t c);
+						 size_t c,
+						 size_t *collision);
+/*!
+ * \brief Call this function in the ::golle_reveal_rand_t callback
+ * when some other peer is receiving the reduced item. The function
+ * will accept proof from the other peer that the item was reduced
+ * correctly and will check for collisions.
+ * \param golle The golle structure.
+ * \param c The peer from which to accept proof.
+ * \param collision If a collision occurs, will be populated with the
+ * index of the found collision.
+ * \return ::GOLLE_EMEM for memory errors. ::GOLLE_ERROR for `NULL` errors.
+ * ::GOLLE_ECRYPTO for cryptography errors. ::GOLLE_ECOLLISION if the
+ * reduced item has already been 'dealt'. ::GOLLE_OK for success.
+ * \note If a collision occurs, the selection inditicated by `collision`
+ * will be discarded and must be done again. The selection id will not
+ * be reused.
+ */
+GOLLE_EXTERN golle_error golle_check_selection (golle_t *golle,
+						size_t peer,
+						size_t *collision);
 /*!
  * @}
  */

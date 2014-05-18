@@ -53,6 +53,11 @@ typedef struct golle_eg_t {
 } golle_eg_t;
 
 /*!
+ * \brief Check whether the structure is full (both parameters are present).
+ */
+#define GOLLE_EG_FULL(C) ((C) && (C)->a && (C)->b)
+
+/*!
  * \brief Clear memory allocated for the ciphertext.
  * \param cipher The ciphertext to clear.
  */
