@@ -3,8 +3,6 @@ TEST_LIB = ../src/libgolle.la
 
 AM_COLOR_TESTS=always
 
-EXTRA_DIST = runtest
-
 #These are the programs that will be tested
 check_PROGRAMS = \
 	list\
@@ -17,7 +15,8 @@ check_PROGRAMS = \
 	pep \
 	schnorr \
 	disj \
-	dispep
+	dispep 
+
 
 #Make list test
 list_SOURCES = list.c
@@ -59,11 +58,6 @@ elgamal_SOURCES = elgamal.c
 elgamal_CPPFLAGS = $(TEST_INC)
 elgamal_LDADD = $(TEST_LIB)
 
-#Make peer set distribution test
-#p2p_SOURCES = p2p.c
-#p2p_CPPFLAGS = $(TEST_INC)
-#p2p_LDADD = $(TEST_LIB)
-
 #Make schnorr identification test
 schnorr_SOURCES = schnorr.c
 schnorr_CPPFLAGS = $(TEST_INC)
@@ -97,16 +91,3 @@ TESTS = ./elgamal\
 	./disj \
 	./dispep  \
 	./list
-
-if have_pthread
-	check_PROGRAMS = $(check_PROGRAMS) golle
-
-#       Make the Golle protocol test
-	golle_SOURCES = golle.c
-	golle_CFLAGS = $(CFLAGS) $(PTHREAD_CFLAGS)
-	golle_CPPFLAGS = $(TEST_INC)
-	golle_LDFLAGS = $(PTHREAD_CFLAGS)
-	golle_LDADD = $(TEST_LIB) $(PTHREAD_LIBS)
-
-	TESTS = $(TESTS) ./golle
-endif

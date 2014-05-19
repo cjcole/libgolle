@@ -48,7 +48,9 @@ AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
 dnl Check for pthreads
 dnl POSIX threads only required to build the golle test program
 AX_PTHREAD
-AM_CONDITIONAL(have_pthread, test "$ax_pthread_ok" = yes)
+AM_CONDITIONAL([FOUND_PTHREAD], [test x$ax_pthread_ok = xyes])
+AM_COND_IF([FOUND_PTHREAD],
+   [AC_MSG_NOTICE([POSIX threads detected. Will compile thread tests.])])
 
 dnl Set up documentation
 DX_PDF_FEATURE 
@@ -56,5 +58,12 @@ DX_PS_FEATURE
 DX_INIT_DOXYGEN(libgolle, Doxyfile, doc)
 
 dnl Output
-AC_CONFIG_FILES([Makefile src/Makefile tools/Makefile tests/Makefile Doxyfile])
+AC_CONFIG_FILES([Makefile 
+			  src/Makefile 
+			  tools/Makefile 
+			  tests/Makefile 
+			  samples/Makefile 
+			  samples/poker/Makefile 
+			  Doxyfile])
+
 AC_OUTPUT

@@ -215,7 +215,7 @@ static golle_error precompute_S (golle_eg_t *S,
     if (!BN_set_word (t, i * num_items)) {
       err = GOLLE_EMEM;
     }
-    else if (!BN_mod_exp (t, key->g, t, key->p, ctx)) {
+    else if (!BN_mod_exp (t, key->g, t, key->q, ctx)) {
       err = GOLLE_EMEM;
     }
     else {
@@ -523,22 +523,21 @@ golle_error golle_initialise (golle_t *golle) {
   GOLLE_ASSERT (golle->num_items, GOLLE_ERROR);
 
   /* Allocate enough space for all of the private data */
-  size_t size = sizeof (BIGNUM) * golle->num_items;
-  size += sizeof (golle_eg_t) * golle->num_peers;
-  size += sizeof (peer_data_t) * golle->num_peers;
-  size += sizeof (golle_res_t);
-  golle_res_t *priv = calloc (size, 1);
+  golle_res_t *priv = calloc (sizeof (golle_res_t), 1);
   GOLLE_ASSERT (priv, GOLLE_EMEM);
 
-  /* Point each array at the right location. */
-  priv->S = (golle_eg_t*)((char *)priv) + sizeof (*priv);
-  priv->items = (BIGNUM*)(priv->S + golle->num_peers);
-  priv->peer_data = (peer_data_t *)(priv->items + golle->num_items);
+  if (!(priv->S = calloc (sizeof (golle_eg_t), golle->num_peers)) ||
+      !(priv->items = calloc (sizeof (BIGNUM), golle->num_items)) ||
+      !(priv->peer_data = calloc (sizeof(peer_data_t), golle->num_peers)))
+    {
+      err = GOLLE_EMEM;
+      goto out;
+    }
 
   /* Pre-compute the item set. */
   err = precompute_items (priv->items, 
-				      golle->num_items, 
-				      golle->key);
+			  golle->num_items, 
+			  golle->key);
   if (err != GOLLE_OK) {
     goto out;
   }
@@ -556,6 +555,7 @@ golle_error golle_initialise (golle_t *golle) {
   if (err != GOLLE_OK) {
     goto out;
   }
+  golle->reserved = priv;
 
  out:
   if (err != GOLLE_OK) {
@@ -571,18 +571,27 @@ void golle_clear (golle_t *golle) {
       return;
     }
 
-
-    for (size_t i = 0; i < golle->num_peers; i++) {
-      golle_eg_clear (r->S + i);
+    if (r->S) {
+      for (size_t i = 0; i < golle->num_peers; i++) {
+	golle_eg_clear (r->S + i);
+      }
+      free (r->S);
     }
-    for (size_t i = 0; i < golle->num_items; i++) {
-      BN_clear(r->items + i);
+    if (r->items) {
+      for (size_t i = 0; i < golle->num_items; i++) {
+	BN_clear(r->items + i);
+      }
+      free (r->items);
+    }
+    if (r->peer_data) {
+      clear_peer_data (golle);
+      free (r->peer_data);
     }
     /* Clear the list */
     clear_selections (r->selections);
     golle_list_delete (r->selections);
+
     golle_eg_clear (&r->product);
-    clear_peer_data (golle);
     free (r);
   }
 }
@@ -630,7 +639,7 @@ golle_error golle_generate (golle_t *golle,
     err = GOLLE_EMEM;
     goto out;
   }
-  if (!BN_mod_exp (gr, golle->key->g, r, golle->key->p, ctx)) {
+  if (!BN_mod_exp (gr, golle->key->g, r, golle->key->q, ctx)) {
     err = GOLLE_ECRYPTO;
     goto out;
   }

@@ -60,15 +60,15 @@ typedef struct golle_t golle_t;
  * \brief A callback used to broadcast a commitment.
  */
 typedef golle_error (*golle_bcast_commit_t) (golle_t *, 
-					      golle_bin_t *, 
-					      golle_bin_t *);
+					     golle_bin_t *, 
+					     golle_bin_t *);
 /*!
  * \typedef golle_bcast_secret_t
  * \brief A callback for broadcasting the secret parts of a commitment.
  */
 typedef golle_error (*golle_bcast_secret_t) (golle_t *, 
-					      golle_eg_t *, 
-					      golle_bin_t *);
+					     golle_eg_t *, 
+					     golle_bin_t *);
 /*!
  * \typedef golle_accept_commit_t
  * \brief A callback for accepting the commitment of a peer.
@@ -126,7 +126,7 @@ struct golle_t {
    */
   golle_key_t *key; 
   /*! The callback which will be invoked when a commitment should be
-   * send to all peers. */
+   * send to all peers. The parameters are `rsend` and `hash`. */
   golle_bcast_commit_t bcast_commit;
   /*! The callback which will be invoked when a commitment's secret values
    * should be revealed to all peers. */

@@ -1,5 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
-SUBDIRS = src tools tests
+SUBDIRS = src tools tests samples
 
 ## --------------------------------- ##
 ## Format-independent Doxygen rules. ##

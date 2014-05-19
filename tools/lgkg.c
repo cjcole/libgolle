@@ -104,7 +104,7 @@ int main (int argc, char *argv[]) {
 
     else {
       fprintf (stderr, "Unrecognised option %s\n", argv[i]);
-      exit (1);
+      print_usage (stderr, 2);
     }
   }
 
