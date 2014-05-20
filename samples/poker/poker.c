@@ -13,7 +13,9 @@
  * This program allows the user to join a
  * distributed game of poker.
  *
- * Usage: golle_poker keyfile port [remote]
+ * Usage: golle_poker name keyfile port [remote]
+ *
+ * The name is the username. It must be unique and < 255 characters.
  * 
  * The keyfile is a file containing the output of `lgkg`.
  * All players must use the same keyfile.
@@ -30,6 +32,11 @@
  * to form a fully-connected graph. When each client is connected to
  * every other client, the dealing begins.
  */
+
+static void read_line (void) {
+  char temp[256];
+  fgets(temp, 256, stdin);
+}
 
 /* The main function */
 int main (int argc, char *argv[]) {
@@ -62,12 +69,13 @@ int main (int argc, char *argv[]) {
   }
 
   /* Open listener */
+  fprintf (stdout, "Waiting for peers. Press return when ready.\n");
   result = start_listening (local_port);
   if (result) {
     return result;
   }
 
-  fprintf (stdout, "Waiting for peers. Press return when ready.\n");
+  read_line();
 
   /* Wait for everyone to be ready */
   result = stop_listening ();
@@ -75,7 +83,17 @@ int main (int argc, char *argv[]) {
     return result;
   }
   
+  if (connected_players == 0) {
+    fprintf (stderr, "No peers.\n");
+    return 0;
+  }
+
   /* Do key distribution. */
+  result = distribute_key ();
+  if (result) {
+    return result;
+  }
+  
   
   /* Deal cards */
 

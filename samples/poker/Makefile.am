@@ -14,4 +14,5 @@ golle_poker_SOURCES =\
 	poker.c\
 	socklib.c\
 	connect_remote.c\
-	read_key.c
+	read_key.c\
+	distribution.c

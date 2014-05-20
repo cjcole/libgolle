@@ -12,7 +12,9 @@
 #include <ws2tcpip.h>
 #else
 #define SOCKET int
+#define INVALID_SOCKET -1
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -31,20 +33,25 @@ enum {
   /* Maximum length of the keyfile path */
   MAX_KEYFILE_PATH = 256,
   /* Maximum remote port number */
-  MAX_REMOTE_PORT = 5,
+  MAX_PORT = 5,
   /* Maximum number of bytes we're prepared to read in one line. */
   MAX_LINE_BYTES = 4096,
   /* Maximum number of players */
-  MAX_PLAYERS = 8
+  MAX_PLAYERS = 8,
+  /* Maximum name length */
+  MAX_NAME = 255
 };
 
 /* Global data */
 EXTERN char keyfile[MAX_KEYFILE_PATH + 1];
-EXTERN int local_port;
-EXTERN char remote_port[MAX_REMOTE_PORT + 1];
+EXTERN char local_port[MAX_PORT + 1];
+EXTERN char remote_port[MAX_PORT + 1];
 EXTERN char remote_host[MAX_REMOTE_NAME + 1];
 EXTERN golle_key_t key;
 EXTERN SOCKET players[MAX_PLAYERS];
+EXTERN char player_names[MAX_PLAYERS][MAX_NAME + 1];
+EXTERN int connected_players;
+EXTERN char my_name[MAX_NAME+1];
 
 
 /* Connect to remote client. */
@@ -58,6 +65,9 @@ int parse_arguments (int argc, char *argv[]);
 
 /* Print the usage statement. */
 void print_usage (FILE *fd);
+
+/* Do pedersen key distribution */
+int distribute_key (void);
 
 #endif
 

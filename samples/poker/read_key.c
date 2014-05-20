@@ -9,11 +9,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "globals.h"
-
-static char hex_to_byte (const char *str) {
-  char hex[3] = { *str, *(str + 1), 0 }; 
-  return (char)strtol (hex, NULL, 16);
-}
+#include "hex2byte.h"
 
 static int read_number (FILE *fp, 
 			char *line, 
@@ -88,6 +84,16 @@ int read_key (void) {
     result = 6;
     goto out;
   }
+
+  err = golle_key_gen_private (&key);
+  if (err != GOLLE_OK) {
+    fprintf (stderr,
+	     "Error %d. Failed to generate private key parts\n",
+	     (int)err);
+    result = 7;
+    goto out;
+  }
+
  out:
   if (line) {
     free (line);
