@@ -10,10 +10,11 @@
 
 /*
  * A sample program to show how to use LibGolle.
- * This program allows the user to join a
- * distributed game of poker.
+ * This program allows two clients to connect and player a game
+ * of "draw straws". The player with the largest number between 0 and 99
+ * wins.
  *
- * Usage: golle_poker name keyfile port [remote]
+ * Usage: golle_poker name keyfile [port|remote]
  *
  * The name is the username. It must be unique and < 255 characters.
  * 
@@ -28,15 +29,7 @@
  * IP address and port is the port number. If the remote argument
  * is not given, the client will just listen for incoming connections.
  *
- * When connections are established, clients share information in order
- * to form a fully-connected graph. When each client is connected to
- * every other client, the dealing begins.
  */
-
-static void read_line (void) {
-  char temp[256];
-  fgets(temp, 256, stdin);
-}
 
 /* The main function */
 int main (int argc, char *argv[]) {
@@ -67,25 +60,25 @@ int main (int argc, char *argv[]) {
       return result;
     }
   }
-
-  /* Open listener */
-  fprintf (stdout, "Waiting for peers. Press return when ready.\n");
-  result = start_listening (local_port);
-  if (result) {
-    return result;
-  }
-
-  read_line();
-
-  /* Wait for everyone to be ready */
-  result = stop_listening ();
-  if (result) {
-    return result;
-  }
-  
-  if (connected_players == 0) {
-    fprintf (stderr, "No peers.\n");
-    return 0;
+  else {
+    /* Open listener */
+    fprintf (stdout, "Waiting for opponent.\n");
+    result = start_listening (local_port);
+    if (result) {
+      return result;
+    }
+    
+    /* Wait for everyone to be ready */
+    result = stop_listening ();
+    if (result) {
+      return result;
+    }
+    
+    
+    if (connected_players == 0) {
+      fprintf (stderr, "No peers.\n");
+      return 0;
+    }
   }
 
   /* Do key distribution. */

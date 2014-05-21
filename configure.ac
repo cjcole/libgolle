@@ -63,7 +63,7 @@ AC_CONFIG_FILES([Makefile
 			  tools/Makefile 
 			  tests/Makefile 
 			  samples/Makefile 
-			  samples/poker/Makefile 
+			  samples/straws/Makefile 
 			  Doxyfile])
 
 AC_OUTPUT

@@ -36,10 +36,12 @@ enum {
   MAX_PORT = 5,
   /* Maximum number of bytes we're prepared to read in one line. */
   MAX_LINE_BYTES = 4096,
-  /* Maximum number of players */
-  MAX_PLAYERS = 8,
+  /* Maximum number of opponents */
+  MAX_PLAYERS = 1,
   /* Maximum name length */
-  MAX_NAME = 255
+  MAX_NAME = 255,
+  /* Maximum length of a remote enpoint */
+  MAX_REMOTE_ENDPOINT = MAX_REMOTE_NAME + MAX_PORT
 };
 
 /* Global data */
@@ -49,6 +51,7 @@ EXTERN char remote_port[MAX_PORT + 1];
 EXTERN char remote_host[MAX_REMOTE_NAME + 1];
 EXTERN golle_key_t key;
 EXTERN SOCKET players[MAX_PLAYERS];
+EXTERN char player_endpoints[MAX_PLAYERS][MAX_REMOTE_ENDPOINT + 1];
 EXTERN char player_names[MAX_PLAYERS][MAX_NAME + 1];
 EXTERN int connected_players;
 EXTERN char my_name[MAX_NAME+1];
@@ -68,6 +71,9 @@ void print_usage (FILE *fd);
 
 /* Do pedersen key distribution */
 int distribute_key (void);
+
+/* Parse a remote name into host and port */
+int read_remote_name (const char *in, char *addr, char *port);
 
 #endif
 

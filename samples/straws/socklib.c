@@ -1,32 +1,37 @@
 #include "socklib.h"
 #include "globals.h"
 #include <stdio.h>
-#include <pthread.h>
 #include <string.h>
 
 static SOCKET listener;
-static pthread_t listen_thread;
 
-static void *acceptor_thread (void *data) {
-  GOLLE_UNUSED (data);
+static int save_socket (SOCKET sock) {
+  int id = connected_players++;
+  players[id] = sock;
+  return 0;
+}
+
+static int run_accept (void) {
   struct sockaddr_storage rem_addr;
   socklen_t addr_size = sizeof (rem_addr);
  
-  fprintf (stderr, "Accepting incoming connections.\n");
-  while (connected_players < MAX_PLAYERS) {
-    SOCKET sock = accept (listener,
-			  (struct sockaddr *)&rem_addr,
-			  &addr_size);
-
-    if (sock == -1) {
-      break;
-    }
-
-
-    printf ("Player connected.\n");
-    players[connected_players++] = sock;
+  printf ("Accepting incoming connections.\n");
+  SOCKET sock = accept (listener,
+			(struct sockaddr *)&rem_addr,
+			&addr_size);
+  
+  if (sock == -1) {
+    return 1;
   }
-  fprintf (stderr, "Stopped accepting.\n");
+  
+  
+  printf ("Player connected.\n");
+  
+  /* Save the socket */
+  if (save_socket (sock) != 0) {
+    shutdown (sock, 2);
+    return 1;
+  }
   return 0;
 }
 
@@ -68,7 +73,7 @@ int start_listening (const char *port) {
 
   status = getaddrinfo (NULL, port, &hints, &servinfo);
   if (status != 0) {
-    fprintf (stderr, "Failed to get address info error %d\n", status);
+    perror ("socklib");
     return 1;
   }
 
@@ -76,37 +81,39 @@ int start_listening (const char *port) {
 		     servinfo->ai_socktype, 
 		     servinfo->ai_protocol);
   if (listener == INVALID_SOCKET) {
-    fprintf (stderr, "Failed to get socket\n");
+    perror ("socklib");
     return 2;
   }
 
   int yes = 1;
   if (setsockopt (listener, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
-    fprintf (stderr, "Failed to set socket option.");
+    perror ("socklib");
     return 3;
   }
 
   if (bind (listener, servinfo->ai_addr, servinfo->ai_addrlen) == -1) {
-    fprintf (stderr, "Failed to bind.\n");
+    perror ("socklib");
     return 4;
   }
 
   if (listen (listener, MAX_PLAYERS) == -1) {
-    fprintf (stderr, "Failed to listen.\n");
+    perror ("socklib");
     return 5;
   }
 
   printf ("Opened listener on port %s\n", port);
+  freeaddrinfo (servinfo);
 
   /* Kick off thread to accept clients */
-  pthread_create (&listen_thread, NULL, &acceptor_thread, NULL);
+  if (run_accept() != 0) {
+    fprintf (stderr, "Had trouble accepting opponent.\n");
+    return 1;
+  }
 
-  freeaddrinfo (servinfo);
   return 0;
 }
 
 int stop_listening (void) {
   shutdown (listener, 2);
-  pthread_join (listen_thread, NULL);
   return 0;
 }

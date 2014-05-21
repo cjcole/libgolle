@@ -1,1 +1,1 @@
-SUBDIRS = poker
+SUBDIRS = straws
