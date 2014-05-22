@@ -1,6 +1,7 @@
 var group__bin =
 [
     [ "golle_bin_t", "structgolle__bin__t.html", null ],
+    [ "golle_bin_clear", "group__bin.html#gacb985e1bd65538ad0d652f913e10ae04", null ],
     [ "golle_bin_copy", "group__bin.html#ga79ce31aabeb1661e361e0c40bfe0e504", null ],
     [ "golle_bin_delete", "group__bin.html#ga17ac68b19be493c116f4a0847482a47e", null ],
     [ "golle_bin_init", "group__bin.html#ga0c8978cfb663eb51e5c6248619276fbb", null ],

@@ -11,5 +11,6 @@ var annotated =
     [ "golle_schnorr_t", "structgolle__schnorr__t.html", "structgolle__schnorr__t" ],
     [ "golle_select_t", "structgolle__select__t.html", null ],
     [ "golle_set_iterator_t", "structgolle__set__iterator__t.html", null ],
-    [ "golle_set_t", "structgolle__set__t.html", null ]
+    [ "golle_set_t", "structgolle__set__t.html", null ],
+    [ "golle_t", "structgolle__t.html", "structgolle__t" ]
 ];

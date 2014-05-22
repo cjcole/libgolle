@@ -5,6 +5,7 @@ var numbers_8h =
     [ "golle_find_generator", "numbers_8h.html#ga6f298392ed858371f35e9593379f75b6", null ],
     [ "golle_generate_prime", "numbers_8h.html#ga01f0cd75c898c920c7d1458c364e58fc", null ],
     [ "golle_num_cmp", "numbers_8h.html#gadce4f82b6623518b49e12e81c5e4eb64", null ],
+    [ "golle_num_cpy", "numbers_8h.html#gafeeb07217c9aba86640ee2ee9e1ca481", null ],
     [ "golle_num_delete", "numbers_8h.html#gad03ebf8035b90dfc49c1ffd00ec2f897", null ],
     [ "golle_num_dup", "numbers_8h.html#ga768356dd244769f63fc73246237b3890", null ],
     [ "golle_num_generate_rand", "numbers_8h.html#gae21da79a7abc633f2bb813dad88fda07", null ],

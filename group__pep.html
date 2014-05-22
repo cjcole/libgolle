@@ -113,7 +113,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>The PEP protocol described in Jakobsson M. and Juels A., Millimix: Mixing in Small Batches, DIMACS Technical Report 99-33, June 1999.</p>
-<p>Consider the El Gamal encryptions <img class="formulaInl" alt="$(a,b)$" src="form_42.png"/> and <img class="formulaInl" alt="$(c,d)$" src="form_43.png"/> for some plaintext <img class="formulaInl" alt="$m$" src="form_37.png"/>. PEP allows the prover to prove that both ciphertexts are encryptions of the same ciphertext, without revealing what the plaintext is.</p>
+<p>Consider the El Gamal encryptions <img class="formulaInl" alt="$(a,b)$" src="form_42.png"/> and <img class="formulaInl" alt="$(c,d)$" src="form_43.png"/> for some plaintext <img class="formulaInl" alt="$m$" src="form_37.png"/>. PEP allows the prover to prove that both ciphertexts are encryptions of the same plaintext, without revealing what the plaintext is.</p>
 <p>First, it's easy to see due to the homomorphic property of El Gamal that if <img class="formulaInl" alt="$(a,b)$" src="form_42.png"/> and <img class="formulaInl" alt="$(c,d)$" src="form_43.png"/> are encryptions of the same plaintext, then <img class="formulaInl" alt="$(a/c, b/d)$" src="form_44.png"/> is an encryption of <img class="formulaInl" alt="$1$" src="form_45.png"/> and forms a <a class="el" href="group__schnorr.html">Schnorr Identification Algorithm</a> public key. The Schnorr Identification Algorithm is then used to complete the PEP protocol. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="gaa7d855f73e9ea37a523844a62720c3b6"></a>
@@ -228,7 +228,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun May 11 2014 20:03:26 for LibGolle by
+    <li class="footer">Generated on Thu May 22 2014 23:54:47 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

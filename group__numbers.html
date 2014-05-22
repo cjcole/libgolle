@@ -120,6 +120,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:gad03ebf8035b90dfc49c1ffd00ec2f897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a number. <br/></td></tr>
 <tr class="memitem:ga768356dd244769f63fc73246237b3890"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#ga768356dd244769f63fc73246237b3890">golle_num_dup</a> (const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> i)</td></tr>
 <tr class="memdesc:ga768356dd244769f63fc73246237b3890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a copy of the input.  <a href="#ga768356dd244769f63fc73246237b3890"></a><br/></td></tr>
+<tr class="memitem:gafeeb07217c9aba86640ee2ee9e1ca481"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gafeeb07217c9aba86640ee2ee9e1ca481">golle_num_cpy</a> (<a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> dst, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> src)</td></tr>
+<tr class="memdesc:gafeeb07217c9aba86640ee2ee9e1ca481"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a copy of the input.  <a href="#gafeeb07217c9aba86640ee2ee9e1ca481"></a><br/></td></tr>
 <tr class="memitem:gafe69c2041b5590f026db06f1aac3954a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gafe69c2041b5590f026db06f1aac3954a">golle_num_new_int</a> (size_t i)</td></tr>
 <tr class="memdesc:gafe69c2041b5590f026db06f1aac3954a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new number from a given native integer.  <a href="#gafe69c2041b5590f026db06f1aac3954a"></a><br/></td></tr>
 <tr class="memitem:gae21da79a7abc633f2bb813dad88fda07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__numbers.html#gae21da79a7abc633f2bb813dad88fda07">golle_num_generate_rand</a> (<a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> r, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> n)</td></tr>
@@ -316,6 +318,42 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>-1</code> if <code>n1 &lt; n2</code>. <code>1</code> if <code>n1 &gt; n2</code>. <code>0</code> if <code>n1 == n2</code>. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>No parameter checking is done. If <code>n1</code> or <code>n2</code> is <code>NULL</code>, behaviour is undefined. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gafeeb07217c9aba86640ee2ee9e1ca481"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a> golle_num_cpy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a>&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Make a copy of the input. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>The input number to copy. </td></tr>
+    <tr><td class="paramname">dst</td><td>The output number to copy to. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if successful. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if <code>src</code> or <code>dst</code> are <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if memory allocation failed. </dd></dl>
 
 </div>
 </div>
@@ -680,7 +718,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun May 11 2014 20:03:26 for LibGolle by
+    <li class="footer">Generated on Thu May 22 2014 23:54:47 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>
