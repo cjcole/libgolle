@@ -107,8 +107,7 @@ int send_eg (SOCKET sock, golle_eg_t *eg) {
 }
 
 static int save_socket (SOCKET sock) {
-  int id = connected_players++;
-  players[id] = sock;
+  opponent = sock;
   return 0;
 }
 
@@ -121,10 +120,9 @@ static int run_accept (void) {
 			(struct sockaddr *)&rem_addr,
 			&addr_size);
   
-  if (sock == -1) {
+  if (sock == INVALID_SOCKET) {
     return 1;
   }
-  
   
   printf ("Player connected.\n");
   
@@ -137,15 +135,15 @@ static int run_accept (void) {
 }
 
 static void close_conns(void) {
-  for (int i = 0; i < connected_players; i++) {
-    shutdown (players[i], 2);
+  if (opponent != INVALID_SOCKET) {
+    shutdown (opponent, 2);
   }
 }
 
 #if GOLLE_WINDOWS
 int intialise_sockets (void) {
   WSADATA wsaData;
-  connected_players = 0;
+  opponent = INVALID_SOCKET;
   return WSAStartup (MAKEWORD (2,2), &wsaData);
 }
 void finalise_sockets (void) {
@@ -154,7 +152,7 @@ void finalise_sockets (void) {
 }
 #else
 int initialise_sockets (void) {
-  connected_players = 0;
+  opponent = INVALID_SOCKET;
   return 0;
 }
 void finalise_sockets (void) {
@@ -197,7 +195,7 @@ int start_listening (const char *port) {
     return 4;
   }
 
-  if (listen (listener, MAX_PLAYERS) == -1) {
+  if (listen (listener, 1) == -1) {
     perror ("socklib");
     return 5;
   }

@@ -120,46 +120,40 @@ int distribute_key (void) {
     return result;
   }
 
-  /* Send name to each peer */
-  for (int i = 0; i < connected_players; i++) {
-    result = send_name (players[i]);
-    if (result != 0) {
-      return result;
-    }
+  /* Send name to opponent */
+  result = send_name (opponent);
+  if (result != 0) {
+    return result;
+  }
+  
+
+  /* Receive name from opponent */
+  result = recv_name (opponent, opponent_name);
+  if (result != 0) {
+    return result;
+  }
+  printf ("Opponent's name is '%s'\n", opponent_name);
+  
+  
+  /* Send h to opponent */
+  result = send_h (opponent);
+  if (result != 0) {
+    return result;
   }
 
-  /* Receive name from each player */
-  for (int i = 0; i < connected_players; i++) {
-    result = recv_name (players[i], player_names[i]);
-    if (result != 0) {
-      return result;
-    }
-    printf ("Received name '%s' from peer\n", player_names[i]);
+  /* Receive h from opponent */
+  result = recv_h (opponent, temp);
+  if (result != 0) {
+    return result;
   }
+  printf ("Received h from %s\n", opponent_name);
 
-  /* Send h to each player */
-  for (int i = 0; i < connected_players; i++) {
-    result = send_h (players[i]);
-    if (result != 0) {
-      return result;
-    }
+  golle_error err = golle_key_accum_h (&key, temp);
+  if (err != GOLLE_OK) {
+    result = (int)err;
+    fprintf (stderr, "H value accumulation failed.\n");
   }
-
-  /* Receive h from each player */
-  for (int i = 0; i < connected_players; i++) {
-    result = recv_h (players[i], temp);
-    if (result != 0) {
-      return result;
-    }
-    printf ("Received h from %s\n", player_names[i]);
-
-    golle_error err = golle_key_accum_h (&key, temp);
-    if (err != GOLLE_OK) {
-      result = (int)err;
-      fprintf (stderr, "H value accumulation failed.\n");
-      break;
-    }
-  }
+  
 
   golle_bin_clear (&hbin);
   golle_num_delete (temp);

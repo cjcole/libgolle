@@ -29,11 +29,11 @@ static golle_error bcast_commit (golle_t *g,
   printf ("Broadcasting commitment.\n");
 
   /* Send to peer */
-  if (send_buffer (players[0], rsend) != 0) {
+  if (send_buffer (opponent, rsend) != 0) {
     fprintf (stderr, "Error sending random buffer.\n");
     return GOLLE_ERROR;
   }
-  if(send_buffer (players[0], hash) != 0) {
+  if(send_buffer (opponent, hash) != 0) {
     fprintf (stderr, "Error sending hash.\n");
     return GOLLE_ERROR;
   }
@@ -63,11 +63,11 @@ static golle_error bcast_secret (golle_t *g,
     printf ("\n");
 
   /* Send to peer  */
-  if (send_eg (players[0], secret) != 0) {
+  if (send_eg (opponent, secret) != 0) {
     fprintf (stderr, "Error sending ciphertext.\n");
     return GOLLE_ERROR;
   }
-  else if( send_buffer (players[0], rkeep) != 0) {
+  else if( send_buffer (opponent, rkeep) != 0) {
     fprintf (stderr, "Error sending random buffer.\n");
     return GOLLE_ERROR;
   }
@@ -99,12 +99,12 @@ static golle_error accept_commit (golle_t *g,
     golle_bin_delete (commit.hash);
   }
   else {
-    printf ("Accepting commitment from %s\n", player_names[0]);
-    if (recv_buffer (players[0], rsend) != 0) {
+    printf ("Accepting commitment from %s\n", opponent_name);
+    if (recv_buffer (opponent, rsend) != 0) {
       fprintf (stderr, "Error receiving random block.\n");
       return GOLLE_ERROR;
     }
-    if (recv_buffer (players[0], hash) != 0) {
+    if (recv_buffer (opponent, hash) != 0) {
       fprintf (stderr, "Error receiving hash.\n");
       return GOLLE_ERROR;
     }
@@ -131,13 +131,13 @@ static golle_error accept_eg (golle_t *g,
     eg->b = local.b;
   }
   else {
-    printf ("Accepting ciphertext from %s\n", player_names[0]);
+    printf ("Accepting ciphertext from %s\n", opponent_name);
     eg->a = golle_num_new ();
     GOLLE_ASSERT (eg->a, GOLLE_EMEM);
     eg->b = golle_num_new ();
     GOLLE_ASSERT (eg->b, GOLLE_EMEM);
     
-    if (recv_eg (players[0], eg) != 0) {
+    if (recv_eg (opponent, eg) != 0) {
       fprintf (stderr, "Error receiving ciphertext.\n");
       return GOLLE_ERROR;
     }
@@ -146,7 +146,7 @@ static golle_error accept_eg (golle_t *g,
     printf ("\nReceived b = ");
     golle_num_print (stdout, eg->b);
     printf ("\n");
-    if (recv_buffer (players[0], rkeep) != 0) {
+    if (recv_buffer (opponent, rkeep) != 0) {
       fprintf (stderr, "Error receiving random block.\n");
       return GOLLE_ERROR;
     }
@@ -171,15 +171,15 @@ static golle_error reveal_rand (golle_t *g,
 
   printf ("Sending encryption base %ld and randomness ", r);
   golle_num_print (stdout, rand);
-  printf (" to %s\n", player_names[0]);
+  printf (" to %s\n", opponent_name);
 
   uint32_t nr = htonl ((uint32_t)r);
-  if (send (players[0], &nr, 4, 0) != 4) {
+  if (send (opponent, &nr, 4, 0) != 4) {
     perror ("draw");
     return GOLLE_ERROR;
   }
 
-  if (send_num (players[0], rand) != 0) {
+  if (send_num (opponent, rand) != 0) {
     return GOLLE_ERROR;
   }
 
@@ -205,16 +205,16 @@ static golle_error accept_rand (golle_t *g,
   }
   else {
     printf ("Accepting encryption base and randomness from %s.\n",
-	    player_names[0]);
+	    opponent_name);
     uint32_t nr;
-    if (recv (players[0], &nr, 4, 0) != 4) {
+    if (recv (opponent, &nr, 4, 0) != 4) {
       perror ("draw");
       return GOLLE_ERROR;
     }
     *r = ntohl (nr);
     printf ("Received base %ld\n", *r);
 
-    if (recv_num (players[0], rand) != 0) {
+    if (recv_num (opponent, rand) != 0) {
       return GOLLE_ERROR;
     }
     printf ("Received randomness ");
@@ -262,7 +262,7 @@ int draw_straws (int *local, int *remote) {
       straw = local;
     }
     else {
-      printf ("%s\n", player_names[0]);
+      printf ("%s\n", opponent_name);
       straw = remote;
     }
     golle_error err = golle_generate (&golle, 0, SIZE_MAX); /* For the non-listener */
@@ -279,7 +279,7 @@ int draw_straws (int *local, int *remote) {
       straw = local;
     }
     else {
-      printf ("%s\n", player_names[0]);
+      printf ("%s\n", opponent_name);
       straw = remote;
     }
     err = golle_generate (&golle, 0, SIZE_MAX); /* For the listener */

@@ -40,7 +40,6 @@ int connect_remote (const char *host, const char *port) {
   printf ("Connected to %s:%s\n", host, port);
   freeaddrinfo (servinfo);
 
-  int id = connected_players++;
-  players[id] = sock;
+  opponent = sock;
   return 0;
 }

@@ -75,7 +75,7 @@ int main (int argc, char *argv[]) {
     }
     
     
-    if (connected_players == 0) {
+    if (opponent == INVALID_SOCKET) {
       fprintf (stderr, "No peers.\n");
       return 0;
     }
