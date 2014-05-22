@@ -129,7 +129,6 @@ static golle_error check_for_collisions (golle_t *golle,
     if (err == GOLLE_OK) {
       err = golle_list_push (r->selections, &copy, sizeof (copy));
     }
-     golle_eg_clear (&copy);
   }
   return err;
 }
@@ -628,7 +627,7 @@ golle_error golle_generate (golle_t *golle,
   golle_commit_t *commit = NULL;
   golle_error err = GOLLE_OK;
   GOLLE_ASSERT (golle, GOLLE_ERROR);
-  GOLLE_ASSERT (peer < golle->num_peers || peer == SIZE_MAX, GOLLE_ERROR);
+  GOLLE_ASSERT (peer < golle->num_peers || peer == GOLLE_FACE_UP, GOLLE_ERROR);
   GOLLE_ASSERT (golle->bcast_commit, GOLLE_ERROR);
   GOLLE_ASSERT (golle->bcast_secret, GOLLE_ERROR);
   GOLLE_ASSERT (golle->accept_commit, GOLLE_ERROR);
@@ -748,7 +747,7 @@ golle_error golle_reveal_selection (golle_t *golle,
 }
 golle_error golle_reduce_selection (golle_t *golle,
 				    size_t c,
-				   size_t *collision)
+				    size_t *collision)
 {
   GOLLE_ASSERT (golle, GOLLE_ERROR);
   GOLLE_ASSERT (golle->bcast_crypt, GOLLE_ERROR);
@@ -763,7 +762,7 @@ golle_error golle_reduce_selection (golle_t *golle,
   golle_eg_t crypt = { 0 };
   golle_num_t i = golle_num_new_int (c);
   GOLLE_ASSERT (i, GOLLE_EMEM);
-  err = golle_num_mod_exp (i, golle->key->g, i, golle->key->p);
+  err = golle_num_mod_exp (i, golle->key->g, i, golle->key->q);
   if (err != GOLLE_OK) {
     goto out;
   }

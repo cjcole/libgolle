@@ -23,15 +23,15 @@ int stop_listening (void);
 
 int recv_buffer (SOCKET sock, golle_bin_t *bin);
 
-int send_buffer (SOCKET sock, golle_bin_t *bin);
+int send_buffer (SOCKET sock, const golle_bin_t *bin);
 
 int recv_num (SOCKET sock, golle_num_t num);
 
-int send_num (SOCKET sock, golle_num_t num);
+int send_num (SOCKET sock, const golle_num_t num);
 
 int recv_eg (SOCKET sock, golle_eg_t *eg);
 
-int send_eg (SOCKET sock, golle_eg_t *eg);
+int send_eg (SOCKET sock, const golle_eg_t *eg);
 
 
 #endif

@@ -38,7 +38,20 @@ GOLLE_BEGIN_C
  * more fine-grained control over the protocol then the headers for each
  * subprotocol are available; this interface can be used as a reference
  * implementation for the protocol as a whole.
+ *
+ * \note There are aspects of this protocol currently missing. As a result,
+ * some functionality is __not__ available. The shortcomings of the current
+ * implementation can be summarised as follows:
+ *
+ *  - No proof of subset membership or proof of correct decryption is performed.
+ *  - Millimix is not implemented, so multiple rounds are not allowed.
+ *
+ * The building blocks for these features are implemented in @ref dispep.
  */
+/*! 
+ * Used to indicate that a selected item is for all peers. 
+ */
+#define GOLLE_FACE_UP SIZE_MAX 
 /*!
  * \struct golle_t
  * \brief The main Golle structure.
@@ -149,8 +162,8 @@ struct golle_t {
   /*! The callback which will be invoked when the protocol needs
    * to reveal a random number and the randomness that was used to
    * encrypt it in a previous operation. The first parameter will indicate
-   * the peer to send it to (or SIZE_MAX if it is to be broadcast). After being
-   * sent, the local client should do one of two things:
+   * the peer to send it to (or GOLLE_FACE_UP if it is to be broadcast). 
+   * After being sent, the local client should do one of two things:
    *  1. If the peers that reveal the value do not include the local client,
    *     then the local client should call golle_check_selection().
    *  2. If the local client must receive the selection, then the callback

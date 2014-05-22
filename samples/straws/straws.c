@@ -23,12 +23,12 @@
  * All players must use the same keyfile.
  *
  * The port is the local TCP port that the client should attempt to
- * bind to. Must have 1023 < port < 65536
+ * bind to. Must have 1023 < port < 65536. If port is specified,
+ * the client will listen for the opponent.
  *
  * If remote is specified, it must be an endpoint of another
  * client in the format host:port where host is a hostname or
- * IP address and port is the port number. If the remote argument
- * is not given, the client will just listen for incoming connections.
+ * IP address and port is the port number.
  *
  */
 

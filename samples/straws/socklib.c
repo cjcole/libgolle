@@ -37,7 +37,7 @@ int recv_buffer (SOCKET sock, golle_bin_t *bin) {
   return 0;
 }
 
-int send_buffer (SOCKET sock, golle_bin_t *bin) {
+int send_buffer (SOCKET sock, const golle_bin_t *bin) {
   uint32_t size = bin->size;
   size = htonl (size);
   if (send (sock, &size, 4, 0) != 4) {
@@ -74,7 +74,7 @@ int recv_num (SOCKET sock, golle_num_t num) {
   return 0;
 }
 
-int send_num (SOCKET sock, golle_num_t num) {
+int send_num (SOCKET sock, const golle_num_t num) {
 
   golle_bin_t bin = { 0 };
   golle_error err = golle_num_to_bin (num, &bin);
@@ -97,7 +97,7 @@ int recv_eg (SOCKET sock, golle_eg_t *eg) {
   return 1;
 }
 
-int send_eg (SOCKET sock, golle_eg_t *eg) {
+int send_eg (SOCKET sock, const golle_eg_t *eg) {
   if (send_num (sock, eg->a) == 0 &&
       send_num (sock, eg->b) == 0)
     {
