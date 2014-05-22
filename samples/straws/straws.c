@@ -5,6 +5,7 @@
 #include <golle.h>
 #include <stdio.h>
 #include <string.h>
+#include <golle/random.h>
 #include "globals.h"
 #include "socklib.h"
 
@@ -108,5 +109,6 @@ int main (int argc, char *argv[]) {
   printf ("======================\n");
 
   finalise_sockets ();
+  golle_random_clear();
   return result;
 }

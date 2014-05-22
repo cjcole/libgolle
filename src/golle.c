@@ -323,19 +323,31 @@ static golle_error validate_encryption (const golle_key_t *key,
 					size_t m,
 					golle_num_t rand)
 {
-  BIGNUM msg;
-  BN_init (&msg);
-  if (!BN_set_word (&msg, m)) {
-    return GOLLE_EMEM;
+  golle_error err = GOLLE_OK;
+  BIGNUM *base, *e;
+  BN_CTX *ctx = BN_CTX_new ();
+  GOLLE_ASSERT (ctx, GOLLE_EMEM);
+  BN_CTX_start (ctx);
+
+  if (!(base = BN_CTX_get (ctx)) ||
+      !(e = BN_CTX_get (ctx)))
+    {
+      err = GOLLE_EMEM;
+      goto out;
+    }
+
+
+  if (!BN_set_word (base, m)) {
+    err = GOLLE_EMEM;
+    goto out;
   }
-  golle_error err = golle_num_mod_exp (&msg, key->g, &msg, key->q);
-  if (err != GOLLE_OK) {
-    BN_clear (&msg);
-    return err;
+  if (!BN_mod_exp (e, key->g, base, key->q, ctx)) {
+    err = GOLLE_EMEM;
+    goto out;
   }
 
   golle_eg_t check = { 0 };
-  err = golle_eg_encrypt (key, &msg, &check, &rand);
+  err = golle_eg_encrypt (key, e, &check, &rand);
   if (err == GOLLE_OK) {
     if (golle_num_cmp (check.a, cipher->a) != 0 ||
 	golle_num_cmp (check.b, cipher->b) != 0)
@@ -344,7 +356,9 @@ static golle_error validate_encryption (const golle_key_t *key,
       }
   }
   golle_eg_clear (&check);
-  BN_clear (&msg);
+
+ out:
+  BN_CTX_free (ctx);
   return err;
 }
 
@@ -476,7 +490,7 @@ static void clear_peer_data (golle_t *golle) {
 
     golle_commit_clear (&p->commitment);
     golle_eg_clear (&p->cipher);
-    BN_clear (&p->randomness);
+    BN_clear_free (&p->randomness);
   }
   golle_eg_clear (&r->product);
 }
@@ -584,7 +598,7 @@ void golle_clear (golle_t *golle) {
     }
     if (r->items) {
       for (size_t i = 0; i < golle->num_items; i++) {
-	BN_clear(r->items + i);
+	BN_clear_free(r->items + i);
       }
       free (r->items);
     }
@@ -710,6 +724,7 @@ golle_error golle_generate (golle_t *golle,
   golle_eg_clear (&C);
   golle_commit_delete (commit);
   clear_peer_data (golle);
+  golle_num_delete (crand);
   return err;
 }
 
