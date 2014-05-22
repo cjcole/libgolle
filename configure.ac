@@ -45,13 +45,6 @@ dnl Test for libssl's cpuid setup call
 dnl If not available, then we can't use hardware random number generator
 AC_CHECK_LIB([ssl], [OPENSSL_cpuid_setup])
 
-dnl Check for pthreads
-dnl POSIX threads only required to build the golle test program
-AX_PTHREAD
-AM_CONDITIONAL([FOUND_PTHREAD], [test x$ax_pthread_ok = xyes])
-AM_COND_IF([FOUND_PTHREAD],
-   [AC_MSG_NOTICE([POSIX threads detected. Will compile thread tests.])])
-
 dnl Set up documentation
 DX_PDF_FEATURE 
 DX_PS_FEATURE 

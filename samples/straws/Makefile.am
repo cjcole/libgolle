@@ -1,12 +1,10 @@
 GOLLE_INC = -I$(top_srcdir)/include
-GOLLE_LIB = ../../src/libgolle.la $(PTHREAD_LIBS)
+GOLLE_LIB = ../../src/libgolle.la
 
 bin_PROGRAMS = golle_straws
 
-golle_straws_CFLAGS = $(CFLAGS) $(PTHREAD_CFLAGS)
 golle_straws_CPPFLAGS = $(GOLLE_INC)
 golle_straws_LDADD = $(GOLLE_LIB)
-golle_straws_LDFLAGS = $(PTHREAD_CFLAGS)
 
 golle_straws_SOURCES =\
 	args.c\
