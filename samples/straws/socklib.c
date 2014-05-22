@@ -5,6 +5,107 @@
 
 static SOCKET listener;
 
+int recv_buffer (SOCKET sock, golle_bin_t *bin) {
+  uint32_t size;
+  if (recv (sock, &size, 4, 0) != 4) {
+    perror ("draw");
+    return 1;
+  }
+  size = ntohl (size);
+  /* Sanity check the size */
+  if (size > 1 << 15) {
+    fprintf (stderr, "Buffer size %d too large.\n", size);
+    return -1;
+  }
+
+  golle_error err = golle_bin_resize (bin, size);
+  if (err != GOLLE_OK) {
+    fprintf (stderr, "Buffer resize fail\n");
+    return err;
+  }
+
+  int recvd = 0;
+  char *buff = (char *)bin->bin;
+  while (recvd < (int)size) {
+    int r = recv (sock, buff + recvd, (int)size - recvd, 0);
+    if (r == -1) {
+      perror ("draw");
+      return 2;
+    }
+    recvd += r;
+  }
+  return 0;
+}
+
+int send_buffer (SOCKET sock, golle_bin_t *bin) {
+  uint32_t size = bin->size;
+  size = htonl (size);
+  if (send (sock, &size, 4, 0) != 4) {
+    perror ("draw");
+    return 1;
+  }
+
+  int sent = 0;
+  char *buff = (char *)bin->bin;
+
+  while (sent < (int)bin->size) {
+    int s = send (sock, buff + sent, (int)bin->size - sent, 0);
+    if (s == -1) {
+      perror ("draw");
+      return 2;
+    }
+    sent += s;
+  }
+  return 0;
+}
+
+int recv_num (SOCKET sock, golle_num_t num) {
+  golle_bin_t bin = { 0 };
+  if (recv_buffer (sock, &bin) != 0) {
+    return 1;
+  }
+
+  golle_error err = golle_bin_to_num (&bin, num);
+  golle_bin_clear (&bin);
+  if (err != GOLLE_OK) {
+    fprintf (stderr, "Error %d bin2num\n", err);
+    return err;
+  }
+  return 0;
+}
+
+int send_num (SOCKET sock, golle_num_t num) {
+
+  golle_bin_t bin = { 0 };
+  golle_error err = golle_num_to_bin (num, &bin);
+  if (err != GOLLE_OK) {
+    fprintf (stderr, "Error %d num2bin\n", err);
+    return err;
+  }
+  
+  int res = send_buffer (sock, &bin);
+  golle_bin_clear (&bin);
+  return res;
+}
+
+int recv_eg (SOCKET sock, golle_eg_t *eg) {
+  if (recv_num (sock, eg->a) == 0 &&
+      recv_num (sock, eg->b) == 0)
+    {
+      return 0;
+    }
+  return 1;
+}
+
+int send_eg (SOCKET sock, golle_eg_t *eg) {
+  if (send_num (sock, eg->a) == 0 &&
+      send_num (sock, eg->b) == 0)
+    {
+      return 0;
+    }
+  return 1;
+}
+
 static int save_socket (SOCKET sock) {
   int id = connected_players++;
   players[id] = sock;

@@ -9,8 +9,7 @@
 #include <stdlib.h>
 #include "hex2byte.h"
 
-static char *h_as_hex;
-static int hex_size;
+static golle_bin_t hbin = { 0 };
 
 /* Send a buffer */
 int send_buff (SOCKET sock, char *buff, int size) {
@@ -26,26 +25,12 @@ int send_buff (SOCKET sock, char *buff, int size) {
 }
 
 /* Get the h number as a hex string. */
-int h_to_hex (golle_num_t num) {
-  golle_bin_t bin = { 0 };
-  golle_error err = golle_num_to_bin (num, &bin);
+int h_to_bin (golle_num_t num) {
+  golle_error err = golle_num_to_bin (num, &hbin);
   if (err != GOLLE_OK) {
     fprintf (stderr, "Error %d converting h to binary\n", err);
     return 1;
   }
-
-  hex_size = (int)bin.size * 2;
-  h_as_hex = malloc (hex_size);
-  if (!h_as_hex) {
-    fprintf (stderr, "Memory failure.\n");
-    return 2;
-  }
-
-  for (size_t i = 0; i < bin.size; i++) {
-    char c = *((char*)bin.bin + i);
-    sprintf (h_as_hex + (i*2), "%02x", (int)c);
-  }
-
   return 0;
 }
 
@@ -71,15 +56,9 @@ int send_name (SOCKET sock) {
 
 /* Send part of the h product */
 int send_h (SOCKET sock) {
-  if (send_buff (sock, h_as_hex, hex_size) != 0) {
+  if (send_buffer (sock, &hbin) != 0) {
     fprintf (stderr, "Failed to send the h part\n");
     return 1;
-  }
-  /* Send 0 as delimiter */
-  char zero = 0;
-  if (send (sock, &zero, 1, 0) != 1) {
-    fprintf (stderr, "Failed to send delimiter\n");
-    return 2;
   }
   return 0;
 }
@@ -114,54 +93,16 @@ int recv_name (SOCKET sock, char *out) {
 
 /* Receive the h value */
 int recv_h (SOCKET sock, golle_num_t out) {
-  /* Read until 0 */
-  char *hex = 0;
-  size_t size = 0;
-  while (size < MAX_LINE_BYTES) {
-    char buff[256];
-    int read = recv (sock, buff, 255, 0);
-    if (read == -1) {
-      fprintf (stderr, "Failed to read h\n");
-      return 1;
-    }
-
-    if (size + read > MAX_LINE_BYTES) {
-      fprintf (stderr, "Received h value too long.\n");
-      return 2;
-    }
-
-    hex = realloc (hex, size + read);
-    if (!hex) {
-      fprintf (stderr, "Memory error\n");
-      return 3;
-    }
-    memcpy (hex + size, buff, read);
-    size += read;
-
-    if (buff[read - 1] == 0) {
-      break;
-    }
-  }
-  printf ("Received hex: %s\n", hex);
-
-  size--;
-  golle_bin_t *bin = golle_bin_new (size / 2);
-  if (!bin) {
-    fprintf (stderr, "Memory error.\n");
+  golle_bin_t bin = { 0 };
+  if (recv_buffer (sock, &bin) != 0) {
     return 4;
   }
-  for (size_t i = 0; i < bin->size; i++) {
-    char byte = hex_to_byte (hex + (i*2));
-    char *loc = (char *)bin->bin + i;
-    *loc = byte;
-  }
-  free (hex);
 
-  golle_error err = golle_bin_to_num (bin, out);
+  golle_error err = golle_bin_to_num (&bin, out);
   if (err != GOLLE_OK) {
     fprintf (stderr, "Failed to convert hex to number.\n");
   }
-  golle_bin_delete (bin);
+  golle_bin_clear (&bin);
   return (int)err;
 }
 
@@ -174,7 +115,7 @@ int distribute_key (void) {
     return 1;
   }
 
-  result = h_to_hex (key.h);
+  result = h_to_bin (key.h);
   if (result != 0) {
     return result;
   }
@@ -220,6 +161,7 @@ int distribute_key (void) {
     }
   }
 
+  golle_bin_clear (&hbin);
   golle_num_delete (temp);
   printf ("Key is distributed.\n");
   return result;

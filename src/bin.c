@@ -29,6 +29,8 @@ void golle_bin_release (golle_bin_t *buff) {
     /* Zeroing memory is safer. */
     CLEAR_BUFF (buff);
     free (buff->bin);
+    buff->bin = NULL;
+    buff->size = 0;
   }
 }
 

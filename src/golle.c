@@ -262,7 +262,7 @@ static golle_error small_random (golle_num_t r,
 }
 
 /* Get a ciphertext as a buffer */
-static golle_error cipher_to_buffer (golle_bin_t *result,
+static golle_error eg_to_buffer (golle_bin_t *result,
 				     const golle_eg_t *c) 
 {
   golle_error err = GOLLE_OK;
@@ -296,7 +296,7 @@ static golle_error cipher_to_buffer (golle_bin_t *result,
 static golle_commit_t *commit_to_cipher (const golle_eg_t *n) {
   /* Get ciphertext as a buffer */
   golle_bin_t b = { 0 };
-  golle_error err = cipher_to_buffer (&b, n);
+  golle_error err = eg_to_buffer (&b, n);
   if (err != GOLLE_OK) {
     return NULL;
   }
@@ -310,7 +310,7 @@ static golle_commit_t *commit_to_cipher (const golle_eg_t *n) {
 static size_t reveal_selection (const golle_t *golle) {
   size_t s = 0;
   golle_res_t *r = golle->reserved;
-  for (size_t i = 0; i < golle->num_items; i++) {
+  for (size_t i = 0; i < golle->num_peers; i++) {
     peer_data_t *p = r->peer_data + i;
     s = (s + p->r) % golle->num_items;
   }
@@ -328,9 +328,14 @@ static golle_error validate_encryption (const golle_key_t *key,
   if (!BN_set_word (&msg, m)) {
     return GOLLE_EMEM;
   }
+  golle_error err = golle_num_mod_exp (&msg, key->g, &msg, key->q);
+  if (err != GOLLE_OK) {
+    BN_clear (&msg);
+    return err;
+  }
 
   golle_eg_t check = { 0 };
-  golle_error err = golle_eg_encrypt (key, &msg, &check, &rand);
+  err = golle_eg_encrypt (key, &msg, &check, &rand);
   if (err == GOLLE_OK) {
     if (golle_num_cmp (check.a, cipher->a) != 0 ||
 	golle_num_cmp (check.b, cipher->b) != 0)
@@ -420,7 +425,7 @@ static golle_error get_ciphertexts (golle_t *golle) {
     if (err != GOLLE_OK) break;
 
     /* Convert cipher to a buffer */
-    err = cipher_to_buffer (&secret, &cipher);
+    err = eg_to_buffer (&secret, &cipher);
     if (err != GOLLE_OK) break;
 
     /* Copy into storage. */
@@ -615,6 +620,10 @@ golle_error golle_generate (golle_t *golle,
   GOLLE_ASSERT (golle->accept_commit, GOLLE_ERROR);
   GOLLE_ASSERT (golle->accept_eg, GOLLE_ERROR);
   GOLLE_ASSERT (golle->reveal_rand, GOLLE_ERROR);
+
+  /* TODO: Allow more than one round.
+   * To do this, an implementation of Millimix is required.
+   */
   GOLLE_UNUSED (round);
   
   /* A context for random numbers and exponents */
@@ -657,7 +666,7 @@ golle_error golle_generate (golle_t *golle,
   }
 
   /* Output the commitment */
-  err = golle->bcast_commit (golle, commit->hash, commit->rsend);
+  err = golle->bcast_commit (golle, commit->rsend, commit->hash);
   if (err != GOLLE_OK) {
     goto out;
   }
@@ -767,7 +776,8 @@ golle_error golle_check_selection (golle_t *golle,
   GOLLE_ASSERT (golle->accept_crypt, GOLLE_ERROR);
   GOLLE_ASSERT (collision, GOLLE_ERROR);
   
-  /* TODO: Accept and verify proof from peer */
+  /* TODO: Accept and verify proof of subset membership/correct decryption
+     from peer */
   
   /* Accept E(c) and test for collision. */
   golle_eg_t crypt = { 0 };

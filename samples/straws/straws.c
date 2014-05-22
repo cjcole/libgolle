@@ -54,7 +54,7 @@ int main (int argc, char *argv[]) {
   }
   
   /* Connect to remote if required */
-  if (remote_port[0] && remote_host[0]) {
+  if (!is_listener) {
     result = connect_remote (remote_host, remote_port);
     if (result) {
       return result;
@@ -88,9 +88,24 @@ int main (int argc, char *argv[]) {
   }
   
   
-  /* Deal cards */
+  /* Deal straws */
+  int my_straw, their_straw;
+  if (draw_straws (&my_straw, &their_straw) != 0) {
+    return result;
+  }
 
   /* Pick winner */
+  printf ("======================\n");
+  printf ("Your straw is %02d\n", my_straw);
+  printf ("Opponent's straw is %02d\n", their_straw);
+
+  if (my_straw > their_straw) {
+    printf ("You win!\n");
+  }
+  else {
+    printf ("You lose.\n");
+  }
+  printf ("======================\n");
 
   finalise_sockets ();
   return result;

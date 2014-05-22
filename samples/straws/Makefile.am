@@ -15,4 +15,5 @@ golle_straws_SOURCES =\
 	socklib.c\
 	connect_remote.c\
 	read_key.c\
-	distribution.c
+	distribution.c\
+	draw.c

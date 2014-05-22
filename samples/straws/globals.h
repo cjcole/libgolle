@@ -41,7 +41,9 @@ enum {
   /* Maximum name length */
   MAX_NAME = 255,
   /* Maximum length of a remote enpoint */
-  MAX_REMOTE_ENDPOINT = MAX_REMOTE_NAME + MAX_PORT
+  MAX_REMOTE_ENDPOINT = MAX_REMOTE_NAME + MAX_PORT,
+  /* Number of straws to pick from */
+  NUMBER_OF_STRAWS = 100
 };
 
 /* Global data */
@@ -56,6 +58,8 @@ EXTERN char player_names[MAX_PLAYERS][MAX_NAME + 1];
 EXTERN int connected_players;
 EXTERN char my_name[MAX_NAME+1];
 
+/* Non-zero if this peer is the listener */
+int is_listener;
 
 /* Connect to remote client. */
 int connect_remote (const char *host, const char *port);
@@ -74,6 +78,9 @@ int distribute_key (void);
 
 /* Parse a remote name into host and port */
 int read_remote_name (const char *in, char *addr, char *port);
+
+/* Do the straw drawing */
+int draw_straws (int *local, int *remote);
 
 #endif
 
