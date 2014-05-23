@@ -23,11 +23,6 @@ list_SOURCES = list.c
 list_LDADD = $(TEST_LIB)
 list_CPPFLAGS = $(TEST_INC)
 
-#Make set test
-#set_SOURCES = set.c
-#set_LDADD = $(TEST_LIB)
-#set_CPPFLAGS = $(TEST_INC) -DDEBUG
-
 #Make buffer test
 buffer_SOURCES = buffer.c
 buffer_LDADD = $(TEST_LIB)
