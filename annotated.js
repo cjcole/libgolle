@@ -7,10 +7,6 @@ var annotated =
     [ "golle_key_t", "structgolle__key__t.html", "structgolle__key__t" ],
     [ "golle_list_iterator_t", "structgolle__list__iterator__t.html", null ],
     [ "golle_list_t", "structgolle__list__t.html", null ],
-    [ "golle_peer_set_t", "structgolle__peer__set__t.html", null ],
     [ "golle_schnorr_t", "structgolle__schnorr__t.html", "structgolle__schnorr__t" ],
-    [ "golle_select_t", "structgolle__select__t.html", null ],
-    [ "golle_set_iterator_t", "structgolle__set__iterator__t.html", null ],
-    [ "golle_set_t", "structgolle__set__t.html", null ],
     [ "golle_t", "structgolle__t.html", "structgolle__t" ]
 ];

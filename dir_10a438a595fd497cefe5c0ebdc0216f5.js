@@ -11,12 +11,9 @@ var dir_10a438a595fd497cefe5c0ebdc0216f5 =
     [ "golle.h", "golle_2golle_8h.html", "golle_2golle_8h" ],
     [ "list.h", "list_8h.html", "list_8h" ],
     [ "numbers.h", "numbers_8h.html", "numbers_8h" ],
-    [ "peer.h", "peer_8h.html", "peer_8h" ],
     [ "pep.h", "pep_8h.html", "pep_8h" ],
     [ "platform.h", "platform_8h.html", "platform_8h" ],
     [ "random.h", "random_8h.html", "random_8h" ],
     [ "schnorr.h", "schnorr_8h.html", "schnorr_8h" ],
-    [ "select.h", "select_8h.html", "select_8h" ],
-    [ "set.h", "set_8h.html", "set_8h" ],
     [ "types.h", "types_8h_source.html", null ]
 ];

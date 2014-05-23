@@ -126,16 +126,16 @@ Functions</h2></td></tr>
 <tr class="memitem:ga3e850592b4be58abe97fcec4485622f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__distribute.html#ga3e850592b4be58abe97fcec4485622f8">golle_key_set_public</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> p, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> g)</td></tr>
 <tr class="memdesc:ga3e850592b4be58abe97fcec4485622f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the public key description.  <a href="#ga3e850592b4be58abe97fcec4485622f8"></a><br/></td></tr>
 <tr class="memitem:ga491baf6a90f39c5b2b04561d88ea50ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__distribute.html#ga491baf6a90f39c5b2b04561d88ea50ec">golle_key_gen_private</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key)</td></tr>
-<tr class="memdesc:ga491baf6a90f39c5b2b04561d88ea50ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a private key <img class="formulaInl" alt="$x \in \mathbb{Z}_{q}$" src="form_11.png"/> and calculate <img class="formulaInl" alt="$h = g^{x}$" src="form_12.png"/>. The <code>h</code> and <code>h_product</code> members will be set.  <a href="#ga491baf6a90f39c5b2b04561d88ea50ec"></a><br/></td></tr>
+<tr class="memdesc:ga491baf6a90f39c5b2b04561d88ea50ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a private key <img class="formulaInl" alt="$x \in \mathbb{Z}_{q}$" src="form_12.png"/> and calculate <img class="formulaInl" alt="$h = g^{x}$" src="form_13.png"/>. The <code>h</code> and <code>h_product</code> members will be set.  <a href="#ga491baf6a90f39c5b2b04561d88ea50ec"></a><br/></td></tr>
 <tr class="memitem:ga951edf5b2e66aa4cd0f653e40c4315ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="platform_8h.html#a003d459507dc9739a74e5d10325c100b">GOLLE_EXTERN</a> <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748">golle_error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__distribute.html#ga951edf5b2e66aa4cd0f653e40c4315ad">golle_key_accum_h</a> (<a class="el" href="structgolle__key__t.html">golle_key_t</a> *key, const <a class="el" href="group__numbers.html#gad713bce25ecfb150e1cac5d2c03093f5">golle_num_t</a> h)</td></tr>
-<tr class="memdesc:ga951edf5b2e66aa4cd0f653e40c4315ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the product of all <img class="formulaInl" alt="$h_{i}$" src="form_7.png"/> in order to get <img class="formulaInl" alt="$h = \prod_{i} h_{i}$" src="form_8.png"/>. Call this function successively for <em>each</em> <img class="formulaInl" alt="$h_{i}$" src="form_7.png"/>, <b>not</b> including the <code>h</code> member of the local key.  <a href="#ga951edf5b2e66aa4cd0f653e40c4315ad"></a><br/></td></tr>
+<tr class="memdesc:ga951edf5b2e66aa4cd0f653e40c4315ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the product of all <img class="formulaInl" alt="$h_{i}$" src="form_8.png"/> in order to get <img class="formulaInl" alt="$h = \prod_{i} h_{i}$" src="form_9.png"/>. Call this function successively for <em>each</em> <img class="formulaInl" alt="$h_{i}$" src="form_8.png"/>, <b>not</b> including the <code>h</code> member of the local key.  <a href="#ga951edf5b2e66aa4cd0f653e40c4315ad"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <p>The key distribution protocol is an implementation of Torben Pedersen's Threshold Cryptosystem without a Trusted Party. D.W. Davies (Ed.): Advances in Cryptology - EUROCRYPT'91. LNCS 547, pp. 522-526, 1991.</p>
-<p>First, all peers must agree on primes <img class="formulaInl" alt="$p$" src="form_0.png"/> and <img class="formulaInl" alt="$q$" src="form_1.png"/>, and a generator <img class="formulaInl" alt="$g$" src="form_2.png"/> of <img class="formulaInl" alt="$G_{q}$" src="form_3.png"/>.</p>
-<p>A peer <img class="formulaInl" alt="$P_{i}$" src="form_4.png"/> selects a random private key <img class="formulaInl" alt="$x_{i} \in \mathbb{Z}_{q}$" src="form_5.png"/> and calculates <img class="formulaInl" alt="$h_{i} = g^{x_{i}}$" src="form_6.png"/>. <img class="formulaInl" alt="$P_{i}$" src="form_4.png"/> then publishes a non-malleable commitment to <img class="formulaInl" alt="$h_{i}$" src="form_7.png"/> (see <a class="el" href="group__commit.html">Bit Commitment</a>).</p>
-<p>Once each other peer has received the commitment, <img class="formulaInl" alt="$P_{i}$" src="form_4.png"/> then reveals <img class="formulaInl" alt="$h_{i}$" src="form_7.png"/> and the commitment is verified.</p>
-<p>For each peer <img class="formulaInl" alt="$P_{i}$" src="form_4.png"/>, the public key <img class="formulaInl" alt="$h = \prod_{i} h_{i}$" src="form_8.png"/>. </p>
+<p>First, all peers must agree on primes <img class="formulaInl" alt="$p$" src="form_1.png"/> and <img class="formulaInl" alt="$q$" src="form_2.png"/>, and a generator <img class="formulaInl" alt="$g$" src="form_3.png"/> of <img class="formulaInl" alt="$G_{q}$" src="form_4.png"/>.</p>
+<p>A peer <img class="formulaInl" alt="$P_{i}$" src="form_5.png"/> selects a random private key <img class="formulaInl" alt="$x_{i} \in \mathbb{Z}_{q}$" src="form_6.png"/> and calculates <img class="formulaInl" alt="$h_{i} = g^{x_{i}}$" src="form_7.png"/>. <img class="formulaInl" alt="$P_{i}$" src="form_5.png"/> then publishes a non-malleable commitment to <img class="formulaInl" alt="$h_{i}$" src="form_8.png"/> (see <a class="el" href="group__commit.html">Bit Commitment</a>).</p>
+<p>Once each other peer has received the commitment, <img class="formulaInl" alt="$P_{i}$" src="form_5.png"/> then reveals <img class="formulaInl" alt="$h_{i}$" src="form_8.png"/> and the commitment is verified.</p>
+<p>For each peer <img class="formulaInl" alt="$P_{i}$" src="form_5.png"/>, the public key <img class="formulaInl" alt="$h = \prod_{i} h_{i}$" src="form_9.png"/>. </p>
 <h2>Function Documentation</h2>
 <a class="anchor" id="ga951edf5b2e66aa4cd0f653e40c4315ad"></a>
 <div class="memitem">
@@ -161,11 +161,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Calculate the product of all <img class="formulaInl" alt="$h_{i}$" src="form_7.png"/> in order to get <img class="formulaInl" alt="$h = \prod_{i} h_{i}$" src="form_8.png"/>. Call this function successively for <em>each</em> <img class="formulaInl" alt="$h_{i}$" src="form_7.png"/>, <b>not</b> including the <code>h</code> member of the local key. </p>
+<p>Calculate the product of all <img class="formulaInl" alt="$h_{i}$" src="form_8.png"/> in order to get <img class="formulaInl" alt="$h = \prod_{i} h_{i}$" src="form_9.png"/>. Call this function successively for <em>each</em> <img class="formulaInl" alt="$h_{i}$" src="form_8.png"/>, <b>not</b> including the <code>h</code> member of the local key. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key to multiple the <code>h_product</code> for. </td></tr>
-    <tr><td class="paramname">h</td><td>The <img class="formulaInl" alt="$h$" src="form_14.png"/> value to multiply by the <code>h_product</code> of the <code>key</code>. </td></tr>
+    <tr><td class="paramname">h</td><td>The <img class="formulaInl" alt="$h$" src="form_15.png"/> value to multiply by the <code>h_product</code> of the <code>key</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -211,10 +211,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generate a private key <img class="formulaInl" alt="$x \in \mathbb{Z}_{q}$" src="form_11.png"/> and calculate <img class="formulaInl" alt="$h = g^{x}$" src="form_12.png"/>. The <code>h</code> and <code>h_product</code> members will be set. </p>
+<p>Generate a private key <img class="formulaInl" alt="$x \in \mathbb{Z}_{q}$" src="form_12.png"/> and calculate <img class="formulaInl" alt="$h = g^{x}$" src="form_13.png"/>. The <code>h</code> and <code>h_product</code> members will be set. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>The key to generate an <img class="formulaInl" alt="$x$" src="form_13.png"/> for. </td></tr>
+    <tr><td class="paramname">key</td><td>The key to generate an <img class="formulaInl" alt="$x$" src="form_14.png"/> for. </td></tr>
   </table>
   </dd>
 </dl>
@@ -306,12 +306,12 @@ Finding a large safe prime <code>and</code> a generator can be slow. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key to set public values for. </td></tr>
-    <tr><td class="paramname">p</td><td>The value for <img class="formulaInl" alt="$p$" src="form_0.png"/> </td></tr>
-    <tr><td class="paramname">g</td><td>The value for <img class="formulaInl" alt="$g$" src="form_2.png"/> </td></tr>
+    <tr><td class="paramname">p</td><td>The value for <img class="formulaInl" alt="$p$" src="form_1.png"/> </td></tr>
+    <tr><td class="paramname">g</td><td>The value for <img class="formulaInl" alt="$g$" src="form_3.png"/> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if all values are valid. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if a value couldn't be allocated. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aba5f121b848da29c8356eaf44bbad222">GOLLE_ENOTPRIME</a> if either <img class="formulaInl" alt="$p$" src="form_0.png"/> or <img class="formulaInl" alt="$q$" src="form_1.png"/> fail the test for primality. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if an error occurred during cryptography. Cryptography failures include <img class="formulaInl" alt="$q \nmid (p - 1)$" src="form_9.png"/>, and <img class="formulaInl" alt="$g$" src="form_2.png"/> is not a generator of <img class="formulaInl" alt="$\mathbb{G}_{q}$" src="form_10.png"/>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abc2291f52f5966c55ff93414a091d661">GOLLE_OK</a> if all values are valid. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abd824663c8b698a8579794715affa307">GOLLE_ERROR</a> if any parameter is <code>NULL</code>. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748a376d7929ff0724f11bbda0669c21d65b">GOLLE_EMEM</a> if a value couldn't be allocated. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748aba5f121b848da29c8356eaf44bbad222">GOLLE_ENOTPRIME</a> if either <img class="formulaInl" alt="$p$" src="form_1.png"/> or <img class="formulaInl" alt="$q$" src="form_2.png"/> fail the test for primality. <a class="el" href="errors_8h.html#ad89bfc18c1698005d61cc709e5626748abcc532a9199501961553efd02a4f5e07">GOLLE_ECRYPTO</a> if an error occurred during cryptography. Cryptography failures include <img class="formulaInl" alt="$q \nmid (p - 1)$" src="form_10.png"/>, and <img class="formulaInl" alt="$g$" src="form_3.png"/> is not a generator of <img class="formulaInl" alt="$\mathbb{G}_{q}$" src="form_11.png"/>. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function contains an implicit call to <a class="el" href="group__distribute.html#ga2b1155db108b4bdc1e59e865e9df9d74" title="Frees each member of the golle_key_t k.">golle_key_cleanup</a>. </dd></dl>
 
 </div>
@@ -321,7 +321,7 @@ Finding a large safe prime <code>and</code> a generator can be slow. </dd></dl>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu May 22 2014 23:54:47 for LibGolle by
+    <li class="footer">Generated on Fri May 23 2014 21:52:46 for LibGolle by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.2 </li>
   </ul>

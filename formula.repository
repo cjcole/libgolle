@@ -1,69 +1,58 @@
-\form#0:$p$
-\form#1:$q$
-\form#2:$g$
-\form#3:$G_{q}$
-\form#4:$P_{i}$
-\form#5:$x_{i} \in \mathbb{Z}_{q}$
-\form#6:$h_{i} = g^{x_{i}}$
-\form#7:$h_{i}$
-\form#8:$h = \prod_{i} h_{i}$
-\form#9:$q \nmid (p - 1)$
-\form#10:$\mathbb{G}_{q}$
-\form#11:$x \in \mathbb{Z}_{q}$
-\form#12:$h = g^{x}$
-\form#13:$x$
-\form#14:$h$
-\form#15:$\alpha q + 1 = p$
-\form#16:$q = (p - 1) / 2$
-\form#17:$g^{x}$
-\form#18:$\prod_{i} h_{i}$
-\form#19:$m \in \mathbb{G}$
-\form#20:$r \xleftarrow{R} \{\mathbb{Z}^{*}_{q}\}$
-\form#21:$c = (g^{r}, mh^{r})$
-\form#22:$(a, b)$
-\form#23:$b/a^{x}$
-\form#24:$a^{x} = \prod_{i=1}^{k}a^{x_{i}}$
-\form#25:$k$
-\form#26:$m \in \mathbb{G}_{q}$
-\form#27:$msg \in \mathbb{G}_{q}$
-\form#28:$r \in \mathbb{Z}^{*}_{q}$
-\form#29:$m >= {q}$
-\form#30:$ m = g^{n} \mod q$
-\form#31:$prime \mod div = 1$
-\form#32:$\mathbb{Z}^{*}_{p}$
-\form#33:$h \in \mathbb{Z}^{*}_{p}$
-\form#34:$g = h^{(p-1)/q} \mod p$
-\form#35:$g \neq 1$
-\form#36:$m = g^n \mod q$
-\form#37:$m$
-\form#38:$n$
-\form#39:$i$
-\form#40:$i \in \{0, ..., 51\}$
-\form#41:$g = h^{(p-1)/q} \mod q$
+\form#0:$(\alpha,\beta)$
+\form#1:$p$
+\form#2:$q$
+\form#3:$g$
+\form#4:$G_{q}$
+\form#5:$P_{i}$
+\form#6:$x_{i} \in \mathbb{Z}_{q}$
+\form#7:$h_{i} = g^{x_{i}}$
+\form#8:$h_{i}$
+\form#9:$h = \prod_{i} h_{i}$
+\form#10:$q \nmid (p - 1)$
+\form#11:$\mathbb{G}_{q}$
+\form#12:$x \in \mathbb{Z}_{q}$
+\form#13:$h = g^{x}$
+\form#14:$x$
+\form#15:$h$
+\form#16:$\alpha q + 1 = p$
+\form#17:$q = (p - 1) / 2$
+\form#18:$g^{x}$
+\form#19:$\prod_{i} h_{i}$
+\form#20:$m \in \mathbb{G}$
+\form#21:$r \xleftarrow{R} \{\mathbb{Z}^{*}_{q}\}$
+\form#22:$c = (g^{r}, mh^{r})$
+\form#23:$(a, b)$
+\form#24:$b/a^{x}$
+\form#25:$a^{x} = \prod_{i=1}^{k}a^{x_{i}}$
+\form#26:$k$
+\form#27:$m \in \mathbb{G}_{q}$
+\form#28:$msg \in \mathbb{G}_{q}$
+\form#29:$r \in \mathbb{Z}^{*}_{q}$
+\form#30:$m >= {q}$
+\form#31:$ m = g^{n} \mod q$
+\form#32:$r \in \mathbb{Z}_{q}$
+\form#33:$(ag^{t}, bh^{r})$
+\form#34:$prime \mod div = 1$
+\form#35:$\mathbb{Z}^{*}_{p}$
+\form#36:$h \in \mathbb{Z}^{*}_{p}$
+\form#37:$g = h^{(p-1)/q} \mod q$
+\form#38:$g \neq 1 $
+\form#39:$m = g^{n} \mod q$
+\form#40:$m$
+\form#41:$n$
 \form#42:$(a,b)$
 \form#43:$(c,d)$
 \form#44:$(a/c, b/d)$
 \form#45:$1$
 \form#46:$(G, Y)$
-\form#47:$e_{1}$
-\form#48:$e_{2}$
-\form#49:$x = log_{g}y$
-\form#50:$t = g^{r}$
-\form#51:$r \in \mathbb{Z}_{q}$
-\form#52:$t$
-\form#53:$c \in \mathbb{Z}_{q}$
-\form#54:$s = cx + r$
-\form#55:$g^{s} = ty^{c}$
-\form#56:$r$
-\form#57:$s = r + cx $
-\form#58:$s$
-\form#59:$c$
-\form#60:$c = \sum_{i}r_{i} \mod 52$
-\form#61:$g^{c}$
-\form#62:$\sum_{i}r_{i}$
-\form#63:$m = g^{n} \mod q$
-\form#64:$s = r + cx$
-\form#65:$g \neq 1 $
-\form#66:$(ag^{t}, bh^{r})$
-\form#67:$\mathbb{Z}_{q}$
-\form#68:$(\alpha,\beta)$
+\form#47:$\mathbb{Z}_{q}$
+\form#48:$x = log_{g}y$
+\form#49:$t = g^{r}$
+\form#50:$t$
+\form#51:$c \in \mathbb{Z}_{q}$
+\form#52:$s = cx + r$
+\form#53:$g^{s} = ty^{c}$
+\form#54:$r$
+\form#55:$s = r + cx$
+\form#56:$s$
+\form#57:$c$
