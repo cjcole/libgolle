@@ -24,7 +24,9 @@ AC_C_CONST
 AC_C_INLINE
 AC_HEADER_ASSERT
 AC_FUNC_MALLOC
-AX_CFLAGS_WARN_ALL
+
+dnl Fails on some installations
+dnl AX_CFLAGS_WARN_ALL
 
 dnl Determine bit commitment random sizes
 if test "x$COMMIT_RANDOM_BITS" == "x"; then
@@ -56,7 +58,6 @@ AC_CONFIG_FILES([Makefile
 			  tools/Makefile 
 			  tests/Makefile 
 			  samples/Makefile 
-			  samples/straws/Makefile 
 			  Doxyfile])
 
 AC_OUTPUT
