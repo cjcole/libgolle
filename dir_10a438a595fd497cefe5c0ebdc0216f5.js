@@ -2,7 +2,7 @@ var dir_10a438a595fd497cefe5c0ebdc0216f5 =
 [
     [ "bin.h", "bin_8h.html", "bin_8h" ],
     [ "commit.h", "commit_8h.html", "commit_8h" ],
-    [ "config.h", "include_2golle_2config_8h_source.html", null ],
+    [ "config.h", "config_8h_source.html", null ],
     [ "disj.h", "disj_8h.html", "disj_8h" ],
     [ "dispep.h", "dispep_8h.html", "dispep_8h" ],
     [ "distribute.h", "distribute_8h.html", "distribute_8h" ],
