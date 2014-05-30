@@ -12,6 +12,20 @@ distinct elements from a set.
 
 ------------------------------
 
+###Building
+
+To build, you'll need a _recent_ copy of OpenSLL's development package (header files, libraries etc.) and the autotools suite including libtoolize, autoheader, aclocal, autoconf, and automake. Bootstrap and build the whole package like so:
+
+    ./bootstrap
+    ./configure
+    make
+    make check
+    make install
+    
+You can then run the samples in the `samples` directory.
+
+------------------------------
+
 ###A note about copying
 
 This project uses OpenSSL for large numbers and some cryptography algorithms. As such:
