@@ -298,9 +298,15 @@ static golle_error draw_first (void) {
 
 static golle_error draw_second (void) {
   printf ("Drawing second straw for %s\n", for_name (is_listener));
- /* For the listener */
+  /* For the listener */
   golle_error err = golle_generate (&golle, 0, GOLLE_FACE_UP);
   if (err == GOLLE_ECOLLISION) {
+    // TODO: Note that this code is unreachable as is (in the context
+    // of the straw game).  This is because 'golle_reduce_selection'
+    // (and therefore 'check_for_collisions') is never called since
+    // 'reveal_rand' is always called with 'to' set to
+    // 'GOLLE_FACE_UP'. Recommendation: disentangle the concept of
+    // peer from the concept of mode (face up or face down).
     fprintf (stderr, "Collision, starting over.\n");
   }
   return err;
@@ -359,10 +365,11 @@ int draw_straws (int *local, int *remote) {
       /* Two straws drawn */
       printf ("Second straw drawn: %d\n", *straw);
       if (*local == *remote) {
-	fprintf (stderr, "Error: both straws equal. IMPOSSIBLE\n");
-	err = GOLLE_ERROR;
+	fprintf (stderr, "Collision, starting over.\n");
+	err = GOLLE_ECOLLISION;
+      } else {
+	break;
       }
-      break;
     }
     else if (err != GOLLE_ECOLLISION) {
       fprintf (stderr, "Error %d while drawing second straw.\n", err);
